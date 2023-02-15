@@ -75,13 +75,13 @@ public class GarageCRUD implements InterfaceCRUD<Garage>{
     }
 
     @Override
-    public boolean modifierEntite(int id , String nom) {
+    public boolean modifierEntite(Garage t) {
         
         int rslt = 0;
         
         try {
             
-            String request = "UPDATE garage SET matricule_garage='"+nom+"' WHERE id='"+id+"' ";
+            String request = "UPDATE garage SET matricule_garage='"+t.getMatricule_garage()+"' WHERE id='"+t.getId()+"' ";
             
             PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
             

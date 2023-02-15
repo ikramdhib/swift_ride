@@ -7,24 +7,21 @@ package edu.swiftride.Services;
 
 import edu.swiftride.entities.Materiel;
 import edu.swiftride.interfaces.InterfaceCRUD;
-import edu.swiftride.interfaces.MaterielInterfaceCRUD;
 import edu.swiftride.utils.Connect;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author dhibi
  */
-public class MaterielCRUD implements MaterielInterfaceCRUD<Materiel> {
+public class MaterielCRUD implements InterfaceCRUD<Materiel> {
 
     @Override
-    public boolean ajouterEntite(Materiel t, int id_G) {
+    public boolean ajouterEntitie(Materiel t) {
         
         int rslt = 0;
         
@@ -35,7 +32,7 @@ public class MaterielCRUD implements MaterielInterfaceCRUD<Materiel> {
             
             pst.setString(1, t.getNom());
             
-            pst.setInt(2, id_G);
+            pst.setInt(2, t.getId_garage());
             
             rslt=pst.executeUpdate();
             
@@ -76,12 +73,12 @@ public class MaterielCRUD implements MaterielInterfaceCRUD<Materiel> {
     }
 
     @Override
-    public boolean modifierEntite(int id, String nom) {
+    public boolean modifierEntite(Materiel t) {
     
             int rslt = 0;
         try {
             
-            String request= "UPDATE materiel SET nom='"+nom+"' WHERE id='"+id+"'" ;
+            String request= "UPDATE materiel SET nom='"+t.getNom()+"' WHERE id='"+t.getId()+"'" ;
             
             PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
             
@@ -112,7 +109,5 @@ public class MaterielCRUD implements MaterielInterfaceCRUD<Materiel> {
        return rslt==1;
     }
 
-   
-    
     
 }

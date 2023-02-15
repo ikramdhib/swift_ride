@@ -5,8 +5,13 @@
  */
 package edu.swiftride.test;
 
+import edu.swiftride.Services.MaintenanceCRUD;
 import edu.swiftride.Services.GarageCRUD;
+import edu.swiftride.Services.MaterielCRUD;
 import edu.swiftride.entities.Garage;
+import edu.swiftride.entities.Maintenance;
+import edu.swiftride.entities.Materiel;
+import java.sql.Date;
 
 /**
  *
@@ -15,17 +20,52 @@ import edu.swiftride.entities.Garage;
 public class MainClass {
     
     public static void main(String[] args) {
-        Garage g = new Garage(1, "garagelok12");
         
-        GarageCRUD gc = new GarageCRUD();
+        /****************TEST GARAGE CRUD************/
+       // Garage g = new Garage(1, "garagelok12");
         
-        //System.out.println(gc.ajouterEntitie(g));
+       // GarageCRUD gc = new GarageCRUD();
+        
+        
+   //     System.out.println(gc.ajouterEntitie(g));
         
         //System.out.println(gc.listDesEntites());
         
         //System.out.println(gc.modifierEntite(1, "Garage Ali##12"));
         
-        System.out.println(gc.supprimerEntite(1));
+       // System.out.println(gc.supprimerEntite(1));
+       
+       
+       
+       
+       /***************TEST MATERIEL CRUD******************/
+       
+//        Materiel m = new Materiel(5, "koleb" ,2);
+//        
+//        MaterielCRUD mc = new MaterielCRUD();
+//        
+//        System.out.println(mc.ajouterEntitie(m));
+//        
+//        System.out.println(mc.listDesEntites());
+         // System.out.println(mc.modifierEntite(1, "coll"));
+          //  System.out.println(mc.supprimerEntite(1));
+          
+          
+          
+          /**************TEST MAINTENACE CRUUD***********/
+
+//          Maintenance m = new Maintenance(4, Date.valueOf("1999-01-01") , "entretient", 1, 2);
+//          Maintenance m2 = new Maintenance(3, Date.valueOf("1999-01-01") , "reparation", 1, 2);
+//          MaintenanceCRUD mc = new MaintenanceCRUD();
+//          
+          //System.out.println(mc.ajouterEntitie(m));
+          
+         // System.out.println(mc.modifierEntite(m2));
+         
+        // System.out.println(mc.listDesEntites());
+         
+         // System.out.println(mc.supprimerEntite(3));
+       
     }
     
 }

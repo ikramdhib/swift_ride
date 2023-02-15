@@ -18,7 +18,7 @@ public interface InterfaceCRUD<T> {
     
     public List <T> listDesEntites();
     
-    public boolean modifierEntite(int id , String nom);
+    public boolean modifierEntite(T t);
     
     public boolean supprimerEntite(int id);
     
