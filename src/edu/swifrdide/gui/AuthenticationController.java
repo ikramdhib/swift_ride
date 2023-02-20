@@ -9,11 +9,16 @@
     import edu.swiftride.entities.EntreprisePartenaire;
     import edu.swiftride.services.EntreprisePartenaireCRUD;
     import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
     import java.sql.Connection;
     import java.sql.DriverManager;
     import java.sql.ResultSet;
     import java.sql.Statement;
+import java.util.Optional;
     import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
     import javafx.collections.FXCollections;
     import javafx.collections.ObservableList;
     import javafx.event.ActionEvent;
@@ -26,6 +31,8 @@
     import javafx.scene.control.cell.PropertyValueFactory;
     import javafx.scene.control.Alert;
     import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javax.xml.bind.DatatypeConverter;
 
     /**
      * FXML Controller class
@@ -253,7 +260,36 @@ if (!mdp.matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$")) 
     alert.showAndWait();
     return;
 }
-        
+         // Vérifier si un autre administrateur avec les mêmes informations existe déjà
+    ObservableList<EntreprisePartenaire> adminList = table.getItems();
+    boolean adminExists = false;
+    for (EntreprisePartenaire admin : adminList) {
+        if (admin.getNom_admin().equals(nom_admin) && admin.getPrenom_admin().equals(prenom_admin)
+            && admin.getNb_voiture() == nb_voiture && admin.getTel() == tel 
+            && admin.getMatricule().equals(matricule) && admin.getLogin().equals(login) 
+            && admin.getMdp().equals(mdp)) {
+            adminExists = true;
+            break;
+        }
+    }
+    if (adminExists) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText("Un autre administrateur avec les mêmes informations existe déjà !");
+        alert.showAndWait();
+    } else {
+
+    MessageDigest md = null;
+            try {
+                md = MessageDigest.getInstance("SHA-256");
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(AuthenticationController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+md.update(mdp.getBytes());
+byte[] digest = md.digest();
+String hashedPassword = DatatypeConverter.printHexBinary(digest).toLowerCase();
+m.setMdp(hashedPassword);
         
 
         // Set values for the enterprise object
@@ -262,21 +298,26 @@ if (!mdp.matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$")) 
         m.setPrenom_admin(prenom_admin);
         m.setMatricule(matricule);
         m.setLogin(login);
-        m.setMdp(mdp);
+        m.setMdp(hashedPassword);
         m.setNb_voiture(nb_voiture);
         m.setTel(tel);
 
         // Add the enterprise object to the list and update the table view
           pcm.ajouter(m);
-          table.setItems( getEntreprisePartenaire());
+          table.setItems(getEntreprisePartenaire());
+          
+          Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle("Ajout réussie");
+    alert.setHeaderText("L'ajout a été effectuée avec succès.");
+    alert.showAndWait();
     }
-
+    }
 
 
         private void modifierEntreprise() {
         EntreprisePartenaire m = new EntreprisePartenaire();
         m.setId(table.getSelectionModel().getSelectedItem().getId());
-
+        
         String nom_entreprise = txtNomentreprise.getText();
         String nom_admin = txtNomadmin.getText();
         String prenom_admin = txtPrenomadmin.getText();
@@ -348,6 +389,26 @@ if (!mdp.matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$")) 
     return;
 }
 
+  // Vérifier si un autre administrateur avec les mêmes informations existe déjà
+    ObservableList<EntreprisePartenaire> adminList = table.getItems();
+    boolean adminExists = false;
+    for (EntreprisePartenaire admin : adminList) {
+        if (admin.getNom_admin().equals(nom_admin) && admin.getPrenom_admin().equals(prenom_admin)
+            && admin.getNb_voiture() == nb_voiture && admin.getTel() == tel 
+            && admin.getMatricule().equals(matricule) && admin.getLogin().equals(login) 
+            && admin.getMdp().equals(mdp)) {
+            adminExists = true;
+            break;
+        }
+    }
+    if (adminExists) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText("Un autre administrateur avec les mêmes informations existe déjà !");
+        alert.showAndWait();
+    } else {
+
         m.setNom_entreprise(nom_entreprise);
         m.setNom_admin(nom_admin);
         m.setPrenom_admin(prenom_admin);
@@ -367,21 +428,45 @@ if (!mdp.matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$")) 
     alert.setHeaderText("La modification a été effectuée avec succès.");
     alert.showAndWait();
         }
-
+        }
 
           private void supprimerEntreprise(){
-              EntreprisePartenaire m = new EntreprisePartenaire();
-    pcm.supprimer(table.getSelectionModel().getSelectedItem());
-    table.getItems().removeAll(table.getSelectionModel().getSelectedItem());
-    
-    // Créer une alerte de type INFORMATION
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    alert.setTitle("Suppression réussie");
-    alert.setHeaderText("L'entreprise a été supprimée avec succès.");
-    alert.showAndWait();
+                EntreprisePartenaire m = new EntreprisePartenaire();
+                EntreprisePartenaire entreprise = table.getSelectionModel().getSelectedItem();
+if(entreprise == null){
+    // Créer une alerte de type WARNING pour demander à l'utilisateur de choisir une entreprise à supprimer
+    Alert warning = new Alert(Alert.AlertType.WARNING);
+    warning.setTitle("Attention");
+    warning.setHeaderText("Vous devez sélectionner une entreprise à supprimer.");
+    warning.showAndWait();
+    return;
 }
 
-       }  
+// Créer une alerte de type CONFIRMATION pour demander à l'utilisateur s'il veut vraiment supprimer l'entreprise
+Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+confirmation.setTitle("Confirmation de suppression");
+confirmation.setHeaderText("Êtes-vous sûr de vouloir supprimer l'entreprise " + entreprise.getId() + " ?");
+Optional<ButtonType> result = confirmation.showAndWait();
+
+if(result.isPresent() && result.get() == ButtonType.OK){
+    pcm.supprimer(entreprise);
+    table.getItems().removeAll(entreprise);
+    
+    // Créer une alerte de type INFORMATION pour informer l'utilisateur que la suppression a réussi
+    Alert success = new Alert(Alert.AlertType.INFORMATION);
+    success.setTitle("Suppression réussie");
+    success.setHeaderText("L'entreprise a été supprimée avec succès.");
+    success.showAndWait();
+}
+          }
+    }
+
+
+       
+
+
+
+
 
 
 
