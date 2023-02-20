@@ -222,6 +222,39 @@
             alert.showAndWait();
             return;
         }
+        
+        // Check that the name and surname fields only contain alphabetic characters
+    if (!nom_admin.matches("^[a-zA-Z]+$") || !prenom_admin.matches("^[a-zA-Z]+$")) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Invalid fields");
+        alert.setHeaderText("Name and surname must contain ONLY alphabetic characters");
+        alert.showAndWait();
+        return;
+    }
+    
+    // Check that the tel field has exactly 8 characters
+    if (tel_str.length() != 8) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Invalid fields");
+        alert.setHeaderText("Telephone number must be exactly 8 characters long");
+        alert.showAndWait();
+        return;
+    }
+    
+    // Check that the password meets the requirements
+if (!mdp.matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$")) {
+    Alert alert = new Alert(AlertType.WARNING);
+    alert.setTitle("Invalid password");
+    alert.setHeaderText("The password must meet the following requirements:\n" +
+            "- Must start with a capital letter\n" +
+            "- Must be at least 8 characters long\n" +
+            "- Must contain at least one number\n" +
+            "- Must contain at least one special character (!@#$%^&*(),.?\":{}|<>)");
+    alert.showAndWait();
+    return;
+}
+        
+        
 
         // Set values for the enterprise object
         m.setNom_entreprise(nom_entreprise);
@@ -262,7 +295,7 @@
             return;
         }
 
-        // Vérifier que les champs de nombre contiennent des nombres valides
+        // Vérifier que les champs nb_voiture et tel contiennent des nombres valides
         int nb_voiture, tel;
         try {
             nb_voiture = Integer.parseInt(nb_voiture_str);
@@ -283,6 +316,37 @@
             alert.showAndWait();
             return;
         }
+        
+          // Check that the name and surname fields only contain alphabetic characters
+    if (!nom_admin.matches("^[a-zA-Z]+$") || !prenom_admin.matches("^[a-zA-Z]+$")) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Invalid fields");
+        alert.setHeaderText("Name and surname must contain ONLY alphabetic characters");
+        alert.showAndWait();
+        return;
+    }
+    
+    // Check that the tel field has exactly 8 characters
+    if (tel_str.length() != 8) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Invalid fields");
+        alert.setHeaderText("Telephone number must be exactly 8 characters long");
+        alert.showAndWait();
+        return;
+    }
+    
+    // Check that the password meets the requirements
+if (!mdp.matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$")) {
+    Alert alert = new Alert(AlertType.WARNING);
+    alert.setTitle("Invalid password");
+    alert.setHeaderText("The password must meet the following requirements:\n" +
+            "- Must start with a capital letter\n" +
+            "- Must be at least 8 characters long\n" +
+            "- Must contain at least one number\n" +
+            "- Must contain at least one special character (!@#$%^&*(),.?\":{}|<>)");
+    alert.showAndWait();
+    return;
+}
 
         m.setNom_entreprise(nom_entreprise);
         m.setNom_admin(nom_admin);
@@ -306,10 +370,16 @@
 
 
           private void supprimerEntreprise(){
-            EntreprisePartenaire m=new EntreprisePartenaire();
-            pcm.supprimer(table.getSelectionModel().getSelectedItem());
-            table.getItems().removeAll(table.getSelectionModel().getSelectedItem());
-    }
+              EntreprisePartenaire m = new EntreprisePartenaire();
+    pcm.supprimer(table.getSelectionModel().getSelectedItem());
+    table.getItems().removeAll(table.getSelectionModel().getSelectedItem());
+    
+    // Créer une alerte de type INFORMATION
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Suppression réussie");
+    alert.setHeaderText("L'entreprise a été supprimée avec succès.");
+    alert.showAndWait();
+}
 
        }  
 
