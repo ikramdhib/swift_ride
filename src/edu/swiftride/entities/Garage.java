@@ -5,6 +5,8 @@
  */
 package edu.swiftride.entities;
 
+import java.util.Objects;
+
 /**
  *
  * @author dhibi
@@ -41,8 +43,32 @@ public class Garage {
 
     @Override
     public String toString() {
-        return "Garage{" + "id=" + id + ", matricule_garage=" + matricule_garage + '}';
+        return id + " - " + matricule_garage ;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Garage other = (Garage) obj;
+        
+        if (!Objects.equals(this.matricule_garage, other.matricule_garage)) {
+            return false;
+        }
+        return true;
+    }
+    
     
     
     

@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -27,7 +29,7 @@ public class MaintenanceCRUD implements InterfaceCRUD<Maintenance>{
        int rslt = 0;
         
         try {
-            String requet = "INSERT INTO maintenance(date_maintenance, type, id_voiture ,id_garage ) VALUES(?,?,?,?)";
+            String requet = "INSERT INTO maintenance(date_maintenance, type, id_voiture ) VALUES(?,?,?)";
             
             PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(requet);
             
@@ -36,8 +38,6 @@ public class MaintenanceCRUD implements InterfaceCRUD<Maintenance>{
             pst.setString(2, t.getType());
             
             pst.setInt(3, t.getId_voiture());
-            
-            pst.setInt(4, t.getId_garage());
             
             rslt=pst.executeUpdate();
             
@@ -85,7 +85,9 @@ public class MaintenanceCRUD implements InterfaceCRUD<Maintenance>{
         int rslt = 0;
         try {
             
-            String request= "UPDATE maintenance  SET type='"+t.getType()+"' , date_maintenance='"+t.getDate_maintenance()+"' WHERE id='"+t.getId()+"'" ;
+            String request= "UPDATE maintenance  SET type='"+t.getType()+"' ,"
+                    + " date_maintenance='"+t.getDate_maintenance()+"' , id_garage='"+t.getId_garage()+"'"
+                    + " WHERE id='"+t.getId()+"'" ;
             
             PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
             
@@ -114,7 +116,36 @@ public class MaintenanceCRUD implements InterfaceCRUD<Maintenance>{
         }
        return rslt==1;
     }
-    
-    
+   
+    public List getMaintenace(Maintenance t){
+        List<Maintenance> maintenances = new ArrayList();
+        
+        try {
+            String request ="SELECT * FROM maintenance WHERE id_voiture='"+t.getId_voiture()+"'"
+                    + " AND date_maintenance='"+t.getDate_maintenance()+"' ";
+            
+            PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
+            
+            ResultSet rs = pst.executeQuery();
+         while(rs.next()){
+                
+               Maintenance m = new Maintenance();
+                
+                m.setId(rs.getInt(1));
+                m.setDate_maintenance(rs.getDate(2));
+                m.setType(rs.getString(3));
+                m.setId_voiture(4);
+                m.setId_garage(rs.getInt(5));
+                
+                maintenances.add(m);
+                
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+       return maintenances;
+        
+    }
     
 }

@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -78,7 +80,8 @@ public class MaterielCRUD implements InterfaceCRUD<Materiel> {
             int rslt = 0;
         try {
             
-            String request= "UPDATE materiel SET nom='"+t.getNom()+"' WHERE id='"+t.getId()+"'" ;
+            String request= "UPDATE materiel SET nom='"+t.getNom()+"', id_garage='"+t.getId_garage()+"'"
+                    + " WHERE id='"+t.getId()+"'" ;
             
             PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
             
@@ -108,6 +111,36 @@ public class MaterielCRUD implements InterfaceCRUD<Materiel> {
         }
        return rslt==1;
     }
-
+ 
+    public List getDatas(){
+        
+        List<String> m = new ArrayList();
+        List m1 = new ArrayList();
+        
+        try {
+            String request = "SELECT m.id , m.nom , "
+                    + "g.matricule_garage "
+                    + "FROM materiel m "
+                    + "JOIN garage g ON m.id_garage=g.id ";
+            
+            PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
+            
+            ResultSet st = pst.executeQuery();
+            
+            while(st.next()){
+                m.add(""+st.getInt(1));
+                m.add(""+st.getString(2));
+                m.add(""+st.getString(3));
+             
+               
+            }
+            
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return m1;
+        
+    }
     
 }

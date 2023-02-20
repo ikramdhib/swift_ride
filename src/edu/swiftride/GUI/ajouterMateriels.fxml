@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="677.0" prefWidth="821.0" style="-fx-background-color: #383562;" stylesheets="@interfacesCss.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView fx:id="table" accessibleRole="CHECK_BOX" editable="true" layoutX="387.0" layoutY="185.0" prefHeight="400.0" prefWidth="378.0">
+        <columns>
+          <TableColumn fx:id="tb_id" prefWidth="142.0" text="ID" />
+          <TableColumn fx:id="tb_materiel" prefWidth="235.0" text="Materiel" />
+        </columns>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </TableView>
+      <JFXButton fx:id="add" layoutX="585.0" layoutY="592.0" onAction="#addall" text="Ajouter" textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="20.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/icons8-add-100.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton layoutX="422.0" layoutY="592.0" onAction="#close" text="Exit" textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="20.0" />
+         </font>
+         <graphic>
+            <ImageView fx:id="clodebt" fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/icons8-close-94.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXListView fx:id="listView" editable="true" layoutX="40.0" layoutY="218.0" maxHeight="400.0" maxWidth="200.0" styleClass="ListView" />
+      <Pane prefHeight="119.0" prefWidth="821.0" style="-fx-background-color: #2d2a4e;">
+         <children>
+            <Label layoutX="275.0" layoutY="37.0" text="Ajouter de Materiels" textFill="WHITE">
+               <font>
+                  <Font name="FontAwesome Regular" size="41.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="119.0" fitWidth="143.0" layoutX="58.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/Capture%20d’écran%202023-01-28%20123412%20(1).png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <JFXButton layoutX="401.0" layoutY="133.0" onAction="#goMateriel" text="Ajouter un nouveau materiel" textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="20.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/icons8-add-100.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <Label layoutX="53.0" layoutY="167.0" prefHeight="36.0" prefWidth="174.0" text="Liste des materiels :" textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lb_mat" layoutX="58.0" layoutY="626.0" prefHeight="36.0" prefWidth="165.0" />
+   </children>
+</AnchorPane>

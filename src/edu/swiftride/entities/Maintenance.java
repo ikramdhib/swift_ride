@@ -6,6 +6,7 @@
 package edu.swiftride.entities;
 
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  *
@@ -76,6 +77,27 @@ public class Maintenance {
     @Override
     public String toString() {
         return "Maintenance{" + "id=" + id + ", date_maintenance=" + date_maintenance + ", type=" + type + ", id_voiture=" + id_voiture + ", id_garage=" + id_garage + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Maintenance other = (Maintenance) obj;
+        if (this.id_voiture != other.id_voiture && this.date_maintenance!=other.date_maintenance ) {
+            return false;
+        }
+        return true;
     }
 
     
