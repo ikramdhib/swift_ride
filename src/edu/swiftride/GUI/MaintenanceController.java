@@ -263,6 +263,8 @@ public class MaintenanceController implements Initializable {
     private void deleteMaintenance(ActionEvent event) {
          Maintenance m =(Maintenance) tb_maintenaces.getSelectionModel().getSelectedItem();
          
+         if(m.getId()!=0 && m.getId_voiture()!=0){
+         
           Alert a = new Alert(Alert.AlertType.CONFIRMATION);
                 a.setContentText("Voulez-vous vraiment supprimer le Maintenance N°"+m.getId());
                 a.setTitle("CONFIRMER");
@@ -275,7 +277,17 @@ public class MaintenanceController implements Initializable {
                 else if (res.get()==ButtonType.CANCEL){
                     System.out.println("alert closed");
                 }
-        
+         }
+         else{
+              Alert b = new Alert(Alert.AlertType.ERROR);
+                                b.setContentText("Vous devez sélectionner le Maintenance !");
+                                b.setTitle("ERREUR");
+                                Optional<ButtonType> res=b.showAndWait();
+                                if(res.get() ==ButtonType.OK){
+                                    System.out.println("alert closed");
+                                }
+
+         }
         
     }
      int id =0;
