@@ -15,31 +15,34 @@ import java.util.Calendar;
 public class User {
 
     private int id;
-    
+    private int idrole;
     private String nom;
     private String prenom;
     private String cin;
     private String date_naiss;
+    private String age;
+
+   
     private String photo_personel;
     private String photo_permis;
     private String num_permis;
     private String ville;
     private String num_tel;
-    private Role role;
     private String email;
     private String password;
-    public User(String nom, String prenom, String cin, String date_naiss, String photo_personel, String photo_permis, String num_permis, String ville, String num_tel, Role role, String email, String password) {
+    public User(String nom, String prenom, String cin, String date_naiss,String age, String photo_personel, String photo_permis, String num_permis, String ville, String num_tel, int idrole, String email, String password) {
         
         this.nom = nom;
         this.prenom = prenom;
         this.cin = cin;
         this.date_naiss = date_naiss;
+        this.age=age;
         this.photo_personel = photo_personel;
         this.photo_permis = photo_permis;
         this.num_permis = num_permis;
         this.ville = ville;
         this.num_tel = num_tel;
-        this.role = role;
+        this.idrole=idrole;
         this.email = email;
         this.password = password;
     }
@@ -83,9 +86,22 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
+  public int getIdrole() {
+        return idrole;
+    }
 
+    public void setIdrole(int idrole) {
+        this.idrole = idrole;
+    }
     public String getNom() {
         return nom;
+    }
+     public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 
     public void setNom(String nom) {
@@ -150,13 +166,6 @@ public class User {
         this.num_tel = num_tel;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
     public String getEmail() {
         return email;
@@ -179,13 +188,13 @@ public String getDate_naiss(){
 public void setDate_naiss(String date_naiss){
     this.date_naiss=date_naiss;
 }
-   public enum Role {
-ADMIN,CLIENT,NULL
-}
+
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", cin=" + cin + ", date_naiss=" + date_naiss + ", num_permis=" + num_permis + ", ville=" + ville + ", num_tel=" + num_tel + ", role=" + role + ", email=" + email + '}';
+        return "User{" + "id=" + id + ", idrole=" + idrole + ", nom=" + nom + ", prenom=" + prenom + ", cin=" + cin + ", date_naiss=" + date_naiss + ", age=" + age + ", photo_personel=" + photo_personel + ", photo_permis=" + photo_permis + ", num_permis=" + num_permis + ", ville=" + ville + ", num_tel=" + num_tel + ", email=" + email + ", password=" + password + '}';
     }
+
+   
 
 
 

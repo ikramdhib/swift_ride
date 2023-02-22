@@ -57,18 +57,20 @@ public class ProfileController implements Initializable {
     private Button btnlogout;
     @FXML
     private Button btnconsulterliste;
-UserCRUD uc=new UserCRUD();
+    UserCRUD uc = new UserCRUD();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if((uc.getUserByEmail(UserSession.getEmail()).getRole().equals(User.Role.valueOf("CLIENT"))))
+        if ((uc.getUserByEmail(UserSession.getEmail()).getIdrole() == 2)) {
             btnconsulterliste.setVisible(false);
+        }
+
         InputStream stream = null;
         InputStream stream1 = null;
         try {
-            UserCRUD uc = new UserCRUD();
             User user = uc.getUserByEmail(UserSession.getEmail());
             nom.setText(user.getNom());
             prenom.setText(user.getPrenom());
@@ -82,8 +84,9 @@ UserCRUD uc=new UserCRUD();
             Image photopermis = new Image(stream1);
             Image photopersonnel = new Image(stream);
             ivphoto_personnel.setImage(photopersonnel);
-            ivphoto_permis.setImage(photopersonnel);
+            ivphoto_permis.setImage(photopermis);
         } catch (FileNotFoundException ex) {
+
             System.out.println(ex.getMessage());
         }
 
@@ -94,7 +97,7 @@ UserCRUD uc=new UserCRUD();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("Profile.fxml"));
             Scene scene = new Scene(root);
-            stage.setTitle("Profil");
+            stage.setTitle("Profile");
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {
@@ -102,23 +105,25 @@ UserCRUD uc=new UserCRUD();
         }
         return stage;
     }
+
     @FXML
-    private void Déconnecter(ActionEvent event){
-         try {
-             UserSession.cleanUserSession(); 
+    private void Déconnecter(ActionEvent event) {
+        try {
+            UserSession.cleanUserSession();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Signin.fxml"));
             Parent root = loader.load();
             SigninController sc = loader.getController();
             Stage stage = (Stage) btnlogout.getScene().getWindow();
             stage.close();
-            sc.connectWindow();
+            sc.getConnectStage();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-    
+
     }
+
     @FXML
-   private void updateScreen(ActionEvent event){
+    private void updateScreen(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdateUser.fxml"));
             Parent root = loader.load();
@@ -129,10 +134,11 @@ UserCRUD uc=new UserCRUD();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-   }
-   @FXML
-   private void consulterliste(ActionEvent event){
-         try {
+    }
+
+    @FXML
+    private void consulterliste(ActionEvent event) {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserList.fxml"));
             Parent root = loader.load();
             UserListController ulc = loader.getController();
@@ -142,6 +148,6 @@ UserCRUD uc=new UserCRUD();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-   }
+    }
 
 }

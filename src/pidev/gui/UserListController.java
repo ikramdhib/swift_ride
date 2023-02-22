@@ -66,6 +66,11 @@ public class UserListController implements Initializable {
     private Button btnprofile;
     @FXML
     private Button bndelete;
+    @FXML
+    private Button btnlogout;
+    private User currentSelectedUser;
+    @FXML
+    private Button bnconsulter;
 
     /**
      * Initializes the controller class.
@@ -73,6 +78,7 @@ public class UserListController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         userList();
+        bnconsulter.setVisible(false);
         /*  if ((tvliste.getSelectionModel().getSelectedItems().isEmpty())) 
             bndelete.setDisable(true);
          */
@@ -84,8 +90,8 @@ public class UserListController implements Initializable {
         tvliste.setItems(users);
         ID.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
         Nom.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
-        Prenom.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
-        Email.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPrenom()));
+        Prenom.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPrenom()));
+        Email.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmail()));
         Cin.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCin()));
         date_naiss.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDate_naiss()));
         num_permis.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNum_permis()));
@@ -131,11 +137,53 @@ public class UserListController implements Initializable {
 
         if ((tvliste.getSelectionModel().getSelectedItems().isEmpty())) {
             showAlert(Alert.AlertType.ERROR, owner, "Form Echec!", "Séléctionne un utilisateur pour le supprimer!");
-        }
-        else if((showVerification("Supprimer","Supprimer cet utilisateur ?"))){
-        UserCRUD uc = new UserCRUD();
-        uc.supprimerUtilisateur(tvliste.getSelectionModel().getSelectedItem());
-        tvliste.getItems().removeAll(tvliste.getSelectionModel().getSelectedItem());
+        } else if ((showVerification("Supprimer", "Supprimer cet utilisateur ?"))) {
+            UserCRUD uc = new UserCRUD();
+            uc.supprimerUtilisateur(tvliste.getSelectionModel().getSelectedItem());
+            tvliste.getItems().removeAll(tvliste.getSelectionModel().getSelectedItem());
         }
     }
+
+    @FXML
+    private void Déconnecter(ActionEvent event) {
+        try {
+            UserSession.cleanUserSession();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Signin.fxml"));
+            Parent root = loader.load();
+            SigninController sc = loader.getController();
+            Stage stage = (Stage) btnlogout.getScene().getWindow();
+            stage.close();
+            sc.getConnectStage();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+    }
+
+    @FXML
+    private void consulterClient(ActionEvent event) {
+        Window owner = bnconsulter.getScene().getWindow();
+
+        if ((tvliste.getSelectionModel().getSelectedItems().isEmpty())) {
+            showAlert(Alert.AlertType.ERROR, owner, "Form Echec!", "Séléctionne un utilisateur pour le consulter!");
+        } else {
+
+            try {
+                System.out.println(tvliste.getSelectionModel().getSelectedItem().getEmail());
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ConsulterClient.fxml"));
+                Parent root = loader.load();
+                ConsulterClientController c = loader.getController();
+                c.setCurrentSelectedUser(tvliste.getSelectionModel().getSelectedItem());
+               // c.setNom("zeadaz");
+                c.loadPage();
+                c.clientProfile();
+                Stage stage = (Stage) bnconsulter.getScene().getWindow();
+                stage.close();
+
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
 }

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="870.0" prefWidth="1238.0" style="-fx-background-color: #24223e;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pidev.gui.ConsulterClientController">
+   <children>
+      <ImageView fx:id="ivphoto_personnel" fitHeight="209.0" fitWidth="267.0" layoutX="920.0" layoutY="498.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ivphoto_permis" fitHeight="219.0" fitWidth="267.0" layoutX="920.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="btnconsulterliste" layoutX="667.0" layoutY="741.0" mnemonicParsing="false" onAction="#consulterliste" prefHeight="25.0" prefWidth="194.0" text="Consulter liste des utilisateurs" />
+      <Pane layoutY="-2.0" prefHeight="209.0" prefWidth="1238.0" style="-fx-background-color: #2d2a4e;">
+         <children>
+            <Label layoutX="518.0" layoutY="78.0" text="Gestion utilisateur" textFill="WHITE">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="219.0" fitWidth="210.0" layoutX="1014.0" layoutY="-5.0">
+               <image>
+                  <Image url="@../image/pngtree-black-tire-cartoon-illustration-png-image_4070769-removebg-preview.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <VBox layoutY="205.0" prefHeight="697.0" prefWidth="329.0" style="-fx-background-color: #383562;">
+         <children>
+            <Label text="Acceuil" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="80.0" fitWidth="81.0">
+                     <image>
+                        <Image url="@../image/icons8-home-page-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label text="Profile" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="77.0" fitWidth="80.0">
+                     <image>
+                        <Image url="@../image/icons8-user-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <Label text="Gestion des voiture" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="87.0" fitWidth="87.0">
+                     <image>
+                        <Image url="@../image/icons8-sedan-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <Label text="Gestion des entreprise" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="79.0" fitWidth="88.0">
+                     <image>
+                        <Image url="@../image/icons8-organization-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <Label text="Gestion des reservation" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="79.0" fitWidth="94.0">
+                     <image>
+                        <Image url="@../image/icons8-bookmark-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <Label text="Gestion de maintenance" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="84.0" fitWidth="92.0">
+                     <image>
+                        <Image url="@../image/icons8-support-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <Label text="Gestion de moyens de transport" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="84.0" fitWidth="95.0">
+                     <image>
+                        <Image url="@../image/icons8-bus-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <Label prefHeight="76.0" prefWidth="135.0" text="Client" textFill="WHITE">
+               <graphic>
+                  <ImageView>
+                     <image>
+                        <Image url="@../image/icons8-user-groups-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <Button fx:id="btnlogout" mnemonicParsing="false" onAction="#Déconnecter" prefHeight="25.0" prefWidth="120.0" text="Déconnecter" />
+         </children>
+      </VBox>
+      <ImageView fitHeight="209.0" fitWidth="219.0">
+         <image>
+            <Image url="@../image/Capture%20d’écran%202023-01-28%20123412%20(1).png" />
+         </image>
+      </ImageView>
+      <VBox layoutX="660.0" layoutY="230.0" prefHeight="314.0" prefWidth="260.0" spacing="50.0">
+         <children>
+            <Label fx:id="tfnom" scaleX="2.0" scaleY="2.0" textFill="WHITE" />
+            <Label fx:id="tfprenom" scaleX="2.0" scaleY="2.0" textFill="WHITE" />
+            <Label fx:id="tfemail" scaleX="2.0" scaleY="2.0" textFill="WHITE" />
+            <Label fx:id="tfnum_tel" scaleX="2.0" scaleY="2.0" textFill="WHITE" />
+            <Label fx:id="tfnum_permis" scaleX="2.0" scaleY="2.0" textFill="WHITE" />
+            <Label fx:id="tfville" scaleX="2.0" scaleY="2.0" textFill="WHITE" />
+            <Label fx:id="tfcin" scaleX="2.0" scaleY="2.0" textFill="WHITE" />
+         </children>
+      </VBox>
+      <VBox layoutX="385.0" layoutY="228.0" prefHeight="419.0" prefWidth="178.0" spacing="50.0">
+         <children>
+            <Label prefHeight="21.0" prefWidth="72.0" scaleX="2.0" scaleY="2.0" text="Prenom :" textFill="WHITE">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <Label prefHeight="21.0" prefWidth="49.0" scaleX="2.0" scaleY="2.0" text="Nom :" textFill="WHITE" />
+            <Label prefHeight="21.0" prefWidth="52.0" scaleX="2.0" scaleY="2.0" text="Email :" textFill="WHITE" />
+            <Label scaleX="2.0" scaleY="2.0" text="Num_tel :" textFill="WHITE" />
+            <Label prefHeight="21.0" prefWidth="104.0" scaleX="2.0" scaleY="2.0" text="Num_permis :" textFill="WHITE" />
+            <Label scaleX="2.0" scaleY="2.0" text="Ville :" textFill="WHITE" />
+            <Label scaleX="2.0" scaleY="2.0" text="Cin :" textFill="WHITE" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

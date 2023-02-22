@@ -8,6 +8,7 @@ package pidev.gui;
 import java.io.IOException;
 import javafx.scene.control.Alert;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -29,6 +30,7 @@ import javafx.stage.Window;
 import pidev.entities.User;
 import static pidev.gui.SignupController.showAlert;
 import pidev.services.UserCRUD;
+import pidev.utils.EncryptPassword;
 import pidev.utils.UserSession;
 
 /**
@@ -76,8 +78,8 @@ public class UpdateUserController implements Initializable {
         tfemail.setText(user.getEmail());
         tfville.setText(user.getVille());
         tfnum_tel.setText(user.getNum_tel());
-        pfpassword.setText(user.getPassword());
-        pfnew_password.setText(user.getPassword());
+        pfpassword.setText(UserSession.getPassword());
+        pfnew_password.setText(UserSession.getPassword());
     }
 
     public Stage getUpdateWindowStage() {
@@ -128,15 +130,20 @@ if ((showVerification("Modifier","Modifier votre compte ?"))) {
                     user.setEmail(tfemail.getText().toString());
                     user.setVille(tfville.getText().toString());
                     user.setNum_tel(tfnum_tel.getText().toString());
-                    user.setPassword(pfnew_password.getText().toString());
+                try {
+                    user.setPassword(EncryptPassword.toHexString(EncryptPassword.getSHA(pfnew_password.getText())));
+                } catch (NoSuchAlgorithmException ex) {
+                System.out.println(ex.getMessage());
+                }
                     uc.modifierUtilisateur(user);
+                     UserSession.updateUserSession(user.getEmail(), pfnew_password.getText());
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
                     Parent root = loader.load();
                     ProfileController pc = loader.getController();
                     pc.profileWindow();
                     Stage stage = (Stage) btnprofile.getScene().getWindow();
                     stage.close();
-                    UserSession.updateUserSession(user.getEmail(), user.getPassword());
+                   
                     System.out.println(user);
                 }
              catch (IOException ex) {

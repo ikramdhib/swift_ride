@@ -38,7 +38,7 @@ package pidev.utils;
     }
     
 
-    public String getPassword() {
+    public static String  getPassword() {
         return password;
     }
 

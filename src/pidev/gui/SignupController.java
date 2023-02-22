@@ -8,11 +8,15 @@ package pidev.gui;
 import java.io.IOException;
 
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 
 import java.time.format.DateTimeFormatter;
 
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.Random;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,8 +37,8 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import pidev.entities.User;
-import pidev.entities.User.Role;
 import pidev.services.UserCRUD;
+import pidev.utils.EncryptPassword;
 
 /**
  * FXML Controller class
@@ -70,9 +74,13 @@ public class SignupController implements Initializable {
     User user = new User();
 
     Stage stage = new Stage();
- UserCRUD uc = new UserCRUD();
+    UserCRUD uc = new UserCRUD();
     @FXML
     private Button btndeja_compte;
+    @FXML
+    private Button bngenerate;
+    @FXML
+    private TextField tfgenpass;
 
     /**
      * Initializes the controller class.
@@ -82,18 +90,18 @@ public class SignupController implements Initializable {
         // TODO
         date_naissance.setValue(LocalDate.now().minusYears(18));
         date_naissance.setDayCellFactory(picker -> {
-    final LocalDate today = LocalDate.now();
-    return new DateCell() {
-        @Override
-        public void updateItem(LocalDate item, boolean empty) {
-            super.updateItem(item, empty);
-            if (item.getYear() > today.minusYears(18).getYear()||(item.getYear()==today.minusYears(18).getYear()&&item.getDayOfYear()>today.getDayOfYear())) {
-                setDisable(true);
-                setStyle("-fx-background-color: #ffc0cb;");
-            }
-        }
-    };
-});
+            final LocalDate today = LocalDate.now();
+            return new DateCell() {
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item.getYear() > today.minusYears(18).getYear() || (item.getYear() == today.minusYears(18).getYear() && item.getDayOfYear() > today.getDayOfYear())) {
+                        setDisable(true);
+                        setStyle("-fx-background-color: #ffc0cb;");
+                    }
+                }
+            };
+        });
     }
 
     @FXML
@@ -110,12 +118,10 @@ public class SignupController implements Initializable {
     @FXML
     private void PhotoPermis(ActionEvent event) {
 
-
         try {
             uc.uploadPhotoPermis(user);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
- 
 
         }
 
@@ -143,70 +149,68 @@ public class SignupController implements Initializable {
                 || date_naissance.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")).isEmpty() || tfnum_permi.getText().isEmpty()
                 || tfville.getText().isEmpty() || tfnum_tel.getText().isEmpty()
                 || tfemail.getText().isEmpty() || pfpassword.getText().isEmpty()) {
-            showAlert1(Alert.AlertType.ERROR, owner, "Echec!", "il reste un ou des champs vides!");
-        }else if (!(validateEmail(tfemail))){
-            showAlert1(Alert.AlertType.ERROR, owner, "Echec!", "La format de l'email est incorrect!");
-        }
-        else if (pfpassword.getText().length() < 6) {
-            showAlert1(Alert.AlertType.ERROR, owner, "Echec!",
+            showAlert(Alert.AlertType.ERROR, owner, "Echec!", "il reste un ou des champs vides!");
+        } else if (!(validateEmail(tfemail))) {
+            showAlert(Alert.AlertType.ERROR, owner, "Echec!", "La format de l'email est incorrect!");
+        } else if (pfpassword.getText().length() < 6) {
+            showAlert(Alert.AlertType.ERROR, owner, "Echec!",
                     "Le mot de passe doit etre composé de six chiffre au minimum");
         } else if (!(tfcin.getText().chars().allMatch(Character::isDigit)) || tfcin.getText().length() != 8) {
-            showAlert1(Alert.AlertType.ERROR, owner, "Echec!",
+            showAlert(Alert.AlertType.ERROR, owner, "Echec!",
                     "Cin doit etre composé seulement de 8 chiffres !");
-        }  else if (!(tfnum_permi.getText().chars().allMatch(Character::isDigit)) || tfnum_permi.getText().length() != 8) {
-            showAlert1(Alert.AlertType.ERROR, owner, "Echec!",
+        } else if (!(tfnum_permi.getText().chars().allMatch(Character::isDigit)) || tfnum_permi.getText().length() != 8) {
+            showAlert(Alert.AlertType.ERROR, owner, "Echec!",
                     "Le numéro de permis doit etre composé seulement de 8 chiffres !");
-        }
-        else if (!(tfnum_permi.getText().chars().allMatch(Character::isDigit)) || tfnum_permi.getText().length() != 8) {
-            showAlert1(Alert.AlertType.ERROR, owner, "Echec!",
+        } else if (!(tfnum_permi.getText().chars().allMatch(Character::isDigit)) || tfnum_permi.getText().length() != 8) {
+            showAlert(Alert.AlertType.ERROR, owner, "Echec!",
                     "Le numéro de permis doit etre composé seulement de 8 chiffres !");
         } else if (!(tfnum_tel.getText().chars().allMatch(Character::isDigit)) || tfnum_tel.getText().length() != 8) {
-            showAlert1(Alert.AlertType.ERROR, owner, "Echec!",
+            showAlert(Alert.AlertType.ERROR, owner, "Echec!",
                     "Le numéro de téléphone doit etre composé seulement de 8 chiffres !");
-            
-        }  else if (!(validateEmail(tfemail))) {
-            showAlert1(Alert.AlertType.ERROR, owner, "Echec!", "La format d'email est incorrect!");
-        }
 
-        
-       
-       else if (uc.emaildejaUtilise(tfemail.getText())) {
-            showAlert1(Alert.AlertType.ERROR, owner, "Echec!", "Email deja utilisé");
+        } else if (!(validateEmail(tfemail))) {
+            showAlert(Alert.AlertType.ERROR, owner, "Echec!", "La format d'email est incorrect!");
+        } else if (uc.emaildejaUtilise(tfemail.getText())) {
+            showAlert(Alert.AlertType.ERROR, owner, "Echec!", "Email deja utilisé");
         } else if (uc.cindejaUtilise(tfcin.getText())) {
-            showAlert1(Alert.AlertType.ERROR, owner, "Echec!", "Cin déja utilisé");
+            showAlert(Alert.AlertType.ERROR, owner, "Echec!", "Cin déja utilisé");
         } else if (uc.num_permidejaUtilise(tfnum_permi.getText())) {
-            showAlert1(Alert.AlertType.ERROR, owner, "Echec!", "numéro de permis déja utilisé");
-        }else if (user.getPhoto_personel().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, owner, "Echec!", "numéro de permis déja utilisé");
+        } else if (user.getPhoto_personel().isEmpty()) {
             showAlert(Alert.AlertType.ERROR, owner, "Echec!", "vous devez enregistrez une photo personnel!");
-             }else if (user.getPhoto_permis().isEmpty()) {
+        } else if (user.getPhoto_permis().isEmpty()) {
             showAlert(Alert.AlertType.ERROR, owner, "Echec!", "vous devez enregistrez une photo de votre permis!");
-            } else if (user.getPhoto_personel().isEmpty()) {
-               showAlert(Alert.AlertType.ERROR, owner, "Form Echec!", "vous devez enregistrez une photo personnelle!");
+        } else if (user.getPhoto_personel().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, owner, "Form Echec!", "vous devez enregistrez une photo personnelle!");
         } else {
             try {
                 user.setNom(tfnom.getText());
-        user.setPrenom(tfprenom.getText());
-        user.setEmail(tfemail.getText());
-        user.setCin(tfcin.getText());
-        user.setDate_naiss(date_naissance.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-        user.setNum_permis(tfnum_permi.getText());
-        user.setVille(tfville.getText());
-        user.setNum_tel(tfnum_tel.getText());
-        user.setRole(Role.CLIENT);
-        user.setEmail(tfemail.getText());
-        user.setPassword(pfpassword.getText());
+                user.setPrenom(tfprenom.getText());
+                user.setEmail(tfemail.getText());
+                user.setCin(tfcin.getText());
+                user.setDate_naiss(date_naissance.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+                user.setAge(calculerAge(date_naissance.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))));
+                user.setNum_permis(tfnum_permi.getText());
+                user.setVille(tfville.getText());
+                user.setNum_tel(tfnum_tel.getText());
+                user.setIdrole(2);
+                user.setEmail(tfemail.getText());
+                try {
+                    user.setPassword(EncryptPassword.toHexString(EncryptPassword.getSHA(pfpassword.getText())));
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(SignupController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 uc.ajouterUtilisateur(user);
-                showAlert(Alert.AlertType.ERROR, owner, "Succés", "Utilisateur ajouté avec succès");
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Signin.fxml"));
                 Parent root = loader.load();
                 SigninController sc = loader.getController();
                 Stage stage = (Stage) btndeja_compte.getScene().getWindow();
                 stage.close();
                 sc.getConnectStage();
-                // siginincontroller.getConnectStage();
 
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
+                System.out.println("test");
             }
 
         }
@@ -234,14 +238,16 @@ public class SignupController implements Initializable {
         }
 
     }
-  public void showAlert1(Alert.AlertType alertType, Window owner, String title, String message) {
+
+    /*public void showAlert1(Alert.AlertType alertType, Window owner, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.initOwner(owner);
         alert.show();
-    }
+    }*/
+
     public static void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -249,6 +255,42 @@ public class SignupController implements Initializable {
         alert.setContentText(message);
         alert.initOwner(owner);
         alert.show();
+    }
+
+    public static String calculerAge(String date) {
+        DateTimeFormatter format
+                = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        LocalDate newdate = LocalDate.parse(date, format);
+        int age = LocalDate.now().getYear() - newdate.getYear();
+        if (LocalDate.now().getDayOfYear() >= newdate.getDayOfYear()) {
+            return Integer.toString(age);
+        } else {
+            return Integer.toString(age - 1);
+        }
+
+    }
+
+    @FXML
+    private void generatePassword(ActionEvent event) {
+        Window owner = bngenerate.getScene().getWindow();
+         Random random = new Random();
+        int length=5;
+        if (tfemail.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, owner, "Echec", "Saisit votre email");
+        } else if (uc.emaildejaUtilise(tfemail.getText())) {
+            showAlert(Alert.AlertType.ERROR, owner, "Echec", "Email dèja utilisé");
+        } else if (!validateEmail(tfemail)) {
+            showAlert(Alert.AlertType.ERROR, owner, "Echec", "Email non valide");
+        }
+        else{
+            int index = tfemail.getText().indexOf("@");
+        String substractedemail = tfemail.getText().substring(0, index);
+         int min = (int) Math.pow(10, length - 1); 
+        int max = (int) Math.pow(10, length) - 1; 
+        int randomNumber = random.nextInt(max - min + 1) + min;
+        tfgenpass.setText(substractedemail+randomNumber);
+        }
     }
 
 }
