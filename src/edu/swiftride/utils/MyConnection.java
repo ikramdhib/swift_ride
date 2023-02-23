@@ -20,7 +20,7 @@ public class MyConnection {
     private Connection cnx;
     private static MyConnection instance;
     
-    private MyConnection() {
+    public MyConnection() {
         this.url = "jdbc:mysql://localhost:3306/swiftride";
         try { 
             cnx = DriverManager.getConnection(url, login, pwd);

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.Rating?>
+
+<AnchorPane id="AnchorPane" prefHeight="591.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swifrdide.gui.AvisController">
+   <children>
+      <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="581.0" prefWidth="780.0" style="-fx-background-color: #24223e;">
+         <children>
+            <Pane layoutX="241.0" layoutY="149.0" prefHeight="363.0" prefWidth="271.0">
+               <children>
+                  <Label layoutX="15.0" layoutY="-16.0" text="Commentaire " textFill="WHITE" translateY="20.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="txtCommentiare" layoutX="5.0" layoutY="25.0" prefHeight="163.0" prefWidth="260.0" promptText="Saisie votre commentaire" />
+                  <Rating fx:id="rating" layoutX="81.0" layoutY="238.0" rating="0.0">
+                     <effect>
+                        <DropShadow color="#0020eb" spread="0.69" />
+                     </effect>
+                  </Rating>
+                  <Label layoutX="14.0" layoutY="241.0" text="Avis" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="msg" layoutX="59.0" layoutY="292.0" prefHeight="46.0" prefWidth="142.0" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <TableView fx:id="table" layoutX="519.0" layoutY="149.0" prefHeight="417.0" prefWidth="271.0">
+               <columns>
+                  <TableColumn fx:id="idCol" prefWidth="53.0" text="ID" />
+                  <TableColumn fx:id="commentaireCol" prefWidth="159.0" text="Commentaire" />
+                  <TableColumn fx:id="etoileCol" prefWidth="58.0" text="Etoiles" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnAjouter" layoutX="244.0" layoutY="531.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="32.0" prefWidth="83.0" text="Add" />
+            <Button fx:id="btnModifier" layoutX="335.0" layoutY="531.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="32.0" prefWidth="83.0" text="Update" />
+            <Button fx:id="btnSupprimer" layoutX="429.0" layoutY="531.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="32.0" prefWidth="83.0" text="Delete" />
+            <VBox layoutX="-10.0" layoutY="114.0" prefHeight="467.0" prefWidth="241.0" style="-fx-background-color: #383562;">
+               <children>
+                  <JFXButton prefHeight="53.0" prefWidth="106.0" text="Acceuil" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../swiftride/image/icons8-home-page-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                  <JFXButton text="Profile" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../swiftride/image/icons8-user-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton text="Gestion des voiture" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../swiftride/image/icons8-sedan-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton prefHeight="48.0" prefWidth="201.0" text="Gestion des entreprise" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../swiftride/image/icons8-organization-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton text="Gestion des reservation" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../swiftride/image/icons8-bookmark-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton text="Gestion de maintenance" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../swiftride/image/icons8-support-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton prefHeight="39.0" prefWidth="216.0" text="Gestion de moyens de transport" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../swiftride/image/icons8-bus-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton text="Client" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../swiftride/image/icons8-user-groups-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </VBox>
+            <Pane layoutX="-11.0" layoutY="-10.0" prefHeight="124.0" prefWidth="808.0" style="-fx-background-color: #2d2a4e;">
+               <children>
+                  <Label layoutX="343.0" layoutY="37.0" prefHeight="51.0" prefWidth="351.0" text="Gestion Avis" textFill="WHITE">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="171.0" fitWidth="201.0" layoutX="23.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../swiftride/image/Capture%20d’écran%202023-01-28%20123412%20(1).png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="124.0" fitWidth="241.0" layoutX="676.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../swiftride/image/pngtree-black-tire-cartoon-illustration-png-image_4070769-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

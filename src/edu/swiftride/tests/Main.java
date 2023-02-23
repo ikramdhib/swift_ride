@@ -1,6 +1,8 @@
 package edu.swiftride.tests;
 
+import edu.swiftride.entities.Avis;
 import edu.swiftride.entities.EntreprisePartenaire;
+import edu.swiftride.services.AvisCRUD;
 import edu.swiftride.services.EntreprisePartenaireCRUD;
 import edu.swiftride.utils.MyConnection;
 
@@ -36,6 +38,15 @@ public class Main {
         EntreprisePartenaireCRUD ecd = new EntreprisePartenaireCRUD();
         ecd.ajouterEntreprise(e);
         System.out.println(ecd.afficherEntreprise());
+        
+        Avis a = new Avis();
+        a.setCommentaire("Bla Bla");
+        a.setEtoile(5);
+        a.setId_voiture(61212);
+        a.setId_client(02324);  
+         AvisCRUD ecdd = new AvisCRUD();
+        ecdd.ajouterAvis(a);
+        System.out.println(ecdd.afficherAvis());
     }
 }
 

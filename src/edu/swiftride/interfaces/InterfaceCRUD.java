@@ -5,15 +5,20 @@
  */
 package edu.swiftride.interfaces;
 
+import edu.swiftride.entities.Avis;
 import edu.swiftride.entities.EntreprisePartenaire;
+import static java.awt.PageAttributes.MediaType.A;
 import java.util.List;
 
 
 public interface InterfaceCRUD<E> {
     void ajouterEntreprise(E t);
     boolean  modifierEntreprise(E t);
-     void supprimerEntreprise(E t);
-     List<EntreprisePartenaire> afficherEntreprise();
-    
-    
+    void supprimerEntreprise(E t);
+    List<EntreprisePartenaire> afficherEntreprise();   
+   
+    void ajouterAvis(E m);
+    boolean  modifierAvis(E m);
+    void supprimerAvis(E m);
+    List<Avis> afficherAvis();   
 }

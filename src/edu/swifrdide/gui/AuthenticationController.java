@@ -7,9 +7,10 @@
 
 
     import edu.swiftride.entities.EntreprisePartenaire;
+import edu.swiftride.services.Email;
     import edu.swiftride.services.EntreprisePartenaireCRUD;
+import edu.swiftride.utils.Cryptage;
     import java.net.URL;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
     import java.sql.Connection;
     import java.sql.DriverManager;
@@ -17,8 +18,6 @@ import java.security.NoSuchAlgorithmException;
     import java.sql.Statement;
 import java.util.Optional;
     import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
     import javafx.collections.FXCollections;
     import javafx.collections.ObservableList;
     import javafx.event.ActionEvent;
@@ -32,12 +31,18 @@ import java.util.logging.Logger;
     import javafx.scene.control.Alert;
     import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javax.xml.bind.DatatypeConverter;
+    import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextFormatter;
+    import java.util.function.UnaryOperator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
+
 
     /**
      * FXML Controller class
      *
-     * @author Ines
+     * @author Sami
      */
     public class AuthenticationController implements Initializable {
 
@@ -279,44 +284,59 @@ if (!mdp.matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$")) 
         alert.setContentText("Un autre administrateur avec les mêmes informations existe déjà !");
         alert.showAndWait();
     } else {
-
-    MessageDigest md = null;
             try {
-                md = MessageDigest.getInstance("SHA-256");
+                String cryptedmdp= Cryptage.toHexString(Cryptage.getSHA(mdp));
+                // Set values for the enterprise object
+                m.setNom_entreprise(nom_entreprise);
+                m.setNom_admin(nom_admin);
+                m.setPrenom_admin(prenom_admin);
+                m.setMatricule(matricule);
+                m.setLogin(login);
+                m.setMdp(cryptedmdp);
+                m.setNb_voiture(nb_voiture);
+                m.setTel(tel);
+                
+                
+                
+                // Add the enterprise object to the list and update the table view
+                pcm.ajouter(m);
+                table.setItems(getEntreprisePartenaire());
+                Email.setEmail(m.getLogin());
+                Email.setMot_de_passe(txtMdps.getText());
+                Email.setNom_admin(txtNomadmin.getText());
+                Email.setPrenom_admin(txtPrenomadmin.getText());
+                
+                Email.sendEmail();
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Ajout réussie");
+                alert.setHeaderText("L'ajout a été effectuée avec succès.");
+                alert.showAndWait();
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(AuthenticationController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MessagingException ex) {
+                Logger.getLogger(AuthenticationController.class.getName()).log(Level.SEVERE, null, ex);
             }
-md.update(mdp.getBytes());
-byte[] digest = md.digest();
-String hashedPassword = DatatypeConverter.printHexBinary(digest).toLowerCase();
-m.setMdp(hashedPassword);
-        
-
-        // Set values for the enterprise object
-        m.setNom_entreprise(nom_entreprise);
-        m.setNom_admin(nom_admin);
-        m.setPrenom_admin(prenom_admin);
-        m.setMatricule(matricule);
-        m.setLogin(login);
-        m.setMdp(hashedPassword);
-        m.setNb_voiture(nb_voiture);
-        m.setTel(tel);
-
-        // Add the enterprise object to the list and update the table view
-          pcm.ajouter(m);
-          table.setItems(getEntreprisePartenaire());
-          
-          Alert alert = new Alert(AlertType.INFORMATION);
-    alert.setTitle("Ajout réussie");
-    alert.setHeaderText("L'ajout a été effectuée avec succès.");
-    alert.showAndWait();
+            
     }
     }
 
 
         private void modifierEntreprise() {
         EntreprisePartenaire m = new EntreprisePartenaire();
-        m.setId(table.getSelectionModel().getSelectedItem().getId());
+        EntreprisePartenaire entreprise = table.getSelectionModel().getSelectedItem();
+        
+        
+        
+                 if(entreprise == null){
+    // Créer une alerte de type WARNING pour demander à l'utilisateur de choisir une entreprise à modifier
+    Alert warning = new Alert(Alert.AlertType.WARNING);
+    warning.setTitle("Attention");
+    warning.setHeaderText("Vous devez sélectionner une entreprise à modifier.");
+    warning.showAndWait();
+    return;
+}
+                 
+                 m.setId(table.getSelectionModel().getSelectedItem().getId());
         
         String nom_entreprise = txtNomentreprise.getText();
         String nom_admin = txtNomadmin.getText();
@@ -327,6 +347,8 @@ m.setMdp(hashedPassword);
         String nb_voiture_str = txtNbvoiture.getText();
         String tel_str = txtTel.getText();
 
+   
+        
         // Vérifier que les champs obligatoires ne sont pas vides
         if (nom_entreprise.isEmpty() || nom_admin.isEmpty() || prenom_admin.isEmpty() || matricule.isEmpty() || login.isEmpty() || mdp.isEmpty() || nb_voiture_str.isEmpty() || tel_str.isEmpty()) {
             Alert alert = new Alert(AlertType.WARNING);
@@ -401,6 +423,8 @@ if (!mdp.matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$")) 
             break;
         }
     }
+    
+    
     if (adminExists) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Erreur");
