@@ -152,6 +152,14 @@ statement.executeUpdate(requete);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public Iterable<EntreprisePartenaire> getListEntreprise() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Iterable<EntreprisePartenaire> getListeEntreprise() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
    
 
  

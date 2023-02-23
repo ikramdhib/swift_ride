@@ -129,6 +129,18 @@ public class EntreprisePartenaire {
         return "EntreprisePartenaire: id : " +id+"nom_entreprise : " +nom_entreprise+"nom_admin : "+nom_admin+"prenom_admin : "+prenom_admin+"nb_voiture : "+nb_voiture+"tel : "+tel+"matricule : "+matricule+"login : "+login+"mdp : "+mdp+"id_admin : "+id_admin;
     } 
 
+    public Object getNom_Entreprise() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Object getTelephone() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Object getNomEntreprise() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
   }
         
  

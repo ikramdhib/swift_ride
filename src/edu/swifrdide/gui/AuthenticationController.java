@@ -16,6 +16,8 @@ import java.security.NoSuchAlgorithmException;
     import java.sql.DriverManager;
     import java.sql.ResultSet;
     import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
     import java.util.ResourceBundle;
     import javafx.collections.FXCollections;
@@ -36,6 +38,12 @@ import javafx.scene.control.TextFormatter;
     import java.util.function.UnaryOperator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 import javax.mail.MessagingException;
 
 
@@ -45,10 +53,6 @@ import javax.mail.MessagingException;
      * @author Sami
      */
     public class AuthenticationController implements Initializable {
-
-
-      @FXML
-        private TextField txtId;
 
         @FXML
         private TextField txtNomentreprise;
@@ -112,6 +116,15 @@ import javax.mail.MessagingException;
 
         @FXML
         private Button btnSupprimer;
+        
+        @FXML
+        private Button btnRechercher;
+
+        @FXML
+        private TextField txtRechercher;
+        
+        @FXML
+        private ImageView myImage;
 
 
         EntreprisePartenaireCRUD pcm=new EntreprisePartenaireCRUD();
@@ -125,7 +138,10 @@ import javax.mail.MessagingException;
           }
           else if(event.getSource() == btnSupprimer){
               supprimerEntreprise();
-          }
+          } /*
+          else if(event.getSource() == btnRechercher){
+              rechercherEntreprise();
+          }  */
       }
 
         /**
@@ -134,6 +150,14 @@ import javax.mail.MessagingException;
         @Override
         public void initialize(URL url, ResourceBundle rb) {
             showEntreprisePartenaire();
+            FadeTransition fade = new FadeTransition();
+            fade.setNode(myImage);
+            fade.setDuration(Duration.millis(10000));
+            fade.setCycleCount(TranslateTransition.INDEFINITE);
+            fade.setInterpolator(Interpolator.LINEAR);
+            fade.setFromValue(0);
+            fade.setToValue(1);
+            fade.play();
         }    
         public Connection getConnection(){
             Connection cnn;
@@ -482,7 +506,37 @@ if(result.isPresent() && result.get() == ButtonType.OK){
     success.setHeaderText("L'entreprise a été supprimée avec succès.");
     success.showAndWait();
 }
-          }
+    }
+          
+      /*    public void rechercherEntreprise() {
+    String recherche = txtRecherche.getText().trim().toLowerCase();
+
+    List<EntreprisePartenaire> resultats = new ArrayList<>();
+
+    for (EntreprisePartenaire entreprise : pcm.getListeEntreprises()) {
+        if (entreprise.getNomEntreprise().contains(recherche) ||
+                entreprise.getNomEntreprise().toLowerCase().contains(recherche) ||
+                entreprise.getTelephone().contains(recherche) ||
+                entreprise.getMatricule().contains(recherche) ||
+                entreprise.getMatricule().toLowerCase().contains(recherche)) {
+            resultats.add(entreprise);
+        }
+    }
+
+    // Effacer le contenu de la table
+    table.getItems().clear();
+
+    // Mettre à jour la table avec les résultats
+    if (resultats.isEmpty()) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Aucun résultat trouvé");
+        alert.setHeaderText("Aucun résultat trouvé pour cette recherche.");
+        alert.showAndWait();
+    } else {
+        table.setItems(FXCollections.observableArrayList(resultats));
+    }
+}*/
+
     }
 
 
