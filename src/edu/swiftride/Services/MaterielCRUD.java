@@ -73,6 +73,36 @@ public class MaterielCRUD implements InterfaceCRUD<Materiel> {
         }
        return materiels;
     }
+      public String getMaterielsWithGId(int id) {
+        
+        List<Materiel> materiels = new ArrayList();
+        String materiel = " ";
+        try {
+            
+            String request="SELECT * FROM materiel WHERE id_garage='"+id+"'" ;
+            
+            PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            while(rs.next()){
+                
+                Materiel m = new Materiel();
+                
+                m.setNom(rs.getString(2));
+                
+                materiels.add(m);
+                
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        for(Materiel m : materiels){
+            materiel=materiel+"\n"+m.getNom();
+        }
+       return materiel;
+    }
 
     @Override
     public boolean modifierEntite(Materiel t) {
@@ -112,35 +142,6 @@ public class MaterielCRUD implements InterfaceCRUD<Materiel> {
        return rslt==1;
     }
  
-    public List getDatas(){
-        
-        List<String> m = new ArrayList();
-        List m1 = new ArrayList();
-        
-        try {
-            String request = "SELECT m.id , m.nom , "
-                    + "g.matricule_garage "
-                    + "FROM materiel m "
-                    + "JOIN garage g ON m.id_garage=g.id ";
-            
-            PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
-            
-            ResultSet st = pst.executeQuery();
-            
-            while(st.next()){
-                m.add(""+st.getInt(1));
-                m.add(""+st.getString(2));
-                m.add(""+st.getString(3));
-             
-               
-            }
-            
-            
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return m1;
-        
-    }
+ 
     
 }

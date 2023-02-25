@@ -73,6 +73,63 @@ public class GarageCRUD implements InterfaceCRUD<Garage>{
         }
        return garages;
     }
+    
+    public List<Garage> displayGarages(){
+        
+        List<Garage> garages = new ArrayList();
+        
+        try {
+            String request = "SELECT (matricule_garage) FROM garage";
+            
+            PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
+            
+            ResultSet rs=  pst.executeQuery(request);
+            
+            while(rs.next()){
+                
+                Garage garage = new Garage();
+                garage.setMatricule_garage(rs.getString(1));
+                
+                garages.add(garage);
+                
+            }
+            
+        } catch (SQLException ex) {
+            
+            System.out.println(ex.getMessage());
+            
+        }
+       return garages;
+    }
+    
+        public List<Garage> getGaragewithMaint(int id){
+        
+        List<Garage> garages = new ArrayList();
+        
+        try {
+            String request = "SELECT * FROM garage WHERE id='"+id+"'";
+            
+            PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
+            
+            ResultSet rs=  pst.executeQuery(request);
+            
+            while(rs.next()){
+                
+                Garage garage = new Garage();
+                garage.setId(rs.getInt(1));
+                garage.setMatricule_garage(rs.getString(2));
+                
+                garages.add(garage);
+                
+            }
+            
+        } catch (SQLException ex) {
+            
+            System.out.println(ex.getMessage());
+            
+        }
+       return garages;
+    }
 
     @Override
     public boolean modifierEntite(Garage t) {

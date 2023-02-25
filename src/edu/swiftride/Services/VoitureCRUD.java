@@ -32,6 +32,9 @@ public class VoitureCRUD {
             
             ResultSet rs = pst.executeQuery();
             
+            MaintenanceCRUD mc = new MaintenanceCRUD();
+            List<Maintenance> mm ;
+            
             while(rs.next()){
                 
                 Voiture m = new Voiture();
@@ -40,6 +43,46 @@ public class VoitureCRUD {
                 m.setMarque(rs.getString(2));
                 
                 materiels.add(m);
+                
+                
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+       return materiels;
+        
+    }
+    
+      public List<Voiture> diplayDetailVoitures(){
+        
+           List<Voiture> materiels = new ArrayList();
+        
+        try {
+            
+            String request="SELECT * FROM voiture" ;
+            
+            PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            MaintenanceCRUD mc = new MaintenanceCRUD();
+            List<Maintenance> mm ;
+            
+            while(rs.next()){
+                
+                Voiture m = new Voiture();
+                
+                m.setId(rs.getInt(1));
+                m.setMarque(rs.getString(2));
+                m.setModel(rs.getString(3));
+                m.setCouleur(rs.getString(5));
+                m.setEtat_technique(rs.getString(6));
+                m.setMatricule(rs.getString(7));
+                m.setDate_circulation(rs.getDate(8));
+                
+                materiels.add(m);
+                
                 
             }
             
