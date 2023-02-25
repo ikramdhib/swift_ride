@@ -16,17 +16,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import static java.time.temporal.TemporalQueries.zoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,8 +43,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -67,11 +62,7 @@ public class MaintenanceController implements Initializable {
      int id_g=0;
      int id_v=0;
     @FXML
-    private AnchorPane logo;
-    @FXML
-    private JFXButton buttonM;
-    @FXML
-    private TableView<Maintenance> tb_maintenaces;
+    private TableView tb_maintenaces;
     @FXML
     private TableColumn tb_id;
     @FXML
@@ -85,8 +76,6 @@ public class MaintenanceController implements Initializable {
     @FXML
     private JFXButton bt_delete;
     @FXML
-    private Pane pane;
-    @FXML
     private TextField tf_recherche;
     @FXML
     private DatePicker pk_date;
@@ -96,10 +85,6 @@ public class MaintenanceController implements Initializable {
     private RadioButton rb_entretien;
     @FXML
     private ToggleGroup type;
-    
-    MaintenanceCRUD mc = new MaintenanceCRUD();
-    
-    public static ObservableList<Maintenance> listM = null;
     @FXML
     private Label lb_date;
     @FXML
@@ -110,6 +95,11 @@ public class MaintenanceController implements Initializable {
     private Label lb_voiture;
     @FXML
     private Label lb_base;
+   
+    
+    MaintenanceCRUD mc = new MaintenanceCRUD();
+    
+    public static ObservableList<Maintenance> listM = null;
     
 
     /**
@@ -117,6 +107,7 @@ public class MaintenanceController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         pk_date.setValue(LocalDate.now());
         
         pk_date.setDayCellFactory(pcker-> new DateCell(){
@@ -132,7 +123,33 @@ public class MaintenanceController implements Initializable {
         getVoitureItems();
         setCellValueFromTableToText();
         
-    }    
+         FilteredList<Maintenance> filtreData = new FilteredList<>(listM , p->true);
+       
+        
+         tf_recherche.textProperty().addListener((observable, oldValue, newValue) ->{
+            filtreData.setPredicate( maintenance ->{
+                
+             if (newValue == null || newValue.isEmpty()) {
+            return true;
+             }
+               
+             String lowerCaseFilter = newValue.toLowerCase();
+             if(maintenance.getType().toLowerCase().contains(lowerCaseFilter)){
+                 
+                 return true;
+             }
+             else if(maintenance.getDate_maintenance().toString().toLowerCase().contains(lowerCaseFilter))
+             {  return true ; }
+             else
+                 return false;
+            });
+       });
+       
+       SortedList<Maintenance> sortedData = new SortedList<>(filtreData);
+       sortedData.comparatorProperty().bind(tb_maintenaces.comparatorProperty());
+       tb_maintenaces.setItems(sortedData);
+       
+    }  
     
     
      public void getGarageItems(){
@@ -355,5 +372,9 @@ public class MaintenanceController implements Initializable {
                 System.out.println("alert closed");
     }
 }
-    }  
+    }
+    
+    
+    
+    
 }

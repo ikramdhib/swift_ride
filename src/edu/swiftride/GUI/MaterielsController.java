@@ -6,8 +6,6 @@
 package edu.swiftride.GUI;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextField;
 import edu.swiftride.Services.GarageCRUD;
 import edu.swiftride.Services.MaterielCRUD;
 import edu.swiftride.entities.Garage;
@@ -19,6 +17,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -88,6 +88,31 @@ public class MaterielsController implements Initializable {
       displayMateriel();
       getGarageItems();
       setCellValueFromTableToText();
+      
+       FilteredList<Materiel> filtreData = new FilteredList<>(listM, p->true);
+         tf_recherche.textProperty().addListener((observable, oldValue, newValue) ->{
+            filtreData.setPredicate( maintenance ->{
+                
+             if (newValue == null || newValue.isEmpty()) {
+            return true;
+             }
+               
+             String lowerCaseFilter = newValue.toLowerCase();
+             
+             if(maintenance.getNom().toLowerCase().contains(lowerCaseFilter)){
+                 
+                 return true;
+               
+             }
+             else
+                 return false;
+            });
+       });
+       
+       SortedList<Materiel> sortedData = new SortedList<>(filtreData);
+       sortedData.comparatorProperty().bind(tb_materiels.comparatorProperty());
+       tb_materiels.setItems(sortedData);
+      
     }    
     
     public void getGarageItems(){

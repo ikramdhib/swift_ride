@@ -124,7 +124,7 @@ public class AjouterGarageController implements Initializable {
         try {
             Stage st = new Stage();
             FXMLLoader load = new FXMLLoader(getClass()
-                    .getResource("materielss.fxml"));
+                    .getResource("garage.fxml"));
             Parent root = load.load();
             Scene sc = new Scene(root);
             

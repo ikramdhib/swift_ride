@@ -14,6 +14,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -53,6 +55,8 @@ public class GarageController implements Initializable {
     private Button bt_delete;
      @FXML
     private Button bt_modify;
+     
+     
       
       
      GarageCRUD gc = new GarageCRUD();
@@ -76,10 +80,36 @@ public class GarageController implements Initializable {
     @FXML
     private Label lb_base;
     
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         displayGarage();
         setCellValueFromTableToText();
+        
+        FilteredList<Garage> filtreData = new FilteredList<>(listG, p->true);
+         tf_recherche.textProperty().addListener((observable, oldValue, newValue) ->{
+            filtreData.setPredicate( maintenance ->{
+                
+             if (newValue == null || newValue.isEmpty()) {
+            return true;
+             }
+               
+             String lowerCaseFilter = newValue.toLowerCase();
+             
+             if(maintenance.getMatricule_garage().toLowerCase().contains(lowerCaseFilter)){
+                 
+                 return true;
+               
+             }
+             else
+                 return false;
+            });
+       });
+       
+       SortedList<Garage> sortedData = new SortedList<>(filtreData);
+       sortedData.comparatorProperty().bind(table_garage.comparatorProperty());
+       table_garage.setItems(sortedData);
        
     } 
     
