@@ -6,6 +6,7 @@
 package edu.swiftride.entities;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -15,7 +16,8 @@ public class Details {
    private String marque ;
    private String model;
    private String matricule ;
-   private Date date_maintenance;
+   private Timestamp date_maintenance;
+   private Timestamp fin_maintenance;
    private String type ;
    private String intitule;
    private String materiels;
@@ -39,15 +41,18 @@ public class Details {
         this.materiels = materiels;
     }
 
-    public Details(String marque, String model, String etat_technique, String couleur, String matricule, Date date_circulation, Date date_maintenance, String type, String intitule, String materiels) {
+    public Details(String marque, String model, String matricule, Timestamp date_maintenance, Timestamp fin_maintenance, String type, String intitule, String materiels) {
         this.marque = marque;
         this.model = model;
         this.matricule = matricule;
         this.date_maintenance = date_maintenance;
+        this.fin_maintenance = fin_maintenance;
         this.type = type;
         this.intitule = intitule;
         this.materiels = materiels;
     }
+
+  
 
   
 
@@ -80,27 +85,37 @@ public class Details {
     }
 
 
-    public void setDate_maintenance(Date date_maintenance) {
-        this.date_maintenance = date_maintenance;
-    }
 
     public void setType(String type) {
         this.type = type;
-    }
-
-
-    public Date getDate_maintenance() {
-        return date_maintenance;
     }
 
     public String getType() {
         return type;
     }
 
+    public Timestamp getDate_maintenance() {
+        return date_maintenance;
+    }
+
+    public Timestamp getFin_maintenance() {
+        return fin_maintenance;
+    }
+
+    public void setDate_maintenance(Timestamp date_maintenance) {
+        this.date_maintenance = date_maintenance;
+    }
+
+    public void setFin_maintenance(Timestamp fin_maintenance) {
+        this.fin_maintenance = fin_maintenance;
+    }
+
     @Override
     public String toString() {
-        return "Details{" + "marque=" + marque + ", model=" + model +  ", matricule=" + matricule +  ", date_maintenance=" + date_maintenance + ", type=" + type + ", intitule=" + intitule + ", materiels=" + materiels + '}';
+        return "Details{" + "marque=" + marque + ", model=" + model + ", matricule=" + matricule + ", date_maintenance=" + date_maintenance + ", fin_maintenance=" + fin_maintenance + ", type=" + type + ", intitule=" + intitule + ", materiels=" + materiels + '}';
     }
+    
+
 
   
 
