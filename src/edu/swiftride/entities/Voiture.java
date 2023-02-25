@@ -6,6 +6,7 @@
 package edu.swiftride.entities;
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  *
@@ -24,6 +25,16 @@ public class Voiture {
    private double prix ;
    private int id_entreprise;
    private int id_utilisateur;
+   
+   private List<Maintenance> list_maintenance;
+
+    public void setList_maintenance(List<Maintenance> list_maintenance) {
+        this.list_maintenance = list_maintenance;
+    }
+
+    public List<Maintenance> getList_maintenance() {
+        return list_maintenance;
+    }
 
     public Voiture(int id, String marque, String model, String etat_technique, String couleur, String matricule, Date date_circulation, double prix, int id_entreprise, int id_utilisateur) {
         this.id = id;
