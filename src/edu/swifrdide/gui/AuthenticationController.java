@@ -150,14 +150,15 @@ import javax.mail.MessagingException;
         @Override
         public void initialize(URL url, ResourceBundle rb) {
             showEntreprisePartenaire();
-            FadeTransition fade = new FadeTransition();
+            //Animation
+           /* FadeTransition fade = new FadeTransition();
             fade.setNode(myImage);
             fade.setDuration(Duration.millis(10000));
             fade.setCycleCount(TranslateTransition.INDEFINITE);
             fade.setInterpolator(Interpolator.LINEAR);
             fade.setFromValue(0);
             fade.setToValue(1);
-            fade.play();
+            fade.play(); */
         }    
         public Connection getConnection(){
             Connection cnn;
@@ -478,7 +479,7 @@ if (!mdp.matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$")) 
         }
         }
 
-          private void supprimerEntreprise(){
+        private void supprimerEntreprise(){
                 EntreprisePartenaire m = new EntreprisePartenaire();
                 EntreprisePartenaire entreprise = table.getSelectionModel().getSelectedItem();
 if(entreprise == null){
@@ -506,46 +507,5 @@ if(result.isPresent() && result.get() == ButtonType.OK){
     success.setHeaderText("L'entreprise a été supprimée avec succès.");
     success.showAndWait();
 }
+    }        
     }
-          
-      /*    public void rechercherEntreprise() {
-    String recherche = txtRecherche.getText().trim().toLowerCase();
-
-    List<EntreprisePartenaire> resultats = new ArrayList<>();
-
-    for (EntreprisePartenaire entreprise : pcm.getListeEntreprises()) {
-        if (entreprise.getNomEntreprise().contains(recherche) ||
-                entreprise.getNomEntreprise().toLowerCase().contains(recherche) ||
-                entreprise.getTelephone().contains(recherche) ||
-                entreprise.getMatricule().contains(recherche) ||
-                entreprise.getMatricule().toLowerCase().contains(recherche)) {
-            resultats.add(entreprise);
-        }
-    }
-
-    // Effacer le contenu de la table
-    table.getItems().clear();
-
-    // Mettre à jour la table avec les résultats
-    if (resultats.isEmpty()) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Aucun résultat trouvé");
-        alert.setHeaderText("Aucun résultat trouvé pour cette recherche.");
-        alert.showAndWait();
-    } else {
-        table.setItems(FXCollections.observableArrayList(resultats));
-    }
-}*/
-
-    }
-
-
-       
-
-
-
-
-
-
-
-
