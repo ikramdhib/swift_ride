@@ -27,15 +27,16 @@ public class Email {
     private static String email;
     private static String nom_admin;
     private static String prenom_admin;
+    private static String nb_voiture;
+    private static int totalCars;
     
      public static void sendEmail() throws AddressException, MessagingException {
          
         // send verification code via email
         String to = email;
         String subject = "Bienvenue à Swift Ride !";
-        String message = "Bonjour " + nom_admin + " " + prenom_admin + ",\n\n" 
-                 + "Bienvenue ! Vous êtes maintenant inscrit à Swift Ride. \n\n"
-                 + "Votre mot de passe est : " + mot_de_passe;
+       String message = "Bonjour " + nom_admin + " " + prenom_admin + ",\n\n" 
+                + "Merci de votre partenariat de location de voitures! Nous sommes ravis de travailler avec vous ,\n\n Grâce à vos "+nb_voiture+ " voitures, nous avons maintenant un impressionnant total de "+ totalCars +" voitures disponibles pour nos clients.\n\n Nous sommes impatients de continuer à renforcer notre partenariat et d'offrir des services de location de voitures exceptionnels à nos clients. \n\n Merci encore! ";
         
         
 
@@ -86,5 +87,16 @@ public class Email {
         Email.prenom_admin = prenom_admin;
     }
     
+     public static int getTotalCars() {
+        return totalCars;
+    }
+
+    public static void setTotalCars(int totalCars) {
+        Email.totalCars = totalCars;
+    }
+
+    public static void setNb_voiture(String nb_voiture) {
+      Email.nb_voiture = nb_voiture;
+    }
     
 }
