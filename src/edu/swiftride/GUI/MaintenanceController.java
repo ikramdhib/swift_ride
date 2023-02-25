@@ -6,6 +6,7 @@
 package edu.swiftride.GUI;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTimePicker;
 import edu.swiftride.Services.GarageCRUD;
 import edu.swiftride.Services.MaintenanceCRUD;
 import edu.swiftride.Services.VoitureCRUD;
@@ -15,7 +16,10 @@ import edu.swiftride.entities.Voiture;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +41,7 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -68,6 +73,8 @@ public class MaintenanceController implements Initializable {
     @FXML
     private TableColumn tb_date;
     @FXML
+    private TableColumn tb_datef;
+    @FXML
     private TableColumn tb_type;
     @FXML
     private JFXButton bt_save;
@@ -95,7 +102,14 @@ public class MaintenanceController implements Initializable {
     private Label lb_voiture;
     @FXML
     private Label lb_base;
-   
+    @FXML 
+    private JFXTimePicker pk_timed;
+    @FXML 
+    private JFXTimePicker pk_timef;
+    @FXML
+    private DatePicker pk_fin;
+     @FXML
+    private Label lb_pk2;
     
     MaintenanceCRUD mc = new MaintenanceCRUD();
     
@@ -119,6 +133,24 @@ public class MaintenanceController implements Initializable {
         }
         });
         
+           pk_fin.setValue(LocalDate.now());
+        
+        pk_fin.setDayCellFactory(pcker-> new DateCell(){
+         public void updateItem(LocalDate date, boolean empty) {
+            super.updateItem(date, empty);
+            LocalDate today = LocalDate.now();
+
+            setDisable(empty || date.compareTo(today) < 0 );
+        }
+        });
+        
+        pk_timed.setIs24HourView(true);
+        pk_timed.setDefaultColor(Color.rgb(255,127,80));
+        pk_timef.setIs24HourView(true);
+        pk_timef.setDefaultColor(Color.rgb(255,127,80));
+        
+        pk_timed.setVisible(true);
+        
         displayMaintenance();
         getVoitureItems();
         setCellValueFromTableToText();
@@ -139,6 +171,8 @@ public class MaintenanceController implements Initializable {
                  return true;
              }
              else if(maintenance.getDate_maintenance().toString().toLowerCase().contains(lowerCaseFilter))
+             {  return true ; }
+              else if(maintenance.getFin_maintenance().toString().toLowerCase().contains(lowerCaseFilter))
              {  return true ; }
              else
                  return false;
@@ -197,14 +231,21 @@ public class MaintenanceController implements Initializable {
     private void saveMaintenance(ActionEvent event) {
         boolean isExiste=false;
         List<Maintenance> l = mc.listDesEntites();
-        LocalDate d =  pk_date.getValue();
+        LocalDate dd =  pk_date.getValue();
+        LocalDate df = pk_fin.getValue();
         
-        Date date = Date.valueOf(d);
-        System.out.println(date);
-        if(!pk_date.isEditable() && !rb_entretien.isPressed()|| !rb_reparation.isPressed() && id_v!=0){
+        LocalTime timed=pk_timed.getValue();
+        LocalTime timef=pk_timef.getValue();
+        
+        LocalDateTime datetimed =LocalDateTime.of(dd,timed);
+        LocalDateTime datetimef =LocalDateTime.of(df,timef);
+        
+        if(!pk_date.isEditable() && pk_fin.isEditable() && pk_timed.isEditable() && pk_timef.isEditable()
+                && !rb_entretien.isPressed()|| !rb_reparation.isPressed() && id_v!=0){
         
         Maintenance m = new Maintenance();
-        m.setDate_maintenance(date);
+        m.setDate_maintenance(Timestamp.valueOf(datetimed));
+        m.setFin_maintenance(Timestamp.valueOf(datetimef));
         m.setId_garage(id_g);
         m.setId_voiture(id_v);
         m.setType(maintenance_type);
@@ -245,9 +286,13 @@ public class MaintenanceController implements Initializable {
         }
         else{
             
-            if(date==Date.valueOf(LocalDate.now())){
+            if(datetimed==LocalDateTime.now()){
              lb_date.setText("* Ce champ est OBLIGATOIRE !");
              lb_date.setTextFill(Color.RED);
+            }
+            if(datetimef==LocalDateTime.now()){
+             lb_pk2.setText("* Ce champ est OBLIGATOIRE !");
+             lb_pk2.setTextFill(Color.RED);
             }
             if(!rb_entretien.isPressed()|| !rb_reparation.isPressed()){
              lb_rd.setText("* Ce champ est OBLIGATOIRE !");
@@ -264,10 +309,10 @@ public class MaintenanceController implements Initializable {
     
     public void displayMaintenance(){
         
-         tb_id.setCellValueFactory(new PropertyValueFactory("id"));
+        tb_id.setCellValueFactory(new PropertyValueFactory("id"));
         tb_date.setCellValueFactory(new PropertyValueFactory("date_maintenance"));
         tb_type.setCellValueFactory(new PropertyValueFactory("type"));
-        
+        tb_datef.setCellValueFactory(new PropertyValueFactory("fin_maintenance"));
         List l = mc.listDesEntites();
         
         listM =FXCollections.observableArrayList(l);
@@ -313,8 +358,13 @@ public class MaintenanceController implements Initializable {
         tb_maintenaces.setOnMouseClicked((MouseEvent event) -> {
             Maintenance m= (Maintenance) tb_maintenaces.getItems().get(tb_maintenaces.getSelectionModel()
                     .getSelectedIndex());
+            LocalDateTime loc = m.getDate_maintenance().toLocalDateTime();
+            LocalDateTime locc = m.getFin_maintenance().toLocalDateTime();
+            pk_date.setValue(loc.toLocalDate());
+            pk_fin.setValue(locc.toLocalDate());
             
-            pk_date.setValue(m.getDate_maintenance().toLocalDate());
+            pk_timed.setValue(loc.toLocalTime());
+            pk_timef.setValue(locc.toLocalTime());
             id = m.getId();
             if(m.getType().equals(rb_entretien.getText())){
             rb_entretien.setSelected(true);
@@ -328,18 +378,20 @@ public class MaintenanceController implements Initializable {
 
     @FXML
     private void modifyMaintenance(ActionEvent event) {
+        LocalDate dd =  pk_date.getValue();
+        LocalDate df = pk_fin.getValue();
         
-        LocalDate d =  pk_date.getValue();
+        LocalTime timed=pk_timed.getValue();
+        LocalTime timef=pk_timef.getValue();
         
-         LocalDate localDate = LocalDate.of(2023, 01, 01);
+        LocalDateTime datetimed =LocalDateTime.of(dd,timed);
+        LocalDateTime datetimef =LocalDateTime.of(df,timef);
         
-        
-        
-        Date date = Date.valueOf(d);
         
         Maintenance m = new Maintenance();
         
-        m.setDate_maintenance(date);
+        m.setDate_maintenance(Timestamp.valueOf(datetimed));
+        m.setFin_maintenance(Timestamp.valueOf(datetimef));
         m.setId_garage(id_g);
         m.setId_voiture(id_v);
         m.setType(maintenance_type);
@@ -352,7 +404,7 @@ public class MaintenanceController implements Initializable {
                 if(res.get() ==ButtonType.OK){
         
                     if(mc.modifierEntite(m)){
-                         pk_date.setValue(localDate);
+                         pk_date.setValue(LocalDate.now());
                           maintenance_type=null;
                     displayMaintenance();
                     }

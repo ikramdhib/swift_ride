@@ -144,18 +144,19 @@
             </JFXButton>
          </children>
       </VBox>
-      <Label layoutX="379.0" layoutY="285.0" prefHeight="31.0" prefWidth="63.0" text="Date :" textFill="WHITE">
+      <Label layoutX="312.0" layoutY="280.0" prefHeight="31.0" prefWidth="63.0" text="De :" textFill="WHITE">
          <font>
             <Font name="FontAwesome Regular" size="17.0" />
          </font></Label>
-      <TableView fx:id="tb_maintenaces" layoutX="713.0" layoutY="273.0" prefHeight="397.0" prefWidth="500.0" stylesheets="@interfacesCss.css">
+      <TableView fx:id="tb_maintenaces" layoutX="706.0" layoutY="223.0" prefHeight="458.0" prefWidth="508.0" stylesheets="@interfacesCss.css">
         <columns>
-          <TableColumn fx:id="tb_id" prefWidth="120.0" text="ID" />
-          <TableColumn fx:id="tb_date" prefWidth="173.0" text="Date" />
-            <TableColumn fx:id="tb_type" prefWidth="202.0" text="Type" />
+          <TableColumn fx:id="tb_id" prefWidth="77.0" text="ID" />
+          <TableColumn fx:id="tb_date" prefWidth="164.0" text="Date_Debut" />
+            <TableColumn fx:id="tb_datef" prefWidth="147.0" text="Date_Fin" />
+            <TableColumn fx:id="tb_type" prefWidth="115.0" text="Type" />
         </columns>
       </TableView>
-      <JFXButton fx:id="bt_save" layoutX="555.0" layoutY="633.0" onAction="#saveMaintenance" text="Ajouter" textFill="WHITE">
+      <JFXButton fx:id="bt_save" layoutX="555.0" layoutY="619.0" onAction="#saveMaintenance" text="Ajouter" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -215,9 +216,9 @@
             </ImageView>
          </children>
       </Pane>
-      <TextField fx:id="tf_recherche" layoutX="877.0" layoutY="215.0" prefHeight="41.0" prefWidth="240.0" styleClass="ListView" />
-      <DatePicker fx:id="pk_date" layoutX="494.0" layoutY="280.0" prefHeight="41.0" prefWidth="198.0" />
-      <RadioButton fx:id="rb_reparation" layoutX="365.0" layoutY="376.0" mnemonicParsing="false" onAction="#getMaintenance" text="Réparation" textFill="WHITE">
+      <TextField fx:id="tf_recherche" layoutX="893.0" layoutY="157.0" prefHeight="41.0" prefWidth="240.0" styleClass="ListView" />
+      <DatePicker fx:id="pk_date" layoutX="416.0" layoutY="275.0" prefHeight="41.0" prefWidth="198.0" />
+      <RadioButton fx:id="rb_reparation" layoutX="339.0" layoutY="556.0" mnemonicParsing="false" onAction="#getMaintenance" text="Réparation" textFill="WHITE">
          <font>
             <Font name="FontAwesome Regular" size="17.0" />
          </font>
@@ -225,34 +226,29 @@
             <ToggleGroup fx:id="type" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="rb_entretien" layoutX="566.0" layoutY="376.0" mnemonicParsing="false" onAction="#getMaintenance" text="Entretien" textFill="WHITE" toggleGroup="$type">
+      <RadioButton fx:id="rb_entretien" layoutX="557.0" layoutY="556.0" mnemonicParsing="false" onAction="#getMaintenance" text="Entretien" textFill="WHITE" toggleGroup="$type">
          <font>
             <Font name="FontAwesome Regular" size="17.0" />
          </font>
       </RadioButton>
-      <Label layoutX="352.0" layoutY="540.0" prefHeight="31.0" prefWidth="91.0" text="Voiture :" textFill="WHITE">
+      <Label layoutX="304.0" layoutY="473.0" prefHeight="31.0" prefWidth="91.0" text="Voiture :" textFill="WHITE">
          <font>
             <Font name="FontAwesome Regular" size="17.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cb_voiture" layoutX="501.0" layoutY="540.0" prefHeight="41.0" prefWidth="185.0" />
-      <Label fx:id="lb_date" layoutX="456.0" layoutY="330.0" prefHeight="31.0" prefWidth="240.0" />
-      <Label fx:id="lb_rd" layoutX="441.0" layoutY="406.0" prefHeight="31.0" prefWidth="240.0" />
-      <Label fx:id="lb_voiture" layoutX="488.0" layoutY="602.0" prefHeight="27.0" prefWidth="211.0" />
-      <Label fx:id="lb_base" layoutX="508.0" layoutY="708.0" prefHeight="41.0" prefWidth="211.0" />
-      <Label layoutX="800.0" layoutY="225.0" text="Filtrer : " textFill="WHITE">
+      <ComboBox fx:id="cb_voiture" layoutX="423.0" layoutY="468.0" prefHeight="41.0" prefWidth="185.0" />
+      <Label fx:id="lb_date" layoutX="407.0" layoutY="331.0" prefHeight="31.0" prefWidth="240.0" />
+      <Label fx:id="lb_rd" layoutX="375.0" layoutY="588.0" prefHeight="31.0" prefWidth="240.0" />
+      <Label fx:id="lb_voiture" layoutX="381.0" layoutY="519.0" prefHeight="27.0" prefWidth="211.0" />
+      <Label fx:id="lb_base" layoutX="339.0" layoutY="624.0" prefHeight="41.0" prefWidth="198.0" />
+      <Label layoutX="792.0" layoutY="168.0" text="Filtrer : " textFill="WHITE">
          <font>
             <Font name="FontAwesome Regular" size="17.0" />
          </font>
       </Label>
-      <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="1078.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="1095.0" layoutY="163.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../images/icons8-search-64.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="161.0" fitWidth="325.0" layoutX="233.0" layoutY="618.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../images/assurer-voiture-removebg-preview.png" />
          </image>
       </ImageView>
       <JFXButton fx:id="bt_impr" layoutX="732.0" layoutY="683.0" text="Imprimer" textFill="WHITE">
@@ -267,7 +263,14 @@
             <Font name="FontAwesome Regular" size="17.0" />
          </font>
       </JFXButton>
-      <JFXTimePicker layoutX="596.0" layoutY="442.0" prefHeight="29.0" prefWidth="30.0" />
-      <JFXTimePicker layoutX="423.0" layoutY="442.0" prefHeight="29.0" prefWidth="24.0" />
+      <JFXTimePicker fx:id="pk_timed" layoutX="629.0" layoutY="281.0" prefHeight="29.0" prefWidth="30.0" />
+      <JFXTimePicker fx:id="pk_timef" layoutX="629.0" layoutY="383.0" prefHeight="29.0" prefWidth="24.0" />
+      <DatePicker fx:id="pk_fin" layoutX="416.0" layoutY="377.0" prefHeight="41.0" prefWidth="198.0" />
+      <Label layoutX="304.0" layoutY="382.0" prefHeight="31.0" prefWidth="79.0" text="Jusqu'à:" textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lb_pk2" layoutX="367.0" layoutY="431.0" prefHeight="31.0" prefWidth="239.0" />
    </children>
 </AnchorPane>

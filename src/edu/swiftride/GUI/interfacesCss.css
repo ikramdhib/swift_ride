@@ -24,10 +24,10 @@ and open the template in the editor.
         
     }
 .table-view .column-header, .table-view .filler{
-        -fx-size:50px;
+        -fx-size:40px;
         -fx-border-width: 0 0 5 0;
         -fx-background-color:transparent;
-        -fx-font: bold 20px FontAwesome;
+        -fx-font: bold 17px FontAwesome;
         
     }
     
