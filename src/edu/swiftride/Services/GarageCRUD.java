@@ -79,7 +79,7 @@ public class GarageCRUD implements InterfaceCRUD<Garage>{
         List<Garage> garages = new ArrayList();
         
         try {
-            String request = "SELECT (matricule_garage) FROM garage";
+            String request = "SELECT id, matricule_garage FROM garage";
             
             PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
             
@@ -88,8 +88,8 @@ public class GarageCRUD implements InterfaceCRUD<Garage>{
             while(rs.next()){
                 
                 Garage garage = new Garage();
-                garage.setMatricule_garage(rs.getString(1));
-                
+                garage.setMatricule_garage(rs.getString(2));
+                garage.setId(rs.getInt(1));
                 garages.add(garage);
                 
             }

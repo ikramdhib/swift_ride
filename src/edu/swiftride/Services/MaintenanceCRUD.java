@@ -4,9 +4,11 @@ package edu.swiftride.Services;
 import edu.swiftride.entities.Maintenance;
 import edu.swiftride.interfaces.InterfaceCRUD;
 import edu.swiftride.utils.Connect;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -156,6 +158,38 @@ public class MaintenanceCRUD implements InterfaceCRUD<Maintenance>{
         try {
             String request ="SELECT * FROM maintenance WHERE id_voiture='"+t.getId_voiture()+"'"
                     + " AND date_maintenance='"+t.getDate_maintenance()+"' ";
+            
+            PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
+            
+            ResultSet rs = pst.executeQuery();
+         while(rs.next()){
+                
+               Maintenance m = new Maintenance();
+                
+                m.setId(rs.getInt(1));
+                m.setDate_maintenance(rs.getTimestamp(2));
+                m.setType(rs.getString(3));
+                m.setFin_maintenance(rs.getTimestamp(4));
+                m.setId_voiture(5);
+                m.setId_garage(rs.getInt(6));
+                
+                maintenances.add(m);
+                
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+       return maintenances;
+        
+    }
+    
+       public List getMaintenaceWithDateAndGarageId(int id , Date d){
+        List<Maintenance> maintenances = new ArrayList();
+        
+        try {
+            String request ="SELECT * FROM maintenance WHERE id_garage='"+id+"'"
+                    + " AND DATE(date_maintenance)='"+d+"' ";
             
             PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
             
