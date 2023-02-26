@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTimePicker?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -272,5 +273,10 @@
          </font>
       </Label>
       <Label fx:id="lb_pk2" layoutX="367.0" layoutY="431.0" prefHeight="31.0" prefWidth="239.0" />
+      <JFXToggleButton fx:id="active" layoutX="334.0" layoutY="168.0" onAction="#actionButton" text="Activer" textFill="WHITE" toggleColor="#f68d4c" toggleLineColor="#eea981" unToggleColor="#c90e0e" unToggleLineColor="#973939">
+         <font>
+            <Font name="FontAwesome Regular" size="17.0" />
+         </font>
+      </JFXToggleButton>
    </children>
 </AnchorPane>

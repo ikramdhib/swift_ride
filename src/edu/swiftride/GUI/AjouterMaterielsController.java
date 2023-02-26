@@ -135,6 +135,20 @@ public class AjouterMaterielsController implements Initializable {
 
     @FXML
     private void close(ActionEvent event) {
+        
+         try {
+            Stage st = new Stage();
+            FXMLLoader load = new FXMLLoader(getClass()
+                    .getResource("details.fxml"));
+            Parent root = load.load();
+            Scene sc = new Scene(root);
+            
+            st.setScene(sc);
+            st.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
            Stage stage = (Stage) clodebt.getScene().getWindow();
     stage.close();
     }

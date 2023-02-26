@@ -7,19 +7,25 @@ package edu.swiftride.GUI;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.controls.JFXToggleButton;
 import edu.swiftride.Services.GarageCRUD;
 import edu.swiftride.Services.MaintenanceCRUD;
 import edu.swiftride.Services.VoitureCRUD;
 import edu.swiftride.entities.Garage;
 import edu.swiftride.entities.Maintenance;
 import edu.swiftride.entities.Voiture;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,7 +56,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
 /**
  * FXML Controller class
  *
@@ -110,6 +115,8 @@ public class MaintenanceController implements Initializable {
     private DatePicker pk_fin;
      @FXML
     private Label lb_pk2;
+     @FXML
+     private JFXToggleButton active;
     
     MaintenanceCRUD mc = new MaintenanceCRUD();
     
@@ -121,7 +128,7 @@ public class MaintenanceController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+       
         pk_date.setValue(LocalDate.now());
         
         pk_date.setDayCellFactory(pcker-> new DateCell(){
@@ -182,6 +189,7 @@ public class MaintenanceController implements Initializable {
        SortedList<Maintenance> sortedData = new SortedList<>(filtreData);
        sortedData.comparatorProperty().bind(tb_maintenaces.comparatorProperty());
        tb_maintenaces.setItems(sortedData);
+       
        
     }  
     
@@ -427,6 +435,203 @@ public class MaintenanceController implements Initializable {
     }
     
     
+    public Maintenance getDispTime(List<Garage> garages ){
+        
+       Maintenance m = new Maintenance();
+       
+       for(Garage g : garages){
+           
+           List<Maintenance> listm = mc.getMaintenaceWithDateAndGarageId(g.getId(), Date.valueOf(LocalDate.now().plusDays(30)));
+           
+           System.out.println(" fkkk"+Date.valueOf(LocalDate.now().plusDays(30)));
+           
+           
+        LocalDateTime dateTime = LocalDateTime.now().plusDays(30);
+        System.out.println(" fkkk"+LocalDateTime.now().plusDays(30));
+        
+        LocalDateTime newDateTime = dateTime.withHour(8).withMinute(30).withSecond(0);
+        System.out.println(" fkkk8888"+newDateTime);
+        
+        LocalDateTime newDateTime2 = dateTime.withHour(17).withMinute(30).withSecond(0);
+        
+        System.out.println("tyt"+listm.size());
+        if(listm.size()!=0){
+           for(int i=0 ;i<listm.size() ;i++){
+               System.err.println("ee"+listm.get(i).getDate_maintenance().toLocalDateTime().withSecond(0).minusHours(1));
+               
+               if(listm.get(i).getDate_maintenance().toLocalDateTime().withSecond(0).minusHours(1).isAfter(newDateTime)){
+                    System.out.println("tyt");
+                  m.setDate_maintenance( Timestamp.valueOf(listm.get(i).getDate_maintenance().toLocalDateTime().minusHours(1)));
+                    m.setId_garage(g.getId());
+                   break;
+               }
+               
+               else if(listm.get(listm.size()-1).getFin_maintenance().toLocalDateTime().plusHours(1).isBefore(newDateTime2)){
+                   
+                   m.setDate_maintenance(Timestamp.valueOf(listm.get(i).getDate_maintenance().toLocalDateTime().plusDays(1)));
+                   m.setId_garage(g.getId());
+                    break;
+               }
+               
+               else{
+                   
+                   LocalTime time1 = listm.get(i).getFin_maintenance().toLocalDateTime().toLocalTime();
+                   LocalTime time2 = listm.get(i+1).getFin_maintenance().toLocalDateTime().toLocalTime();
+                   
+                   
+                   if(time1.until(time2, ChronoUnit.HOURS)>=2){
+                       
+                        m.setDate_maintenance(Timestamp.valueOf(listm.get(i).getFin_maintenance().toLocalDateTime().plusHours(1)));
+                        m.setId_garage(g.getId());
+                       break;
+                   }
+                   
+               }
+           }
+          
+           }
+        else{
+            System.out.println("khrajet");
+            m.setId_garage(g.getId());
+            m.setDate_maintenance(Timestamp.valueOf(newDateTime));
+            break;
+        }
+           
+       }
+        
+        return m;
+    }
     
+      
+    public void EntretintAuto(){
+        
+        System.out.println("fom activate");
+        
+        VoitureCRUD vc = new VoitureCRUD();
+        
+        GarageCRUD gc = new  GarageCRUD();
+        
+        List<Garage> listg = gc.displayGarages();
+        
+        System.out.println("fomautogg"+listg);
+        
+       List <Voiture> voitures = vc.diplayDetailVoitures();
+       
+       for(Voiture v : voitures){
+           
+          int ageV = Period.between( v.getDate_circulation().toLocalDate() , LocalDate.now()).getYears();
+           System.out.println("fomauto1"+ageV);
+           
+           if(ageV>=3){
+               System.out.println("fomauto"+v);
+               
+               List<Maintenance> listm = mc.getwithCarId(v.getId());
+               
+               if(listm.isEmpty()){
+                   System.out.println("ff"+listm);
+                   Maintenance m ;
+                   Maintenance newM = new Maintenance();
+                   
+                  m = getDispTime(listg);
+                   System.out.println("fomauto8"+m);
+                   newM.setDate_maintenance(m.getDate_maintenance());
+                   newM.setFin_maintenance(Timestamp.valueOf(m.getDate_maintenance().toLocalDateTime().plusHours(1)));
+                   newM.setType("Entretien");
+                   newM.setId_garage(m.getId_garage());
+                   newM.setId_voiture(v.getId());
+                   
+                   mc.ajouterEntitie(newM);
+                   System.out.println("fomauto9"+newM);
+                   
+                   //partie sms
+                   
+                   
+                   
+               }
+               
+               else if (listm.size()>0){
+                   
+                   for(int i=0 ; i<listm.size() ; i++){
+                       
+                       System.out.println("tes1"+ (listm.get(listm.size()-1)));
+                       LocalDate d1 = listm.get(listm.size()-1).getDate_maintenance().toLocalDateTime().toLocalDate();
+                       LocalDate d2 = LocalDate.now();
+                       
+                       int an =Period.between(d1, d2).getYears();
+                       
+                       if(an>=1){
+                           
+                        Maintenance m ;
+                        Maintenance newM = new Maintenance();
+
+                         m = getDispTime(listg);
+
+                        newM.setDate_maintenance(m.getDate_maintenance());
+                        newM.setFin_maintenance(Timestamp.valueOf(m.getDate_maintenance().toLocalDateTime().plusHours(1)));
+                        newM.setType("Entretien");
+                        newM.setId_garage(m.getId());
+                        newM.setId_voiture(v.getId());
+                        mc.ajouterEntitie(newM);
+                        //partie sms 
+                       }
+                       else{
+                           
+                           System.out.println("tout est bien");
+                       }
+                       
+                   }
+                   
+               }
+               
+           }
+           
+       }
+        
+        
+    }
+    
+    public void actionButton(){
+        
+        EntretintAuto();
+        displayMaintenance();
+        
+    }
+    
+//    public void sendSMS(int number){
+//        
+//        
+//         try {
+//            // Construct data
+//            String apiKey = "apikey=" + "NDI0YTY3NDI3MzZlNjkzMjQ1Mzc0OTMzNDg3OTMzNzQ=";
+//            String message = "&message=" + "Greetings from Simplifying Tech! Have a nice day!";
+//            String sender = "&sender=" + "SWIFTRIDE";
+//            String numbers = "&numbers=" + "+21650711246";
+// 
+//            // Send data
+//            HttpURLConnection conn = (HttpURLConnection) new URL("https://api.textlocal.in/send/?").openConnection();
+//            String data = apiKey + numbers + message + sender;
+//            conn.setDoOutput(true);
+//            conn.setRequestMethod("POST");
+//            conn.setRequestProperty("Content-Length", Integer.toString(data.length()));
+//            conn.getOutputStream().write(data.getBytes("UTF-8"));
+//             
+//             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//            StringBuffer stringBuffer = new StringBuffer();
+//            String line;
+//            while ((line = rd.readLine()) != null) {
+//                stringBuffer.append(line).append("\n");
+//            }
+//            System.out.println(stringBuffer.toString());
+//            rd.close();
+// 
+// 
+//        } catch (Exception e) {
+//           e.printStackTrace();
+//        }
+//        
+//        
+//        
+//    }
+//    
     
 }

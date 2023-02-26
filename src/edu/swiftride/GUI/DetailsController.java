@@ -28,14 +28,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import static org.apache.poi.hssf.usermodel.HeaderFooter.file;
 
@@ -196,6 +201,7 @@ public class DetailsController implements Initializable {
     
     
     
+    @FXML
     public void exporterExcel(){
         
         try {
@@ -246,6 +252,56 @@ public class DetailsController implements Initializable {
                     a.close();
                 }
             System.out.println("Table data exported to " + outputFile.getAbsolutePath());
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void goMaintenance(ActionEvent event) {
+        
+           try {
+            Stage st = new Stage();
+            FXMLLoader load = new FXMLLoader(getClass()
+                    .getResource("maintenance.fxml"));
+            Parent root = load.load();
+            Scene sc = new Scene(root);
+            
+            st.setScene(sc);
+            st.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+    }
+
+    @FXML
+    private void goGarage(ActionEvent event) {
+           try {
+            Stage st = new Stage();
+            FXMLLoader load = new FXMLLoader(getClass()
+                    .getResource("garage.fxml"));
+            Parent root = load.load();
+            Scene sc = new Scene(root);
+            
+            st.setScene(sc);
+            st.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void goMateriels(ActionEvent event) {
+           try {
+            Stage st = new Stage();
+            FXMLLoader load = new FXMLLoader(getClass()
+                    .getResource("materielss.fxml"));
+            Parent root = load.load();
+            Scene sc = new Scene(root);
+            
+            st.setScene(sc);
+            st.show();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
