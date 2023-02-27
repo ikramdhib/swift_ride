@@ -5,13 +5,20 @@
  */
 package pidev.gui;
 
+import com.jfoenix.controls.JFXCheckBox;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -20,6 +27,8 @@ import java.util.Random;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,18 +36,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-
 import pidev.entities.User;
 import pidev.services.UserCRUD;
 import pidev.utils.EncryptPassword;
+
 
 /**
  * FXML Controller class
@@ -64,8 +73,6 @@ public class SignupController implements Initializable {
     @FXML
     private TextField tfnum_tel;
     @FXML
-    private TextField tfville;
-    @FXML
     private Button btnphoto_personnel;
     @FXML
     private Button btnphoto_permi;
@@ -80,13 +87,32 @@ public class SignupController implements Initializable {
     @FXML
     private Button bngenerate;
     @FXML
-    private TextField tfgenpass;
+    private PasswordField tfgenpass;
+    @FXML
+    private TextField tfage;
+     List<String> items = Arrays.asList("Ariana", "Beja ", "Ben Arous ", "Bizerte", "Gabes", "Gafsa ", "Jendouba", "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine", "Monastir", "Nabeul", "Sfax", "Sidi Bou Zid", "Siliana", "Sousse", "Tataouine ", "Tozeur", "Tunis", "Zaghouan");
+    @FXML
+    private ComboBox<String> cbville;
+    @FXML
+    private JFXCheckBox cbshowpass;
+    @FXML
+    private TextField tfshowedpass;
+    @FXML
+    private TextField passtextfield;
+    @FXML
+    private JFXCheckBox cbshowpass1;
 
+    
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        listeVille();
+        cbville.getSelectionModel().selectFirst();
+        tfage.setEditable(false);
         // TODO
         date_naissance.setValue(LocalDate.now().minusYears(18));
         date_naissance.setDayCellFactory(picker -> {
@@ -102,9 +128,25 @@ public class SignupController implements Initializable {
                 }
             };
         });
+        tfage.setText(calculerAge(date_naissance.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))));
+      
+       
+             date_naissance.valueProperty().addListener((observable, oldValue , newValue) -> {
+                 if(oldValue!=newValue)
+                      tfage.setText(calculerAge(newValue.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))));
+           
+        });
+       
     }
+    public void listeVille() {
 
-    @FXML
+       
+
+        ObservableList listville = FXCollections.observableArrayList(items);
+        cbville.setItems(listville);
+    }
+    
+@FXML
     private void PhotoPersonnel(ActionEvent event) {
 
         try {
@@ -147,7 +189,7 @@ public class SignupController implements Initializable {
         if (tfcin.getText().isEmpty() || tfnom.getText().isEmpty()
                 || tfprenom.getText().isEmpty() || tfemail.getText().isEmpty()
                 || date_naissance.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")).isEmpty() || tfnum_permi.getText().isEmpty()
-                || tfville.getText().isEmpty() || tfnum_tel.getText().isEmpty()
+                 || tfnum_tel.getText().isEmpty()
                 || tfemail.getText().isEmpty() || pfpassword.getText().isEmpty()) {
             showAlert(Alert.AlertType.ERROR, owner, "Echec!", "il reste un ou des champs vides!");
         } else if (!(validateEmail(tfemail))) {
@@ -191,7 +233,7 @@ public class SignupController implements Initializable {
                 user.setDate_naiss(date_naissance.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
                 user.setAge(calculerAge(date_naissance.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))));
                 user.setNum_permis(tfnum_permi.getText());
-                user.setVille(tfville.getText());
+                user.setVille(cbville.getSelectionModel().getSelectedItem());
                 user.setNum_tel(tfnum_tel.getText());
                 user.setIdrole(2);
                 user.setEmail(tfemail.getText());
@@ -292,5 +334,28 @@ public class SignupController implements Initializable {
         tfgenpass.setText(substractedemail+randomNumber);
         }
     }
-
+       @FXML
+    private void showPassword(){
+        if (cbshowpass.isSelected()){
+            tfshowedpass.setText(tfgenpass.getText());
+            tfshowedpass.setVisible(true);
+            tfgenpass.setVisible(false);
+            return;
+        }
+          tfgenpass.setText(tfshowedpass.getText());
+            tfgenpass.setVisible(true);
+            tfshowedpass.setVisible(false);
+    }
+    @FXML
+    private void showPassword1(){
+        if (cbshowpass1.isSelected()){
+            passtextfield.setText(pfpassword.getText());
+            passtextfield.setVisible(true);
+            pfpassword.setVisible(false);
+            return;
+        }
+          pfpassword.setText(passtextfield.getText());
+            pfpassword.setVisible(true);
+            passtextfield.setVisible(false);
+    }
 }

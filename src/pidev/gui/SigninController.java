@@ -5,6 +5,14 @@
  */
 package pidev.gui;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.jfoenix.controls.JFXCheckBox;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +34,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import pidev.entities.User;
@@ -56,13 +66,51 @@ public class SigninController implements Initializable {
     private Label lblServer;
     @FXML
     private Hyperlink linkforgetpassword;
+    @FXML
+    private JFXCheckBox cbshowpass;
+    @FXML
+    private TextField tfshowedpass;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            String myWeb = "http://java-buddy.blogspot.com/";
+            int width = 300;
+            int height = 300;
+            
+            BufferedImage bufferedImage = null; 
+            BitMatrix byteMatrix = qrCodeWriter.encode(myWeb, BarcodeFormat.QR_CODE, width, height);
+            bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            bufferedImage.createGraphics();
+            
+            Graphics2D graphics = (Graphics2D) bufferedImage.getGraphics();
+            graphics.setColor(Color.WHITE);
+            graphics.fillRect(0, 0, width, height);
+            graphics.setColor(Color.BLACK);
+            
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    if (byteMatrix.get(i, j)) {
+                        graphics.fillRect(i, j, 1, 1);
+                    }
+                }
+            }
+            
+            System.out.println("Success...");
+            
+            
+            
+            ImageView qrView = new ImageView();
+            
+            qrView.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
+            // TODO
+        } catch (WriterException ex) {
+            Logger.getLogger(SigninController.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 @FXML
     private void forgetPasswordPage(ActionEvent event) {
@@ -102,7 +150,7 @@ public class SigninController implements Initializable {
             } else if (uc.authentifier(user)) {
                 try {
                     user.setAge(calculerAge(uc.getUserByEmail(user.getEmail()).getDate_naiss()));
-                    uc.updateAge(user.getAge());
+                    uc.updateAge(uc.getUserByEmail(user.getEmail()).getId(),user.getAge());
                     System.out.println(pfpasswordtoconnect.getText());
                     UserSession.getInstace(user.getEmail(), pfpasswordtoconnect.getText());
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
@@ -158,6 +206,18 @@ public class SigninController implements Initializable {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+    @FXML   
+    private void showPassword(){
+        if (cbshowpass.isSelected()){
+            tfshowedpass.setText(pfpasswordtoconnect.getText());
+            tfshowedpass.setVisible(true);
+            pfpasswordtoconnect.setVisible(false);
+            return;
+        }
+          pfpasswordtoconnect.setText(tfshowedpass.getText());
+            pfpasswordtoconnect.setVisible(true);
+            tfshowedpass.setVisible(false);
     }
 
 }

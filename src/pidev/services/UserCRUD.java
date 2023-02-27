@@ -110,7 +110,7 @@ public class UserCRUD implements InterfaceCRUD<User> {
     @Override
     public List<User> consulterListe() {
         List<User> myList = new ArrayList<>();
-        String requete = "SELECT id,nom,prenom,cin,date_naiss,num_permis,ville,num_tel,login FROM utilisateur where idrole = " 
+        String requete = "SELECT id,nom,prenom,cin,date_naiss,num_permis,ville,num_tel,login,age FROM utilisateur where idrole = " 
                 + "'" + 2 + "'";
         try {
             Statement st = Connexion.getInstance().getCnx().createStatement();
@@ -127,6 +127,7 @@ public class UserCRUD implements InterfaceCRUD<User> {
                 u.setVille(rs.getNString(7));
                 u.setNum_tel(rs.getNString(8));
                 u.setEmail(rs.getNString(9));
+                u.setAge(rs.getNString(10));
                 myList.add(u);
             }
 
@@ -198,7 +199,7 @@ public class UserCRUD implements InterfaceCRUD<User> {
     public User getUserByEmail(String email) {
         User u = new User();
         try {
-            String requete = "SELECT id,nom,prenom,cin,num_permis,ville,num_tel,login,mdp,idrole,photo_personel,photo_permis,date_naiss FROM utilisateur where login = " + "'" + email + "'";
+            String requete = "SELECT id,nom,prenom,cin,num_permis,ville,num_tel,login,mdp,idrole,photo_personel,photo_permis,date_naiss,age FROM utilisateur where login = " + "'" + email + "'";
             Statement st = Connexion.getInstance().getCnx().createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
@@ -215,6 +216,7 @@ public class UserCRUD implements InterfaceCRUD<User> {
                 u.setPhoto_personel(rs.getNString(11));
                 u.setPhoto_permis(rs.getNString(12));
                 u.setDate_naiss(rs.getString(13));
+                u.setAge(rs.getString(14));
                 System.out.println("Get user by email Done!");
             }
         } catch (SQLException ex) {
@@ -225,7 +227,7 @@ public class UserCRUD implements InterfaceCRUD<User> {
 
     @Override
     public void uploadPhotoPersonnel(User t) throws IOException {
-        File dossierDest = new File("PhotoPersonnel");
+        File dossierDest = new File("C:/wamp6/www/img/PhotoPersonnel");
         if (!dossierDest.exists()) {
             dossierDest.mkdirs();
         }
@@ -257,7 +259,7 @@ public class UserCRUD implements InterfaceCRUD<User> {
 
     @Override
     public void uploadPhotoPermis(User t) throws IOException {
-        File dossierDest = new File("PhotoPermis");
+        File dossierDest = new File("C:/wamp6/www/img/PhotoPermis");
         if (!dossierDest.exists()) {
             dossierDest.mkdirs();
         }
@@ -288,9 +290,10 @@ public class UserCRUD implements InterfaceCRUD<User> {
     }
 
     @Override
-    public void updateAge(String a) {
+    public void updateAge(int id,String age) {
  try {
-            String requete = "UPDATE utilisateur SET age = '" + a + "'";
+            String requete = "UPDATE utilisateur SET age = '" + age + "'"
+                    + "WHERE id = '"+ id +"'";
                    
             PreparedStatement pst = Connexion.getInstance().getCnx().prepareStatement(requete);
            pst.executeUpdate(requete);

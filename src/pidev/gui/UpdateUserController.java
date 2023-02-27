@@ -23,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -65,13 +66,18 @@ public class UpdateUserController implements Initializable {
     private Button btnprofile;
     UserCRUD uc = new UserCRUD();
     User user = new User();
+    @FXML
+    private Label num_tellabel;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+ if ((uc.getUserByEmail(UserSession.getEmail()).getIdrole() == 1)) {
+     tfnum_tel.setVisible(false);
+     num_tellabel.setVisible(false);
+ }
         user = uc.getUserByEmail(UserSession.getEmail());
         tfnom.setText(user.getNom());
         tfprenom.setText(user.getPrenom());

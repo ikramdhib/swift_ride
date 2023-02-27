@@ -21,6 +21,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import pidev.entities.User;
 import pidev.services.UserCRUD;
@@ -33,30 +35,32 @@ import pidev.utils.UserSession;
  */
 public class ConsulterClientController implements Initializable {
 
-    private User currentSelectedUser=new User();
+    
     UserCRUD uc = new UserCRUD();
     @FXML
-    private ImageView ivphoto_personnel;
+    private static Circle ivphoto_personnel;
     @FXML
-    private ImageView ivphoto_permis;
+    private static ImageView ivphoto_permis;
     @FXML
     private Button btnconsulterliste;
     @FXML
     private Button btnlogout;
     @FXML
-    private Label tfnom;
+    public  Label tfnom;
+private User currentSelectedUser=new User();
+   
     @FXML
-    private Label tfprenom;
+    private   Label tfprenom;
     @FXML
-    private Label tfemail;
+    private  Label tfemail;
     @FXML
-    private Label tfnum_tel;
+    private  Label tfnum_tel;
     @FXML
-    private Label tfnum_permis;
+    private  Label tfnum_permis;
     @FXML
-    private Label tfville;
+    private  Label tfville;
     @FXML
-    private Label tfcin;
+    private  Label tfcin;
 
     /**
      * Initializes the controller class.
@@ -83,7 +87,7 @@ public class ConsulterClientController implements Initializable {
             stream1 = new FileInputStream(u.getPhoto_permis());
             Image photopersonnel = new Image(stream);
             Image photopermis = new Image(stream1);
-            ivphoto_personnel.setImage(photopersonnel);
+              ivphoto_personnel.setFill(new ImagePattern(photopersonnel));
             ivphoto_permis.setImage(photopermis);
         } catch (FileNotFoundException ex) {
 
@@ -94,6 +98,8 @@ public class ConsulterClientController implements Initializable {
     /*public void setNom(String text){
         this.tfnom.setText(text);
     }*/
+
+
 
     public Stage clientProfile() {
         Stage stage = new Stage();

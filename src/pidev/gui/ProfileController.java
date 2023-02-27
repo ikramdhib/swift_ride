@@ -5,12 +5,23 @@
  */
 package pidev.gui;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.jfoenix.controls.JFXButton;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +32,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import pidev.entities.User;
 import pidev.services.UserCRUD;
@@ -34,7 +48,7 @@ import pidev.utils.UserSession;
 public class ProfileController implements Initializable {
 
     @FXML
-    private ImageView ivphoto_personnel;
+    private Circle ivphoto_personnel;
     @FXML
     private ImageView ivphoto_permis;
     @FXML
@@ -58,20 +72,61 @@ public class ProfileController implements Initializable {
     @FXML
     private Button btnconsulterliste;
     UserCRUD uc = new UserCRUD();
-
+    @FXML
+    private Label tfage;
+    @FXML
+    private Label tfphotopermis;
+    @FXML
+    private Label tfphotoperssonel;
+  
+    QRCodeWriter qrCodeWriter = new QRCodeWriter();
+    @FXML
+    private ImageView QRcodeView;
+    @FXML
+    private Label num_tellabel;
+    @FXML
+    private Label num_permislabel;
+    @FXML
+    private Label villelabel;
+    @FXML
+    private Label cinlabel;
+    @FXML
+    private Label agelabel;
+    @FXML
+    private JFXButton bngenerate;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        QRcodeView.setVisible(false);
+         User user = uc.getUserByEmail(UserSession.getEmail());
+        
         if ((uc.getUserByEmail(UserSession.getEmail()).getIdrole() == 2)) {
             btnconsulterliste.setVisible(false);
+        }
+          if ((uc.getUserByEmail(UserSession.getEmail()).getIdrole() == 1)) {
+            ivphoto_personnel.setVisible(false);
+             ivphoto_permis.setVisible(false);
+             tfphotoperssonel.setVisible(false);
+             tfphotopermis.setVisible(false);
+             num_tellabel.setVisible(false);
+             num_permislabel.setVisible(false);
+             cinlabel.setVisible(false);
+             agelabel.setVisible(false);
+             tfage.setVisible(false);
+             cin.setVisible(false);
+             num_permis.setVisible(false);
+             num_tel.setVisible(false);
+             QRcodeView.setVisible(false);
+             bngenerate.setVisible(false);
+
         }
 
         InputStream stream = null;
         InputStream stream1 = null;
         try {
-            User user = uc.getUserByEmail(UserSession.getEmail());
+           
             nom.setText(user.getNom());
             prenom.setText(user.getPrenom());
             email.setText(user.getEmail());
@@ -79,11 +134,13 @@ public class ProfileController implements Initializable {
             num_permis.setText(user.getNum_permis());
             Ville.setText(user.getVille());
             cin.setText(user.getCin());
+            tfage.setText(user.getAge());
             stream = new FileInputStream(user.getPhoto_personel());
             stream1 = new FileInputStream(user.getPhoto_permis());
             Image photopermis = new Image(stream1);
             Image photopersonnel = new Image(stream);
-            ivphoto_personnel.setImage(photopersonnel);
+           // ivphoto_personnel.setImage(photopersonnel);
+           ivphoto_personnel.setFill(new ImagePattern(photopersonnel));
             ivphoto_permis.setImage(photopermis);
         } catch (FileNotFoundException ex) {
 
@@ -148,6 +205,46 @@ public class ProfileController implements Initializable {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+    @FXML
+    private void generateQRcode(){
+        User user = uc.getUserByEmail(UserSession.getEmail());
+        QRcodeView.setVisible(true);
+               try {
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            String Information = "nom : "+user.getNom()+"\n"+"prenom : "+user.getPrenom()+"\n"+"cin : "+user.getCin()+"\n"+"email : "+user.getEmail()+"\n"
+                    +"num_tel : "+user.getNum_tel()+"\n"+"num_permis : "+user.getNum_permis()+"\n"+"Ville : "+user.getVille()+"\n";
+            int width = 300;
+            int height = 300;
+            
+            BufferedImage bufferedImage = null; 
+            BitMatrix byteMatrix = qrCodeWriter.encode(Information, BarcodeFormat.QR_CODE, width, height);
+            bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            bufferedImage.createGraphics();
+            
+            Graphics2D graphics = (Graphics2D) bufferedImage.getGraphics();
+            graphics.setColor(Color.WHITE);
+            graphics.fillRect(0, 0, width, height);
+            graphics.setColor(Color.BLACK);
+            
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    if (byteMatrix.get(i, j)) {
+                        graphics.fillRect(i, j, 1, 1);
+                    }
+                }
+            }
+            
+            System.out.println("Success...");
+            
+            
+            
+
+            
+            QRcodeView.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
+            // TODO
+        } catch (WriterException ex) {
+                   System.out.println(ex.getMessage());        } 
     }
 
 }

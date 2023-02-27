@@ -56,6 +56,8 @@ public class UserListController implements Initializable {
     private TableColumn<User, String> Cin;
     @FXML
     private TableColumn<User, String> date_naiss;
+     @FXML
+    private TableColumn<User, String> age;
     @FXML
     private TableColumn<User, String> num_permis;
     @FXML
@@ -69,8 +71,8 @@ public class UserListController implements Initializable {
     @FXML
     private Button btnlogout;
     private User currentSelectedUser;
-    @FXML
     private Button bnconsulter;
+   
 
     /**
      * Initializes the controller class.
@@ -78,7 +80,7 @@ public class UserListController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         userList();
-        bnconsulter.setVisible(false);
+       // bnconsulter.setVisible(false);
         /*  if ((tvliste.getSelectionModel().getSelectedItems().isEmpty())) 
             bndelete.setDisable(true);
          */
@@ -94,6 +96,7 @@ public class UserListController implements Initializable {
         Email.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmail()));
         Cin.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCin()));
         date_naiss.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDate_naiss()));
+        age.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAge()));
         num_permis.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNum_permis()));
         num_tel.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNum_tel()));
         ville.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getVille()));
@@ -160,7 +163,6 @@ public class UserListController implements Initializable {
 
     }
 
-    @FXML
     private void consulterClient(ActionEvent event) {
         Window owner = bnconsulter.getScene().getWindow();
 
@@ -170,6 +172,7 @@ public class UserListController implements Initializable {
 
             try {
                 System.out.println(tvliste.getSelectionModel().getSelectedItem().getEmail());
+            
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("ConsulterClient.fxml"));
                 Parent root = loader.load();
                 ConsulterClientController c = loader.getController();

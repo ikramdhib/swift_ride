@@ -25,7 +25,7 @@ public interface InterfaceCRUD<T> {
      public boolean authentifier(T t);
     public List<T> consulterListe();
     public User getUserByEmail(String s);
-    public void updateAge(String a);
+    public void updateAge(int a,String b);
     public void updatePassword(String a);
    
 }

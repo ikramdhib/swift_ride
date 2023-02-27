@@ -55,6 +55,7 @@ public class ForgetPassword {
         msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
         msg.setSubject(subject);
         msg.setSentDate(new Date());
+       // msg.setContent(mltprt);
         msg.setText(message);
         Transport.send(msg);
 

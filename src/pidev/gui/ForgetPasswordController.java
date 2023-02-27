@@ -7,7 +7,6 @@ package pidev.gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
@@ -21,16 +20,12 @@ import javafx.util.Duration;
 import static pidev.gui.SignupController.showAlert;
 import pidev.services.UserCRUD;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javax.mail.internet.AddressException;
 import pidev.utils.ForgetPassword;
 
 /**
