@@ -138,10 +138,7 @@ import javax.mail.MessagingException;
           }
           else if(event.getSource() == btnSupprimer){
               supprimerEntreprise();
-          } /*
-          else if(event.getSource() == btnRechercher){
-              rechercherEntreprise();
-          }  */
+          } 
       }
 
         /**
@@ -228,7 +225,9 @@ import javax.mail.MessagingException;
         String mdp = txtMdps.getText();
         String nb_voiture_str = txtNbvoiture.getText();
         String tel_str = txtTel.getText();
-
+        
+        
+        
         // Check that required fields are not empty
         if (nom_entreprise.isEmpty() || nom_admin.isEmpty() || prenom_admin.isEmpty() || matricule.isEmpty() || login.isEmpty() || mdp.isEmpty() || nb_voiture_str.isEmpty() || tel_str.isEmpty()) {
             Alert alert = new Alert(AlertType.WARNING);
@@ -250,6 +249,13 @@ import javax.mail.MessagingException;
             alert.showAndWait();
             return;
         }
+        if (nb_voiture < 1) {
+    Alert alert = new Alert(AlertType.WARNING);
+    alert.setTitle("Invalid number of cars");
+    alert.setHeaderText("The number of cars must be greater than 0");
+    alert.showAndWait();
+    return;
+}
 
         // Check that the login field is a valid email address
         if (!login.matches("^\\S+@\\S+\\.\\S+$")) {
@@ -327,9 +333,10 @@ if (!mdp.matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$")) 
                 pcm.ajouter(m);
                 table.setItems(getEntreprisePartenaire());
                 Email.setEmail(m.getLogin());
-                Email.setMot_de_passe(txtMdps.getText());
                 Email.setNom_admin(txtNomadmin.getText());
                 Email.setPrenom_admin(txtPrenomadmin.getText());
+                Email.setNb_voiture(txtNbvoiture.getText());
+                Email.setTotalCars(getTotalCars());
                 
                 Email.sendEmail();
                 Alert alert = new Alert(AlertType.INFORMATION);
@@ -507,5 +514,16 @@ if(result.isPresent() && result.get() == ButtonType.OK){
     success.setHeaderText("L'entreprise a été supprimée avec succès.");
     success.showAndWait();
 }
-    }        
+    }   
+        
+     public int getTotalCars() {
+        ObservableList<EntreprisePartenaire> entreprises = getEntreprisePartenaire();
+        int totalCars = 0;
+        for (EntreprisePartenaire entreprise : entreprises) {
+            totalCars += entreprise.getNb_voiture();
+        }
+        return totalCars;
+    }    
+     
+     
     }
