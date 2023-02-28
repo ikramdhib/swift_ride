@@ -159,6 +159,7 @@
       <Label fx:id="tfphotopermis" layoutX="798.0" layoutY="392.0" prefHeight="17.0" prefWidth="95.0" text="Photo permis" textFill="WHITE" />
       <Circle fx:id="ivphoto_personnel" fill="WHITE" layoutX="837.0" layoutY="276.0" radius="100.0" stroke="WHITE" strokeType="INSIDE" />
       <ImageView fx:id="QRcodeView" fitHeight="150.0" fitWidth="200.0" layoutX="530.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true" />
-      <JFXButton fx:id="bngenerate" layoutX="768.0" layoutY="663.0" onAction="#generateQRcode" text="Générer ton QRcode" textFill="WHITE" />
+      <JFXButton fx:id="bngenerate" layoutX="768.0" layoutY="663.0" onAction="#generateQRcode" text="Envoyer ton QRcode par email" textFill="WHITE" />
+      <Label fx:id="notifqrcode" layoutX="630.0" layoutY="667.0" text="QR code envoyé !" textFill="#00d7a1" />
    </children>
 </AnchorPane>

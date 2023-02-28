@@ -9,6 +9,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.itextpdf.text.pdf.codec.PngImage;
 import com.jfoenix.controls.JFXButton;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -32,12 +33,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javax.mail.MessagingException;
 import pidev.entities.User;
 import pidev.services.UserCRUD;
+import static pidev.utils.SendQrCodeViaEmail.sendQrCode;
 import pidev.utils.UserSession;
 
 /**
@@ -94,11 +100,14 @@ public class ProfileController implements Initializable {
     private Label agelabel;
     @FXML
     private JFXButton bngenerate;
+    @FXML
+    private Label notifqrcode;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        notifqrcode.setVisible(false);
         QRcodeView.setVisible(false);
          User user = uc.getUserByEmail(UserSession.getEmail());
         
@@ -209,7 +218,7 @@ public class ProfileController implements Initializable {
     @FXML
     private void generateQRcode(){
         User user = uc.getUserByEmail(UserSession.getEmail());
-        QRcodeView.setVisible(true);
+      //  QRcodeView.setVisible(true);
                try {
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             String Information = "nom : "+user.getNom()+"\n"+"prenom : "+user.getPrenom()+"\n"+"cin : "+user.getCin()+"\n"+"email : "+user.getEmail()+"\n"
@@ -220,9 +229,9 @@ public class ProfileController implements Initializable {
             BufferedImage bufferedImage = null; 
             BitMatrix byteMatrix = qrCodeWriter.encode(Information, BarcodeFormat.QR_CODE, width, height);
             bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            bufferedImage.createGraphics();
+         //   bufferedImage.createGraphics();
             
-            Graphics2D graphics = (Graphics2D) bufferedImage.getGraphics();
+         /*   Graphics2D graphics = (Graphics2D) bufferedImage.getGraphics();
             graphics.setColor(Color.WHITE);
             graphics.fillRect(0, 0, width, height);
             graphics.setColor(Color.BLACK);
@@ -234,7 +243,12 @@ public class ProfileController implements Initializable {
                     }
                 }
             }
-            
+            */
+           for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                bufferedImage.setRGB(x, y, byteMatrix.get(x, y) ? 0x000000 : 0xFFFFFF);
+            }
+        }
             System.out.println("Success...");
             
             
@@ -242,6 +256,15 @@ public class ProfileController implements Initializable {
 
             
             QRcodeView.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
+             
+                try {
+            sendQrCode(uc.getUserByEmail(UserSession.getEmail()).getNom()+""+uc.getUserByEmail(UserSession.getEmail()).getPrenom(),UserSession.getEmail(),bufferedImage);
+            notifqrcode.setVisible(true);
+        } catch (MessagingException ex) {
+            System.out.println(ex.getMessage());
+        }
+ 
+
             // TODO
         } catch (WriterException ex) {
                    System.out.println(ex.getMessage());        } 
