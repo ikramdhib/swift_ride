@@ -105,7 +105,7 @@ public class EntreprisePartenaire {
     public void setNb_voiture(int nb_voiture) {
         this.nb_voiture = nb_voiture;
     }
-
+        
     public void setTel(int tel) {
         this.tel = tel;
     }

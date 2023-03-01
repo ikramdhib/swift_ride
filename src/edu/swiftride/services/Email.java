@@ -16,6 +16,8 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.*;
+import javax.mail.internet.*;
 
 /**
  *
@@ -29,16 +31,18 @@ public class Email {
     private static String prenom_admin;
     private static String nb_voiture;
     private static int totalCars;
-    
-     public static void sendEmail() throws AddressException, MessagingException {
-         
+
+    public static void sendEmail() throws AddressException, MessagingException {
+
         // send verification code via email
         String to = email;
         String subject = "Bienvenue à Swift Ride !";
-       String message = "Bonjour " + nom_admin + " " + prenom_admin + ",\n\n" 
-                + "Merci de votre partenariat de location de voitures! Nous sommes ravis de travailler avec vous ,\n\n Grâce à vos "+nb_voiture+ " voitures, nous avons maintenant un impressionnant total de "+ totalCars +" voitures disponibles pour nos clients.\n\n Nous sommes impatients de continuer à renforcer notre partenariat et d'offrir des services de location de voitures exceptionnels à nos clients. \n\n Merci encore! ";
-        
-        
+        String messageContent = "<html><body>Bonjour " + nom_admin + " " + prenom_admin + ",<br><br>"
+                + "Merci de votre partenariat de location de voitures! Nous sommes ravis de travailler avec vous,<br><br>"
+                + "Grâce à vos <b>" + nb_voiture + "</b> voitures, nous avons maintenant un impressionnant total de <b>"
+                + totalCars + "</b> voitures disponibles pour nos clients.<br><br>"
+                + "Nous sommes impatients de continuer à renforcer notre partenariat et d'offrir des services de location de voitures exceptionnels à nos clients.<br><br>"
+                + "Merci encore!</body></html>";
 
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
@@ -60,16 +64,14 @@ public class Email {
         msg.setFrom(new InternetAddress(from));
         msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
         msg.setSubject(subject);
-        msg.setSentDate(new Date());
-        msg.setText(message);
+        msg.setContent(messageContent, "text/html; charset=utf-8");
         Transport.send(msg);
 
     }
 
     public static void setMot_de_passe(String m) {
-        mot_de_passe=m;
+        mot_de_passe = m;
     }
-
 
     public static String getEmail() {
         return email;
@@ -86,8 +88,8 @@ public class Email {
     public static void setPrenom_admin(String prenom_admin) {
         Email.prenom_admin = prenom_admin;
     }
-    
-     public static int getTotalCars() {
+
+    public static int getTotalCars() {
         return totalCars;
     }
 
@@ -96,7 +98,7 @@ public class Email {
     }
 
     public static void setNb_voiture(String nb_voiture) {
-      Email.nb_voiture = nb_voiture;
+        Email.nb_voiture = nb_voiture;
     }
-    
+
 }

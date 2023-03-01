@@ -22,14 +22,14 @@ import javafx.stage.Stage;
  * @author sami
  */
 public class MainWindow extends Application {
-    
-   @Override
+
+    @Override
     public void start(Stage primaryStage) {
         try {
             Parent root = FXMLLoader.
                     load(getClass().getResource("Authentication.fxml"));
             Scene scene = new Scene(root);
-            
+
             primaryStage.setTitle("Inscrivez-vous!                                                 \\\\ SWIFTRIDE //");
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -44,5 +44,5 @@ public class MainWindow extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

@@ -14,31 +14,32 @@ import java.sql.SQLException;
  * @author sami
  */
 public class MyConnection {
+
     String url;
-    String login="root"; 
-    String pwd="";
+    String login = "root";
+    String pwd = "";
     private Connection cnx;
     private static MyConnection instance;
-    
+
     public MyConnection() {
         this.url = "jdbc:mysql://localhost:3306/swiftride";
-        try { 
+        try {
             cnx = DriverManager.getConnection(url, login, pwd);
             System.err.println("connection établie!");
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage()); 
+            System.out.println(ex.getMessage());
         }
-   }
+    }
 
-        public Connection getConnexion() {
+    public Connection getConnexion() {
         return cnx;
     }
-        public static MyConnection getInstance(){
-            if(instance == null){
-                instance = new MyConnection();
-            }
-           return instance;
-        }
-    
-}
 
+    public static MyConnection getInstance() {
+        if (instance == null) {
+            instance = new MyConnection();
+        }
+        return instance;
+    }
+
+}

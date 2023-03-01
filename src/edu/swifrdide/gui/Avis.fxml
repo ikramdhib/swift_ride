@@ -18,34 +18,39 @@
 
 <AnchorPane id="AnchorPane" prefHeight="591.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swifrdide.gui.AvisController">
    <children>
-      <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="581.0" prefWidth="780.0" style="-fx-background-color: #24223e;">
+      <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="581.0" prefWidth="969.0" style="-fx-background-color: #24223e;">
          <children>
-            <Pane layoutX="241.0" layoutY="149.0" prefHeight="363.0" prefWidth="271.0">
+            <Pane layoutX="241.0" layoutY="149.0" prefHeight="366.0" prefWidth="351.0">
                <children>
                   <Label layoutX="15.0" layoutY="-16.0" text="Commentaire " textFill="WHITE" translateY="20.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="txtCommentiare" layoutX="5.0" layoutY="25.0" prefHeight="163.0" prefWidth="260.0" promptText="Saisie votre commentaire" />
-                  <Rating fx:id="rating" layoutX="81.0" layoutY="238.0" rating="0.0">
+                  <TextArea fx:id="txtCommentiare" layoutX="5.0" layoutY="25.0" prefHeight="124.0" prefWidth="260.0" promptText="Saisie votre commentaire" />
+                  <Rating fx:id="rating" layoutX="45.0" layoutY="158.0" prefHeight="32.0" prefWidth="216.0" rating="0.0">
                      <effect>
                         <DropShadow color="#0020eb" spread="0.69" />
                      </effect>
                   </Rating>
-                  <Label layoutX="14.0" layoutY="241.0" text="Avis" textFill="WHITE">
+                  <Label fx:id="msg" layoutX="5.0" layoutY="199.0" prefHeight="46.0" prefWidth="260.0" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="msg" layoutX="59.0" layoutY="292.0" prefHeight="46.0" prefWidth="142.0" textFill="WHITE">
+                  <Label fx:id="msg2" layoutX="7.0" layoutY="256.0" prefHeight="46.0" prefWidth="341.0" textFill="WHITE">
                      <font>
-                        <Font size="24.0" />
+                        <Font size="10.0" />
                      </font>
                   </Label>
+                  <Rating fx:id="rating2" layoutX="3.0" layoutY="299.0" prefHeight="32.0" prefWidth="216.0" rating="0.0">
+                     <effect>
+                        <DropShadow color="#0020eb" spread="0.69" />
+                     </effect>
+                  </Rating>
                </children>
             </Pane>
-            <TableView fx:id="table" layoutX="519.0" layoutY="149.0" prefHeight="417.0" prefWidth="271.0">
+            <TableView fx:id="table" layoutX="599.0" layoutY="149.0" prefHeight="417.0" prefWidth="271.0">
                <columns>
                   <TableColumn fx:id="idCol" prefWidth="53.0" text="ID" />
                   <TableColumn fx:id="commentaireCol" prefWidth="159.0" text="Commentaire" />
@@ -158,7 +163,7 @@
                   </JFXButton>
                </children>
             </VBox>
-            <Pane layoutX="-11.0" layoutY="-10.0" prefHeight="124.0" prefWidth="808.0" style="-fx-background-color: #2d2a4e;">
+            <Pane layoutX="-11.0" layoutY="-10.0" prefHeight="124.0" prefWidth="986.0" style="-fx-background-color: #2d2a4e;">
                <children>
                   <Label layoutX="343.0" layoutY="37.0" prefHeight="51.0" prefWidth="351.0" text="Gestion Avis" textFill="WHITE">
                      <font>
@@ -170,7 +175,7 @@
                         <Image url="@../../swiftride/image/Capture%20d’écran%202023-01-28%20123412%20(1).png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="124.0" fitWidth="241.0" layoutX="676.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="124.0" fitWidth="260.0" layoutX="676.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../swiftride/image/pngtree-black-tire-cartoon-illustration-png-image_4070769-removebg-preview.png" />
                      </image>

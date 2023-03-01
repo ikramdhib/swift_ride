@@ -7,7 +7,6 @@ package edu.swiftride.interfaces;
 
 import edu.swiftride.entities.Avis;
 import edu.swiftride.entities.EntreprisePartenaire;
-import static java.awt.PageAttributes.MediaType.A;
 import java.util.List;
 
 
