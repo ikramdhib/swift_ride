@@ -294,22 +294,43 @@ public class AuthenticationController implements Initializable {
         // Vérifier si un autre administrateur avec les mêmes informations existe déjà
         ObservableList<EntreprisePartenaire> adminList = table.getItems();
         boolean adminExists = false;
+        boolean entrepriseExists = false;
+        boolean loginExists = false;
+        boolean telExists = false;
         for (EntreprisePartenaire admin : adminList) {
-            if (admin.getNom_admin().equals(nom_admin) && admin.getPrenom_admin().equals(prenom_admin)
-                    && admin.getNb_voiture() == nb_voiture && admin.getTel() == tel
-                    && admin.getMatricule().equals(matricule) && admin.getLogin().equals(login)
-                    && admin.getMdp().equals(mdp)) {
-                adminExists = true;
+           if (admin.getNom_entreprise().equals(nom_entreprise)) {
+                entrepriseExists = true;
+                break;
+            }
+            if (admin.getTel() == tel) {
+                telExists = true;
+                break;
+            }
+            if (admin.getLogin().equals(login)) {
+                loginExists = true;
                 break;
             }
         }
-        if (adminExists) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Un autre administrateur avec les mêmes informations existe déjà !");
-            alert.showAndWait();
-        } else {
+        
+     if (entrepriseExists) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setTitle("Erreur");
+    alert.setHeaderText(null);
+    alert.setContentText("Le nom d'entreprise existe déjà !");
+    alert.showAndWait();
+} else if (telExists) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setTitle("Erreur");
+    alert.setHeaderText(null);
+    alert.setContentText("Le numéro de téléphone existe déjà !");
+    alert.showAndWait();
+} else if (loginExists) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setTitle("Erreur");
+    alert.setHeaderText(null);
+    alert.setContentText("L'adresse email existe déjà !");
+    alert.showAndWait();
+} else {
             try {
                 String cryptedmdp = Cryptage.toHexString(Cryptage.getSHA(mdp));
                 // Set values for the enterprise object
