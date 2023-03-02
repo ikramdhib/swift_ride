@@ -14,15 +14,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,10 +26,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -45,6 +36,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
+import java.util.stream.Collectors;
 
 /**
  * FXML Controller class
@@ -69,7 +61,6 @@ public class StationController implements Initializable {
     private TableView<Station> tableStation;
     @FXML
     private TableColumn<Station, Integer> colids;
-
     @FXML
     private TableColumn<Station, String> colville;
     @FXML
@@ -82,166 +73,148 @@ public class StationController implements Initializable {
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
-
-       
         if (event.getSource() == btnA) {
-        String ville = txtville.getText();
-        if (!possibleSuggestions.contains(ville)) {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Attention");
-            alert.setHeaderText("Ville introuvable");
-            alert.setContentText("Le champs ville doit être l'un des mots proposés!");
-            alert.showAndWait();
-            return;
-        }
-        List<String> stations = stationsByCity.get(ville);
-        if (stations == null || !stations.contains(txtnom_station.getText())) {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Attention");
-            alert.setHeaderText("Station introuvable");
-            alert.setContentText("Le champs station doit être l'une des stations proposées pour la ville " + ville);
-            alert.showAndWait();
-            return;
-        }
-        insert();
-
-        } else if (event.getSource() == btnM) {
-            if (!possibleSuggestions.contains(txtville.getText())) {
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Attention");
-                alert.setHeaderText("Ville introuvable");
-                alert.setContentText("Le champs ville doit être l'un des mots proposés!");
+// Vérifier la saisie de l'utilisateur pour la ville
+            String ville = txtville.getText();
+            ObservableList<String> villes = FXCollections.observableArrayList("Ariana", "Beja", "Ben Arous", "Bizerte", "Gabes", "Gafsa", "Jendouba", "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine", "Monastir", "Nabeul", "Sfax", "Sidi Bou Zid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan");
+            if (!villes.contains(ville)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Invalid input");
+                alert.setHeaderText("Veuillez saisir une ville valide.");
                 alert.showAndWait();
                 return;
             }
+// Vérifier si la ville a des stations suggérées
+            ObservableList<String> stationsSuggerees = FXCollections.observableArrayList();
+            switch (ville) {
+                case "Ariana":
+                    stationsSuggerees.addAll("Ariana Ville", "Ariana Soghra","Raoued", "Sidi Thabet","Cité Ennasr","Cité Ghazela","Cité El Khadra","Cité El Menzah","Borj Louzir","Chotrana","Kalaat El Andalous","Mnihla");
+                    break;
+                case "Beja":
+                    stationsSuggerees.addAll("Béja Ville","Amdoun","Bou Arada","Téboursouk","Testour", "Thibar","Medjez El Bab","Nefza","El Maâgoula","Tazarka");
+                    break;
+                case "Jendouba":
+                    stationsSuggerees.addAll("Jendouba Ville","Tabarka","Ain Draham","Balta-Bou Aouane","Beni M'Tir", "Fernana","Ghardimaou","Oued Mliz","Tabarka Plage");
+                    break;
+                case "Gafsa":
+                    stationsSuggerees.addAll("Gafsa Ville","El Ksar","Métlaoui","Redeyef","Mdhilla", "Sned","Om Larayes","Moulares","El Guettar","Sidi Aïch");
+                    break;
+                case "Ben Arous":
+                    stationsSuggerees.addAll("El Mourouj","Hammam Lif","Ben Arous Ville","Bou Mhel El Bassatine","Radès", "Mornag","Mhamdia","Fouchana","Ezzahra","Khalidia");
+                    break;  
+                case "Bizerte":
+                    stationsSuggerees.addAll("Bizerte Ville","Menzel Bourguiba","Mateur","Ras Jebel","Sejnane", "Tinja","Joumine","Metline","Utique");
+                    break;   
+                case "Gabes":
+                    stationsSuggerees.addAll("Gabès Ville","El Hamma","Matmata","Mareth","Métouia", "Oudhref","Ghannouch","Menzel El Habib","Nouvelle Matmata","Zarat");
+                    break;                             
+                case "Kairouan":
+                    stationsSuggerees.addAll("Kairouan Ville","Oueslatia","Hajeb El Ayoun","Chebika","Echrarda", "Nasrallah","Sbikha","Haffouz","Bou Hajla","Alâaya");
+                    break;    
+                case "Kasserine":
+                    stationsSuggerees.addAll("Kasserine Ville","Foussana","Jedelienne","Feriana","Thala", "Sbeitla","Haidra","El Ayoun","Ezzouhour");
+                    break;
+                case "Kebili":
+                    stationsSuggerees.addAll("Kébili Ville","Douz","Souk Lahad","Faouar","Douiret", "Tozeur","Matmata","Médenine","Tataouine","Gabes");
+                    break;  
+                case "Kef":
+                    stationsSuggerees.addAll("Le Kef","Tajerouine","Kalâat Senan","Nebeur","Sakiet Sidi Youssef", "Kalaat Khasba","Kalaat es Senam","Jérissa","El Ksour");
+                    break;   
+case "Mahdia":
+    stationsSuggerees.addAll("Mahdia","El Jem","Ksour Essef","Chebba","Rejiche","Boumerdes","Essouassi","Hkaimiya","Kerker");
+    break;
+case "Manouba":
+    stationsSuggerees.addAll("Manouba","Douar Hicher","Mornaguia","Oued Ellil","Borj El Amri","Den Den","El Batan","Djedeida","Mnihla");
+    break;
+case "Medenine":
+    stationsSuggerees.addAll("Medenine","Ben Gardane","Zarzis","Djerba Ajim","Djerba Midoun","Djerba Houmt Souk","Guellala","Houmt El Souk","El Jorf");
+    break;
+case "Monastir":
+    stationsSuggerees.addAll("Monastir","Sahline","Moknine","Ksar Hellal","Ksibet El Mediouni","Bembla","Zeramdine","Teboulba","Sayada");
+    break;
+case "Nabeul":
+    stationsSuggerees.addAll("Nabeul","Hammamet","Kelibia","Menzel Temime","Korba","Dar Chaabane","Beni Khiar","Soliman","Takelsa");
+    break;
+case "Sfax":
+    stationsSuggerees.addAll("Sfax","Sakiet Eddaier","Mahares","Kerkennah","El Hencha","Gremda","Skhira","Agareb","Menzel Chaker");
+    break;
+case "Sidi Bou Zid":
+    stationsSuggerees.addAll("Sidi Bouzid","Meknassy","Jelma","Regueb","Ouled Haffouz","Sidi Ali Ben Aoun","Souk Jedid","Menzel Bouzaiane","Mazzouna");
+    break;
+case "Siliana":
+    stationsSuggerees.addAll("Siliana","Bargou","El Krib","Maktar","Kesra","Bou Arada","Gaâfour","Rouhia","Sidi Bou Rouis");
+    break;
+case "Sousse":
+    stationsSuggerees.addAll("Sousse","Hammam Sousse","Kalaa Kebira","Msaken","Enfidha","Akouda","Kondar","Kalaa Seghira","Bouficha");
+    break;
+case "Tataouine":
+    stationsSuggerees.addAll("Tataouine","Ghomrassen","Remada","Dehiba","Beni Khedache","Ksar Ouled Debbab","Smar","Tamerza","Mareth");
+    break;
+case "Tozeur":
+    stationsSuggerees.addAll("Tozeur","Nefta","Degache","Hazoua","Tamaghza","Tamerza","Gafsa","Redeyef","Metlaoui");
+    break;
+case "Tunis":
+    stationsSuggerees.addAll("Tunis","Ariana","Ben Arous","La Marsa","Manouba","Mornag","Radès","Sidi Bou Said","Tunis Carthage");
+    break;
+case "Zaghouan":
+    stationsSuggerees.addAll("Zaghouan","El Fahs","Bir Mcherga","Nadhour","Saouaf","Zriba","Djebel Oust","Zaghouan Eaux","Zriba Ouest");
+    break;
+
+                    
+                    
+                default:
+                    break;
+            }
+// Si la ville a des stations suggérées, les ajouter au champ de texte d'autocomplétion
+            if (!stationsSuggerees.contains(stationsSuggerees)) {
+                AutoCompletionBinding<String> binding = TextFields.bindAutoCompletion(txtnom_station, stationsSuggerees);
+                                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Invalid input");
+                alert.setHeaderText("Veuillez saisir une station valide.");
+                alert.showAndWait();
+                return;
+            }
+            insert();
+            
+   
+            
+            
+        } else if (event.getSource() == btnM) {
             update();
         } else if (event.getSource() == btnS) {
             delete();
         } else if (event.getSource() == btnR) {
             retourner(event);
         }
-    }
-    private String[] _possibleSuggestions = {"Ariana ", "Beja ", "Ben Arous", "Bizerte", "Gabes", "Gafsa", "Jendouba", "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine", "Monastir", "Nabeul", "Sfax", "Sidi Bou Zid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan"};
 
-    private Set<String> possibleSuggestions = new HashSet<>(Arrays.asList(_possibleSuggestions));
+    }
 
     /**
      * Initializes the controller class.
      */
-    private Map<String, List<String>> stationsByCity = new HashMap<>();
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        showStation();
 
-   
-    
-   @Override
-public void initialize(URL url, ResourceBundle rb) {
-    // Populate the stationsByCity map with sample data
-    stationsByCity.put("Tunis", Arrays.asList("Station A", "Station B", "Station C"));
-    stationsByCity.put("Sousse", Arrays.asList("Station D", "Station E"));
+        ObservableList<String> villes = FXCollections.observableArrayList("Ariana", "Beja", "Ben Arous", "Bizerte", "Gabes", "Gafsa", "Jendouba", "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine", "Monastir", "Nabeul", "Sfax", "Sidi Bou Zid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan");
 
-    // Set up columns in the table
-    colids.setCellValueFactory(new PropertyValueFactory<Station, Integer>("ids"));
-    colville.setCellValueFactory(new PropertyValueFactory<Station, String>("ville"));
-    colnom_station.setCellValueFactory(new PropertyValueFactory<Station, String>("nom_station"));
+        // Ajouter les suggestions de ville au champ de texte d'autocomplétion
+    AutoCompletionBinding<String> binding = TextFields.bindAutoCompletion(txtville, villes);
 
-    // Populate table with data
-    tableStation.setItems(retrieveStations());
+    // Ajouter un listener pour détecter le changement de la valeur de la ville sélectionnée
+    txtville.textProperty().addListener((observable, oldValue, newValue) -> {
+        // Filtrer les stations pour n'afficher que celles qui correspondent à la ville sélectionnée
+        ObservableList<Station> filteredListS = getStation().filtered(s -> s.getVille().equals(newValue));
 
-    // Set up listener for table selection changes
-    tableStation.getSelectionModel().selectedItemProperty().addListener(
-            (observable, oldValue, newValue) -> showSelectedStation(newValue));
+        // Créer une liste des noms de station pour les suggestions
+        ObservableList<String> stations = filteredListS.stream().map(s -> s.getNom_station()).collect(Collectors.toCollection(FXCollections::observableArrayList));
 
-    // Set up suggestions for stations text field
-    TextFields.bindAutoCompletion(txtnom_station, retrieveStations());
-
-    // Set up suggestions for cities text field
-    TextFields.bindAutoCompletion(txtville, stationsByCity.keySet());
-    txtville.setOnAction(event -> {
-        String ville = txtville.getText();
-        if (stationsByCity.containsKey(ville)) {
-            TextFields.bindAutoCompletion(txtnom_station, stationsByCity.get(ville));
-        } else {
-            txtnom_station.clear();
-        }
+        // Ajouter les suggestions de station au champ de texte d'autocomplétion
+        AutoCompletionBinding<String> stationBinding = TextFields.bindAutoCompletion(txtnom_station, stations);
+        
+        
     });
 }
-
- private ObservableList<Station> retrieveStations() {
-    // Create a list to hold the station data
-    ObservableList<Station> stationList = FXCollections.observableArrayList();
-
-    // Add sample data to the list
-    stationList.add(new Station(1, "Tunis", "Station A"));
-    stationList.add(new Station(2, "Sousse", "Station B"));
-    stationList.add(new Station(3, "Tunis", "Station C"));
-    stationList.add(new Station(4, "Sfax", "Station D"));
-    stationList.add(new Station(5, "Tunis", "Station E"));
-
-    return stationList;
-}
-   
-
-    
-
-    private void showStationNames(String ville) {
-        List<String> stations = stationsByCity.get(ville);
-        if (stations == null) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Stations not found");
-            alert.setContentText("No stations found for the selected city.");
-            alert.showAndWait();
-            return;
-        }
-        ChoiceDialog<String> dialog = new ChoiceDialog<>(stations.get(0), stations);
-        dialog.setTitle("Choose a station");
-        dialog.setHeaderText("Select a station for the selected city:");
-        dialog.setContentText("Station:");
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(station -> txtnom_station.setText(station));
-    }
-    
-    
-    private void showStationsDialog(String ville) {
-        List<String> stations = getStationsByVille(ville);
-        ChoiceDialog<String> dialog = new ChoiceDialog<>(stations.get(0), stations);
-        dialog.setTitle("Choisir une station");
-        dialog.setHeaderText("Choisir une station à partir de la ville " + ville);
-        dialog.setContentText("Station:");
-
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            txtnom_station.setText(result.get());
-        }
-    }
-
-    private List<String> getStationsByVille(String ville) {
-        // TODO: implement code to get stations by ville
-        // For example, you could retrieve a list of stations from a database
-        // that match the given ville and return it here.
-        List<String> stations = new ArrayList<>();
-        if (ville.equals("Tunis")) {
-            stations.add("Gare Tunis");
-            stations.add("Hached");
-            stations.add("Barcelone");
-        } else if (ville.equals("Sousse")) {
-            stations.add("Gare Sousse");
-            stations.add("Kantaoui");
-            stations.add("Enfidha");
-        } else if (ville.equals("Sfax")) {
-            stations.add("Gare Sfax");
-            stations.add("Mahrès");
-            stations.add("Skhira");
-        }
-        return stations;
-    }
-private void showSelectedStation(Station station) {
-    if (station != null) {
-        txtville.setText(station.getVille());
-        txtnom_station.setText(station.getNom_station());
-    }
-}
-
-
 
     public Connection getConnection() {
         Connection cnn;
@@ -255,7 +228,7 @@ private void showSelectedStation(Station station) {
     }
 
     public void showStation() {
-        ObservableList<Station> listS = retrieveStations();
+        ObservableList<Station> listS = getStation();
 
         colids.setCellValueFactory(new PropertyValueFactory<Station, Integer>("ids"));
         colville.setCellValueFactory(new PropertyValueFactory<Station, String>("ville"));
@@ -265,7 +238,7 @@ private void showSelectedStation(Station station) {
 
     }
 
-    private ObservableList<Station> retrieveStations() {
+    private ObservableList<Station> getStation() {
         ObservableList<Station> listStation = FXCollections.observableArrayList();
         Connection cnn = getConnection();
         String query = "SELECT * FROM station";
@@ -316,7 +289,7 @@ private void showSelectedStation(Station station) {
         s.setNom_station(txtnom_station.getText());
 
         scd.ajouterStation(s);
-        tableStation.setItems(retrieveStations());
+        tableStation.setItems(getStation());
 
         // Afficher une alerte de confirmation si la modification a réussi
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -372,7 +345,7 @@ private void showSelectedStation(Station station) {
             return;
         }
         scd.modifierStation(s);
-        tableStation.setItems(retrieveStations());
+        tableStation.setItems(getStation());
         // Afficher une alerte de confirmation si la modification a réussi
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Modification réussie");
