@@ -16,9 +16,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -41,9 +44,12 @@ import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
+import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import javax.mail.MessagingException;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
 
 /**
  * FXML Controller class
@@ -67,7 +73,7 @@ public class AuthenticationController implements Initializable {
     @FXML
     private TextField txtTel;
 
-    @FXML
+    @FXML    
     private TextField txtMatricule;
 
     @FXML
@@ -76,6 +82,8 @@ public class AuthenticationController implements Initializable {
     @FXML
     private TextField txtMdps;
 
+    @FXML
+    private CheckBox hide;
     @FXML
     private TableView<EntreprisePartenaire> table;
 
@@ -116,16 +124,10 @@ public class AuthenticationController implements Initializable {
     private Button btnSupprimer;
 
     @FXML
-    private Button btnRechercher;
-
-    @FXML
-    private TextField txtRechercher;
-
-    @FXML
     private ImageView myImage;
+    
 
     EntreprisePartenaireCRUD pcm = new EntreprisePartenaireCRUD();
-
     @FXML
     private void handleButtonAction(ActionEvent event) {
         if (event.getSource() == btnAjouter) {
@@ -143,15 +145,19 @@ public class AuthenticationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         showEntreprisePartenaire();
-        //Animation
-        /* FadeTransition fade = new FadeTransition();
-            fade.setNode(myImage);
-            fade.setDuration(Duration.millis(10000));
-            fade.setCycleCount(TranslateTransition.INDEFINITE);
-            fade.setInterpolator(Interpolator.LINEAR);
-            fade.setFromValue(0);
-            fade.setToValue(1);
-            fade.play(); */
+        // Ajoute un listener sur le changement d'état du checkbox
+    hide.selectedProperty().addListener((observable, oldValue, newValue) -> {
+        // Si la case est cochée
+        if (newValue) {
+            // Affiche le mot de passe
+            txtMdps.setPromptText(txtMdps.getText());
+            txtMdps.setText("");
+        } else {
+            // Cache le mot de passe
+            txtMdps.setText(txtMdps.getPromptText());
+            txtMdps.setPromptText("");
+        }
+    });
     }
 
     public Connection getConnection() {
@@ -293,7 +299,6 @@ public class AuthenticationController implements Initializable {
         }
         // Vérifier si un autre administrateur avec les mêmes informations existe déjà
         ObservableList<EntreprisePartenaire> adminList = table.getItems();
-        boolean adminExists = false;
         boolean entrepriseExists = false;
         boolean loginExists = false;
         boolean telExists = false;
@@ -454,24 +459,43 @@ public class AuthenticationController implements Initializable {
 
         // Vérifier si un autre administrateur avec les mêmes informations existe déjà
         ObservableList<EntreprisePartenaire> adminList = table.getItems();
-        boolean adminExists = false;
-        for (EntreprisePartenaire admin : adminList) {
-            if (admin.getNom_admin().equals(nom_admin) && admin.getPrenom_admin().equals(prenom_admin)
-                    && admin.getNb_voiture() == nb_voiture && admin.getTel() == tel
-                    && admin.getMatricule().equals(matricule) && admin.getLogin().equals(login)
-                    && admin.getMdp().equals(mdp)) {
-                adminExists = true;
+        boolean entrepriseExists = false;
+        boolean loginExists = false;
+        boolean telExists = false;
+         for (EntreprisePartenaire admin : adminList) {
+           if (admin.getNom_entreprise().equals(nom_entreprise)) {
+                entrepriseExists = true;
+                break;
+            }
+            if (admin.getTel() == tel) {
+                telExists = true;
+                break;
+            }
+            if (admin.getLogin().equals(login)) {
+                loginExists = true;
                 break;
             }
         }
-
-        if (adminExists) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Un autre administrateur avec les mêmes informations existe déjà !");
-            alert.showAndWait();
-        } else {
+        
+     if (entrepriseExists) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setTitle("Erreur");
+    alert.setHeaderText(null);
+    alert.setContentText("Le nom d'entreprise existe déjà !");
+    alert.showAndWait();
+} else if (telExists) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setTitle("Erreur");
+    alert.setHeaderText(null);
+    alert.setContentText("Le numéro de téléphone existe déjà !");
+    alert.showAndWait();
+} else if (loginExists) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setTitle("Erreur");
+    alert.setHeaderText(null);
+    alert.setContentText("L'adresse email existe déjà !");
+    alert.showAndWait();
+} else {
 
             m.setNom_entreprise(nom_entreprise);
             m.setNom_admin(nom_admin);
@@ -532,5 +556,11 @@ public class AuthenticationController implements Initializable {
         }
         return totalCars;
     }
+        
+    
+  // end
 
 }
+    
+                        
+    
