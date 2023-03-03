@@ -81,11 +81,11 @@ public class StationController implements Initializable {
     private Set<String> possibleSuggestions = new HashSet<>(Arrays.asList(_possibleSuggestions));
     private String[] ArienaPossibleSuggestions = {"Ariana Ville", "Ariana Soghra","Raoued", "Sidi Thabet","Cité Ennasr","Cité Ghazela","Cité El Khadra","Cité El Menzah","Borj Louzir","Chotrana","Kalaat El Andalous","Mnihla"};
     private String[] BejaPossibleSuggestions = {"Béja Ville","Amdoun","Bou Arada","Téboursouk","Testour", "Thibar","Medjez El Bab","Nefza","El Maâgoula","Tazarka"};
-    private String[] JendoubaPossibleSuggestions = {"Jendouba Ville","Tabarka","Ain Draham","Balta-Bou Aouane","Beni M'Tir", "Fernana","Ghardimaou","Oued Mliz","Tabarka Plage"};
-    private String[] GafsaPossibleSuggestions = {"Gafsa Ville","El Ksar","Métlaoui","Redeyef","Mdhilla", "Sned","Om Larayes","Moulares","El Guettar","Sidi Aïch"};
     private String[] Ben_ArousPossibleSuggestions = {"El Mourouj","Hammam Lif","BenArous Ville","Bou Mhel El Bassatine","Radès", "Mornag","Mhamdia","Fouchana","Ezzahra","Khalidia"};
     private String[] BizertePossibleSuggestions = {"Bizerte Ville","Menzel Bourguiba","Mateur","Ras Jebel","Sejnane", "Tinja","Joumine","Metline","Utique"};
     private String[] GabesPossibleSuggestions = {"Gabès Ville","El Hamma","Matmata","Mareth","Métouia", "Oudhref","Ghannouch","Menzel El Habib","Nouvelle Matmata","Zarat"};
+    private String[] GafsaPossibleSuggestions = {"Gafsa Ville","El Ksar","Métlaoui","Redeyef","Mdhilla", "Sned","Om Larayes","Moulares","El Guettar","Sidi Aïch"};
+    private String[] JendoubaPossibleSuggestions = {"Jendouba Ville","Tabarka","Ain Draham","Balta-Bou Aouane","Beni M'Tir", "Fernana","Ghardimaou","Oued Mliz","Tabarka Plage"};
     private String[] KairouanPossibleSuggestions = {"Kairouan Ville","Oueslatia","Hajeb El Ayoun","Chebika","Echrarda", "Nasrallah","Sbikha","Haffouz","Bou Hajla","Alâaya"};
     private String[] KasserinePossibleSuggestions = {"Kasserine Ville","Foussana","Jedelienne","Feriana","Thala", "Sbeitla","Haidra","El Ayoun","Ezzouhour"};
     private String[] KebiliPossibleSuggestions = {"Kébili Ville","Douz","Souk Lahad","Faouar","Douiret", "Tozeur","Matmata","Médenine","Tataouine","Gabes"};
@@ -107,11 +107,12 @@ public class StationController implements Initializable {
 
 private Set<String> ArienaSuggestions = new HashSet<>(Arrays.asList(ArienaPossibleSuggestions));
 private Set<String> BejaSuggestions = new HashSet<>(Arrays.asList(BejaPossibleSuggestions));
-private Set<String> JendoubaSuggestions = new HashSet<>(Arrays.asList(JendoubaPossibleSuggestions));
-private Set<String> GafsaSuggestions = new HashSet<>(Arrays.asList(GafsaPossibleSuggestions));
 private Set<String> Ben_ArousSuggestions = new HashSet<>(Arrays.asList(Ben_ArousPossibleSuggestions));
 private Set<String> BizerteSuggestions = new HashSet<>(Arrays.asList(BizertePossibleSuggestions));
 private Set<String> GabesSuggestions = new HashSet<>(Arrays.asList(GabesPossibleSuggestions));
+private Set<String> GafsaSuggestions = new HashSet<>(Arrays.asList(GafsaPossibleSuggestions));
+
+private Set<String> JendoubaSuggestions = new HashSet<>(Arrays.asList(JendoubaPossibleSuggestions));
 private Set<String> KairouanSuggestions = new HashSet<>(Arrays.asList(KairouanPossibleSuggestions));
 private Set<String> KasserineSuggestions = new HashSet<>(Arrays.asList(KasserinePossibleSuggestions));
 private Set<String> KebiliSuggestions = new HashSet<>(Arrays.asList(KebiliPossibleSuggestions));
@@ -143,14 +144,16 @@ String nom_station = txtnom_station.getText();
     boolean  nom_stationValid= false;
     if (ville.equals("Ariena")) {
         nom_stationValid = ArienaSuggestions.contains(nom_station);
+        }else if (ville.equals("Beja")) {
+        nom_stationValid = BejaSuggestions.contains(nom_station);
     } else if (ville.equals("Jendouba")) {
         nom_stationValid = JendoubaSuggestions.contains(nom_station);
+        }else if (ville.equals("Ben_Arous")) {
+        nom_stationValid = Ben_ArousSuggestions.contains(nom_station);
     }else if (ville.equals("Gafsa")) {
         nom_stationValid = GafsaSuggestions.contains(nom_station);
     }else if (ville.equals("Kairouan")) {
         nom_stationValid = KairouanSuggestions.contains(nom_station);
-    }else if (ville.equals("Ben_Arous")) {
-        nom_stationValid = Ben_ArousSuggestions.contains(nom_station);
     }else if (ville.equals("kasserine")) {
         nom_stationValid = KasserineSuggestions.contains(nom_station);
         }else if (ville.equals("kebili")) {
@@ -210,14 +213,22 @@ String nom_station = txtnom_station.getText();
     boolean  nom_stationValid= false;
     if (ville.equals("Ariena")) {
         nom_stationValid = ArienaSuggestions.contains(nom_station);
+        }else if (ville.equals("Beja")) {
+        nom_stationValid = BejaSuggestions.contains(nom_station);
+         }else if (ville.equals("Ben_Arous")) {
+        nom_stationValid = Ben_ArousSuggestions.contains(nom_station);
+         }else if (ville.equals("Bizerte")) {
+        nom_stationValid = BizerteSuggestions.contains(nom_station);
+         }else if (ville.equals("Gabes")) {
+        nom_stationValid = GabesSuggestions.contains(nom_station);
+        
     } else if (ville.equals("Jendouba")) {
         nom_stationValid = JendoubaSuggestions.contains(nom_station);
     }else if (ville.equals("Gafsa")) {
         nom_stationValid = GafsaSuggestions.contains(nom_station);
     }else if (ville.equals("Kairouan")) {
         nom_stationValid = KairouanSuggestions.contains(nom_station);
-    }else if (ville.equals("Ben_Arous")) {
-        nom_stationValid = Ben_ArousSuggestions.contains(nom_station);
+   
     }else if (ville.equals("kasserine")) {
         nom_stationValid = KasserineSuggestions.contains(nom_station);
         }else if (ville.equals("kebili")) {
@@ -250,12 +261,9 @@ String nom_station = txtnom_station.getText();
         nom_stationValid = TunisSuggestions.contains(nom_station);
         }else if (ville.equals("Zaghouan")) {
         nom_stationValid = ZaghouanSuggestions.contains(nom_station);
-        }else if (ville.equals("Beja")) {
-        nom_stationValid = BejaSuggestions.contains(nom_station);
-        }else if (ville.equals("Bizerte")) {
-        nom_stationValid = BizerteSuggestions.contains(nom_station);
-        }else if (ville.equals("Gabes")) {
-        nom_stationValid = GabesSuggestions.contains(nom_station);
+        
+       
+       
         }
    
     // Show an alert if either nom or prenom is invalid
