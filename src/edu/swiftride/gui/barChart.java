@@ -4,30 +4,25 @@
  * and open the template in the editor.
  */
 package edu.swiftride.gui;
+
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
  *
- * @author karra
+ * @author Ines
  */
-public class MainWindow extends Application {
-    
+class barChart extends Application{
+        
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("Authentication.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("graph.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setTitle("Swift Ride!");
             primaryStage.setScene(scene);
@@ -43,5 +38,8 @@ public class MainWindow extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
+    static Object getData() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }    
 }

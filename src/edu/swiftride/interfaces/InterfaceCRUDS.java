@@ -5,7 +5,6 @@
  */
 package edu.swiftride.interfaces;
 
-import edu.swiftride.entities.MoyenTransport;
 import edu.swiftride.entities.Station;
 import java.util.List;
 
@@ -13,11 +12,9 @@ import java.util.List;
  *
  * @author Ines
  */
-public interface InterfaceCRUD<M> {
-     void ajouterMoyenTransport(MoyenTransport m);
-    void supprimerMoyenTransport(MoyenTransport m);
-    boolean modifierMoyenTransport(MoyenTransport m);
-    List<MoyenTransport> afficherMoyenTransport();
-   
-  
+public interface InterfaceCRUDS<S> {
+     void ajouterStation(Station s);
+    void supprimerStation(Station s);
+    boolean modifierStation(Station s);
+    List<Station> afficherStation();
 }

@@ -116,7 +116,7 @@ public void initialize(URL url, ResourceBundle rb) {
     moyensTransportList = getMoyenTransport();
     showMoyenTransport();
     filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-        filterMoyenTransportList(newValue);
+        searchMoyenTransportList(newValue);
     });
 }
 
@@ -139,7 +139,7 @@ public void initialize(URL url, ResourceBundle rb) {
         tableMoyenTransport.setItems(list);
     }
 
-    public void filterMoyenTransportList(String newValue) {
+    public void searchMoyenTransportList(String newValue) {
         ObservableList<MoyenTransport> filteredList = FXCollections.observableArrayList();
         if (newValue == null || newValue.isEmpty()) {
             tableMoyenTransport.setItems(moyensTransportList);
