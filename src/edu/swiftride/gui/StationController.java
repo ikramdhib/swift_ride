@@ -14,8 +14,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -71,115 +74,197 @@ public class StationController implements Initializable {
 
     StationCRUD scd = new StationCRUD();
 
+    //Auto complete
+    private AutoCompletionBinding<String> villeAutoCompletionBinding;
+    private AutoCompletionBinding<String> stationAutoCompletionBinding;
+    private String[] _possibleSuggestions = {"Ariana", "Beja", "Ben Arous", "Bizerte", "Gabes", "Gafsa", "Jendouba", "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine", "Monastir", "Nabeul", "Sfax", "Sidi Bou Zid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan"};
+    private Set<String> possibleSuggestions = new HashSet<>(Arrays.asList(_possibleSuggestions));
+    private String[] ArienaPossibleSuggestions = {"Ariana Ville", "Ariana Soghra","Raoued", "Sidi Thabet","Cité Ennasr","Cité Ghazela","Cité El Khadra","Cité El Menzah","Borj Louzir","Chotrana","Kalaat El Andalous","Mnihla"};
+    private String[] BejaPossibleSuggestions = {"Béja Ville","Amdoun","Bou Arada","Téboursouk","Testour", "Thibar","Medjez El Bab","Nefza","El Maâgoula","Tazarka"};
+    private String[] JendoubaPossibleSuggestions = {"Jendouba Ville","Tabarka","Ain Draham","Balta-Bou Aouane","Beni M'Tir", "Fernana","Ghardimaou","Oued Mliz","Tabarka Plage"};
+    private String[] GafsaPossibleSuggestions = {"Gafsa Ville","El Ksar","Métlaoui","Redeyef","Mdhilla", "Sned","Om Larayes","Moulares","El Guettar","Sidi Aïch"};
+    private String[] Ben_ArousPossibleSuggestions = {"El Mourouj","Hammam Lif","BenArous Ville","Bou Mhel El Bassatine","Radès", "Mornag","Mhamdia","Fouchana","Ezzahra","Khalidia"};
+    private String[] BizertePossibleSuggestions = {"Bizerte Ville","Menzel Bourguiba","Mateur","Ras Jebel","Sejnane", "Tinja","Joumine","Metline","Utique"};
+    private String[] GabesPossibleSuggestions = {"Gabès Ville","El Hamma","Matmata","Mareth","Métouia", "Oudhref","Ghannouch","Menzel El Habib","Nouvelle Matmata","Zarat"};
+    private String[] KairouanPossibleSuggestions = {"Kairouan Ville","Oueslatia","Hajeb El Ayoun","Chebika","Echrarda", "Nasrallah","Sbikha","Haffouz","Bou Hajla","Alâaya"};
+    private String[] KasserinePossibleSuggestions = {"Kasserine Ville","Foussana","Jedelienne","Feriana","Thala", "Sbeitla","Haidra","El Ayoun","Ezzouhour"};
+    private String[] KebiliPossibleSuggestions = {"Kébili Ville","Douz","Souk Lahad","Faouar","Douiret", "Tozeur","Matmata","Médenine","Tataouine","Gabes"};
+    private String[] KefPossibleSuggestions = {"Le Kef","Tajerouine","Kalâat Senan","Nebeur","Sakiet Sidi Youssef", "Kalaat Khasba","Kalaat es Senam","Jérissa","El Ksour"};
+    private String[] MahdiaPossibleSuggestions = {"Mahdia","El Jem","Ksour Essef","Chebba","Rejiche","Boumerdes","Essouassi","Hkaimiya","Kerker"};
+    private String[] ManoubaPossibleSuggestions = {"Manouba","Douar Hicher","Mornaguia","Oued Ellil","Borj El Amri","Den Den","El Batan","Djedeida","Mnihla"};
+    private String[] MedeninePossibleSuggestions = {"Medenine","Ben Gardane","Zarzis","Djerba Ajim","Djerba Midoun","Djerba Houmt Souk","Guellala","Houmt El Souk","El Jorf"};
+    private String[] MonastirPossibleSuggestions = {"Monastir","Sahline","Moknine","Ksar Hellal","Ksibet El Mediouni","Bembla","Zeramdine","Teboulba","Sayada"};
+    private String[] NabeulPossibleSuggestions = {"Nabeul","Hammamet","Kelibia","Menzel Temime","Korba","Dar Chaabane","Beni Khiar","Soliman","Takelsa"};
+    private String[] SfaxPossibleSuggestions = {"Sfax","Sakiet Eddaier","Mahares","Kerkennah","El Hencha","Gremda","Skhira","Agareb","Menzel Chaker"};
+    private String[] Sidi_Bou_ZidPossibleSuggestions = {"Sidi Bouzid","Meknassy","Jelma","Regueb","Ouled Haffouz","Sidi Ali Ben Aoun","Souk Jedid","Menzel Bouzaiane","Mazzouna"};
+    private String[] SilianaPossibleSuggestions = {"Siliana","Bargou","El Krib","Maktar","Kesra","Bou Arada","Gaâfour","Rouhia","Sidi Bou Rouis"};
+    private String[] SoussePossibleSuggestions = {"Sousse","Hammam Sousse","Kalaa Kebira","Msaken","Enfidha","Akouda","Kondar","Kalaa Seghira","Bouficha"};
+    private String[] TataouinePossibleSuggestions = {"Tataouine","Ghomrassen","Remada","Dehiba","Beni Khedache","Ksar Ouled Debbab","Smar","Tamerza","Mareth"};
+    private String[] TozeurPossibleSuggestions = {"Tozeur","Nefta","Degache","Hazoua","Tamaghza","Tamerza","Gafsa","Redeyef","Metlaoui"};
+    private String[] TunisPossibleSuggestions = {"Tunis","Ariana","BenArous","La Marsa","Manouba","Mornag","Radès","Sidi Bou Said","Tunis Carthage"};
+    private String[] ZaghouanPossibleSuggestions = {"Zaghouan","El Fahs","Bir Mcherga","Nadhour","Saouaf","Zriba","Djebel Oust","Zaghouan Eaux","Zriba Ouest"};
+
+
+private Set<String> ArienaSuggestions = new HashSet<>(Arrays.asList(ArienaPossibleSuggestions));
+private Set<String> BejaSuggestions = new HashSet<>(Arrays.asList(BejaPossibleSuggestions));
+private Set<String> JendoubaSuggestions = new HashSet<>(Arrays.asList(JendoubaPossibleSuggestions));
+private Set<String> GafsaSuggestions = new HashSet<>(Arrays.asList(GafsaPossibleSuggestions));
+private Set<String> Ben_ArousSuggestions = new HashSet<>(Arrays.asList(Ben_ArousPossibleSuggestions));
+private Set<String> BizerteSuggestions = new HashSet<>(Arrays.asList(BizertePossibleSuggestions));
+private Set<String> GabesSuggestions = new HashSet<>(Arrays.asList(GabesPossibleSuggestions));
+private Set<String> KairouanSuggestions = new HashSet<>(Arrays.asList(KairouanPossibleSuggestions));
+private Set<String> KasserineSuggestions = new HashSet<>(Arrays.asList(KasserinePossibleSuggestions));
+private Set<String> KebiliSuggestions = new HashSet<>(Arrays.asList(KebiliPossibleSuggestions));
+private Set<String> KefSuggestions = new HashSet<>(Arrays.asList(KefPossibleSuggestions));
+private Set<String> MahdiaSuggestions = new HashSet<>(Arrays.asList(MahdiaPossibleSuggestions));
+private Set<String> ManoubaSuggestions = new HashSet<>(Arrays.asList(ManoubaPossibleSuggestions));
+private Set<String> MedenineSuggestions = new HashSet<>(Arrays.asList(MedeninePossibleSuggestions));
+private Set<String> MonastirSuggestions = new HashSet<>(Arrays.asList(MonastirPossibleSuggestions));
+private Set<String> NabeulSuggestions = new HashSet<>(Arrays.asList(NabeulPossibleSuggestions));
+private Set<String> SfaxSuggestions = new HashSet<>(Arrays.asList(SfaxPossibleSuggestions));
+private Set<String> Sidi_Bou_ZidSuggestions = new HashSet<>(Arrays.asList(Sidi_Bou_ZidPossibleSuggestions));
+private Set<String> SilianaSuggestions = new HashSet<>(Arrays.asList(SilianaPossibleSuggestions));
+private Set<String> SousseSuggestions = new HashSet<>(Arrays.asList(SoussePossibleSuggestions));
+private Set<String> TataouineSuggestions = new HashSet<>(Arrays.asList(TataouinePossibleSuggestions));
+private Set<String> TozeurSuggestions = new HashSet<>(Arrays.asList(TozeurPossibleSuggestions));
+private Set<String> TunisSuggestions = new HashSet<>(Arrays.asList(TunisPossibleSuggestions));
+private Set<String> ZaghouanSuggestions = new HashSet<>(Arrays.asList(ZaghouanPossibleSuggestions));
+    
+    
     @FXML
     private void handleButtonAction(ActionEvent event) {
         if (event.getSource() == btnA) {
-// Vérifier la saisie de l'utilisateur pour la ville
-            String ville = txtville.getText();
-            ObservableList<String> villes = FXCollections.observableArrayList("Ariana", "Beja", "Ben Arous", "Bizerte", "Gabes", "Gafsa", "Jendouba", "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine", "Monastir", "Nabeul", "Sfax", "Sidi Bou Zid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan");
-            if (!villes.contains(ville)) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Invalid input");
-                alert.setHeaderText("Veuillez saisir une ville valide.");
-                alert.showAndWait();
-                return;
-            }
-// Vérifier si la ville a des stations suggérées
-            ObservableList<String> stationsSuggerees = FXCollections.observableArrayList();
-            switch (ville) {
-                case "Ariana":
-                    stationsSuggerees.addAll("Ariana Ville", "Ariana Soghra","Raoued", "Sidi Thabet","Cité Ennasr","Cité Ghazela","Cité El Khadra","Cité El Menzah","Borj Louzir","Chotrana","Kalaat El Andalous","Mnihla");
-                    break;
-                case "Beja":
-                    stationsSuggerees.addAll("Béja Ville","Amdoun","Bou Arada","Téboursouk","Testour", "Thibar","Medjez El Bab","Nefza","El Maâgoula","Tazarka");
-                    break;
-                case "Jendouba":
-                    stationsSuggerees.addAll("Jendouba Ville","Tabarka","Ain Draham","Balta-Bou Aouane","Beni M'Tir", "Fernana","Ghardimaou","Oued Mliz","Tabarka Plage");
-                    break;
-                case "Gafsa":
-                    stationsSuggerees.addAll("Gafsa Ville","El Ksar","Métlaoui","Redeyef","Mdhilla", "Sned","Om Larayes","Moulares","El Guettar","Sidi Aïch");
-                    break;
-                case "Ben Arous":
-                    stationsSuggerees.addAll("El Mourouj","Hammam Lif","Ben Arous Ville","Bou Mhel El Bassatine","Radès", "Mornag","Mhamdia","Fouchana","Ezzahra","Khalidia");
-                    break;  
-                case "Bizerte":
-                    stationsSuggerees.addAll("Bizerte Ville","Menzel Bourguiba","Mateur","Ras Jebel","Sejnane", "Tinja","Joumine","Metline","Utique");
-                    break;   
-                case "Gabes":
-                    stationsSuggerees.addAll("Gabès Ville","El Hamma","Matmata","Mareth","Métouia", "Oudhref","Ghannouch","Menzel El Habib","Nouvelle Matmata","Zarat");
-                    break;                             
-                case "Kairouan":
-                    stationsSuggerees.addAll("Kairouan Ville","Oueslatia","Hajeb El Ayoun","Chebika","Echrarda", "Nasrallah","Sbikha","Haffouz","Bou Hajla","Alâaya");
-                    break;    
-                case "Kasserine":
-                    stationsSuggerees.addAll("Kasserine Ville","Foussana","Jedelienne","Feriana","Thala", "Sbeitla","Haidra","El Ayoun","Ezzouhour");
-                    break;
-                case "Kebili":
-                    stationsSuggerees.addAll("Kébili Ville","Douz","Souk Lahad","Faouar","Douiret", "Tozeur","Matmata","Médenine","Tataouine","Gabes");
-                    break;  
-                case "Kef":
-                    stationsSuggerees.addAll("Le Kef","Tajerouine","Kalâat Senan","Nebeur","Sakiet Sidi Youssef", "Kalaat Khasba","Kalaat es Senam","Jérissa","El Ksour");
-                    break;   
-case "Mahdia":
-    stationsSuggerees.addAll("Mahdia","El Jem","Ksour Essef","Chebba","Rejiche","Boumerdes","Essouassi","Hkaimiya","Kerker");
-    break;
-case "Manouba":
-    stationsSuggerees.addAll("Manouba","Douar Hicher","Mornaguia","Oued Ellil","Borj El Amri","Den Den","El Batan","Djedeida","Mnihla");
-    break;
-case "Medenine":
-    stationsSuggerees.addAll("Medenine","Ben Gardane","Zarzis","Djerba Ajim","Djerba Midoun","Djerba Houmt Souk","Guellala","Houmt El Souk","El Jorf");
-    break;
-case "Monastir":
-    stationsSuggerees.addAll("Monastir","Sahline","Moknine","Ksar Hellal","Ksibet El Mediouni","Bembla","Zeramdine","Teboulba","Sayada");
-    break;
-case "Nabeul":
-    stationsSuggerees.addAll("Nabeul","Hammamet","Kelibia","Menzel Temime","Korba","Dar Chaabane","Beni Khiar","Soliman","Takelsa");
-    break;
-case "Sfax":
-    stationsSuggerees.addAll("Sfax","Sakiet Eddaier","Mahares","Kerkennah","El Hencha","Gremda","Skhira","Agareb","Menzel Chaker");
-    break;
-case "Sidi Bou Zid":
-    stationsSuggerees.addAll("Sidi Bouzid","Meknassy","Jelma","Regueb","Ouled Haffouz","Sidi Ali Ben Aoun","Souk Jedid","Menzel Bouzaiane","Mazzouna");
-    break;
-case "Siliana":
-    stationsSuggerees.addAll("Siliana","Bargou","El Krib","Maktar","Kesra","Bou Arada","Gaâfour","Rouhia","Sidi Bou Rouis");
-    break;
-case "Sousse":
-    stationsSuggerees.addAll("Sousse","Hammam Sousse","Kalaa Kebira","Msaken","Enfidha","Akouda","Kondar","Kalaa Seghira","Bouficha");
-    break;
-case "Tataouine":
-    stationsSuggerees.addAll("Tataouine","Ghomrassen","Remada","Dehiba","Beni Khedache","Ksar Ouled Debbab","Smar","Tamerza","Mareth");
-    break;
-case "Tozeur":
-    stationsSuggerees.addAll("Tozeur","Nefta","Degache","Hazoua","Tamaghza","Tamerza","Gafsa","Redeyef","Metlaoui");
-    break;
-case "Tunis":
-    stationsSuggerees.addAll("Tunis","Ariana","Ben Arous","La Marsa","Manouba","Mornag","Radès","Sidi Bou Said","Tunis Carthage");
-    break;
-case "Zaghouan":
-    stationsSuggerees.addAll("Zaghouan","El Fahs","Bir Mcherga","Nadhour","Saouaf","Zriba","Djebel Oust","Zaghouan Eaux","Zriba Ouest");
-    break;
 
-                    
-                    
-                default:
-                    break;
-            }
-// Si la ville a des stations suggérées, les ajouter au champ de texte d'autocomplétion
-            if (!stationsSuggerees.contains(stationsSuggerees)) {
-                AutoCompletionBinding<String> binding = TextFields.bindAutoCompletion(txtnom_station, stationsSuggerees);
-                                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Invalid input");
-                alert.setHeaderText("Veuillez saisir une station valide.");
-                alert.showAndWait();
-                return;
-            }
+String ville = txtville.getText();
+String nom_station = txtnom_station.getText();
+
+// Check if ville and station are valid suggestions
+    boolean villeValid = possibleSuggestions.contains(ville);
+    boolean  nom_stationValid= false;
+    if (ville.equals("Ariena")) {
+        nom_stationValid = ArienaSuggestions.contains(nom_station);
+    } else if (ville.equals("Jendouba")) {
+        nom_stationValid = JendoubaSuggestions.contains(nom_station);
+    }else if (ville.equals("Gafsa")) {
+        nom_stationValid = GafsaSuggestions.contains(nom_station);
+    }else if (ville.equals("Kairouan")) {
+        nom_stationValid = KairouanSuggestions.contains(nom_station);
+    }else if (ville.equals("Ben_Arous")) {
+        nom_stationValid = Ben_ArousSuggestions.contains(nom_station);
+    }else if (ville.equals("kasserine")) {
+        nom_stationValid = KasserineSuggestions.contains(nom_station);
+        }else if (ville.equals("kebili")) {
+        nom_stationValid = KebiliSuggestions.contains(nom_station);
+        }else if (ville.equals("kef")) {
+        nom_stationValid = KefSuggestions.contains(nom_station);
+        }else if (ville.equals("Mahdia")) {
+        nom_stationValid = MahdiaSuggestions.contains(nom_station);
+        }else if (ville.equals("Manouba")) {
+        nom_stationValid = ManoubaSuggestions.contains(nom_station);
+        }else if (ville.equals("Medenine")) {
+        nom_stationValid = MedenineSuggestions.contains(nom_station);
+        }else if (ville.equals("Monastir")) {
+        nom_stationValid = MonastirSuggestions.contains(nom_station);
+        }else if (ville.equals("Nabeul")) {
+        nom_stationValid = NabeulSuggestions.contains(nom_station);
+        }else if (ville.equals("Sfax")) {
+        nom_stationValid = SfaxSuggestions.contains(nom_station);
+        }else if (ville.equals("Sidi_Bou_Zid")) {
+        nom_stationValid = Sidi_Bou_ZidSuggestions.contains(nom_station);
+        }else if (ville.equals("Siliana")) {
+        nom_stationValid = SilianaSuggestions.contains(nom_station);
+        }else if (ville.equals("Sousse")) {
+        nom_stationValid = SousseSuggestions.contains(nom_station);
+        }else if (ville.equals("Tataouine")) {
+        nom_stationValid = TataouineSuggestions.contains(nom_station);
+        }else if (ville.equals("Tozeur")) {
+        nom_stationValid = TozeurSuggestions.contains(nom_station);
+        }else if (ville.equals("Tunis")) {
+        nom_stationValid = TunisSuggestions.contains(nom_station);
+        }else if (ville.equals("Zaghouan")) {
+        nom_stationValid = ZaghouanSuggestions.contains(nom_station);
+        }else if (ville.equals("Beja")) {
+        nom_stationValid = BejaSuggestions.contains(nom_station);
+        }else if (ville.equals("Bizerte")) {
+        nom_stationValid = BizerteSuggestions.contains(nom_station);
+        }else if (ville.equals("Gabes")) {
+        nom_stationValid = GabesSuggestions.contains(nom_station);
+        }
+   
+    // Show an alert if either nom or prenom is invalid
+    if (!villeValid || !nom_stationValid) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a suggestion from the list for both ville and nom de station .");
+        alert.showAndWait();
+        return; // Don't continue with adding the enterprise if the input is invalid
+    }
+
             insert();
             
-   
-            
-            
         } else if (event.getSource() == btnM) {
+            
+String ville = txtville.getText();
+String nom_station = txtnom_station.getText();
+
+// Check if ville and station are valid suggestions
+    boolean villeValid = possibleSuggestions.contains(ville);
+    boolean  nom_stationValid= false;
+    if (ville.equals("Ariena")) {
+        nom_stationValid = ArienaSuggestions.contains(nom_station);
+    } else if (ville.equals("Jendouba")) {
+        nom_stationValid = JendoubaSuggestions.contains(nom_station);
+    }else if (ville.equals("Gafsa")) {
+        nom_stationValid = GafsaSuggestions.contains(nom_station);
+    }else if (ville.equals("Kairouan")) {
+        nom_stationValid = KairouanSuggestions.contains(nom_station);
+    }else if (ville.equals("Ben_Arous")) {
+        nom_stationValid = Ben_ArousSuggestions.contains(nom_station);
+    }else if (ville.equals("kasserine")) {
+        nom_stationValid = KasserineSuggestions.contains(nom_station);
+        }else if (ville.equals("kebili")) {
+        nom_stationValid = KebiliSuggestions.contains(nom_station);
+        }else if (ville.equals("kef")) {
+        nom_stationValid = KefSuggestions.contains(nom_station);
+        }else if (ville.equals("Mahdia")) {
+        nom_stationValid = MahdiaSuggestions.contains(nom_station);
+        }else if (ville.equals("Manouba")) {
+        nom_stationValid = ManoubaSuggestions.contains(nom_station);
+        }else if (ville.equals("Medenine")) {
+        nom_stationValid = MedenineSuggestions.contains(nom_station);
+        }else if (ville.equals("Monastir")) {
+        nom_stationValid = MonastirSuggestions.contains(nom_station);
+        }else if (ville.equals("Nabeul")) {
+        nom_stationValid = NabeulSuggestions.contains(nom_station);
+        }else if (ville.equals("Sfax")) {
+        nom_stationValid = SfaxSuggestions.contains(nom_station);
+        }else if (ville.equals("Sidi_Bou_Zid")) {
+        nom_stationValid = Sidi_Bou_ZidSuggestions.contains(nom_station);
+        }else if (ville.equals("Siliana")) {
+        nom_stationValid = SilianaSuggestions.contains(nom_station);
+        }else if (ville.equals("Sousse")) {
+        nom_stationValid = SousseSuggestions.contains(nom_station);
+        }else if (ville.equals("Tataouine")) {
+        nom_stationValid = TataouineSuggestions.contains(nom_station);
+        }else if (ville.equals("Tozeur")) {
+        nom_stationValid = TozeurSuggestions.contains(nom_station);
+        }else if (ville.equals("Tunis")) {
+        nom_stationValid = TunisSuggestions.contains(nom_station);
+        }else if (ville.equals("Zaghouan")) {
+        nom_stationValid = ZaghouanSuggestions.contains(nom_station);
+        }else if (ville.equals("Beja")) {
+        nom_stationValid = BejaSuggestions.contains(nom_station);
+        }else if (ville.equals("Bizerte")) {
+        nom_stationValid = BizerteSuggestions.contains(nom_station);
+        }else if (ville.equals("Gabes")) {
+        nom_stationValid = GabesSuggestions.contains(nom_station);
+        }
+   
+    // Show an alert if either nom or prenom is invalid
+    if (!villeValid || !nom_stationValid) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a suggestion from the list for both ville and nom de station .");
+        alert.showAndWait();
+        return; // Don't continue with adding the enterprise if the input is invalid
+    }
+            
             update();
         } else if (event.getSource() == btnS) {
             delete();
@@ -195,26 +280,10 @@ case "Zaghouan":
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         showStation();
-
-        ObservableList<String> villes = FXCollections.observableArrayList("Ariana", "Beja", "Ben Arous", "Bizerte", "Gabes", "Gafsa", "Jendouba", "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine", "Monastir", "Nabeul", "Sfax", "Sidi Bou Zid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan");
-
-        // Ajouter les suggestions de ville au champ de texte d'autocomplétion
-    AutoCompletionBinding<String> binding = TextFields.bindAutoCompletion(txtville, villes);
-
-    // Ajouter un listener pour détecter le changement de la valeur de la ville sélectionnée
-    txtville.textProperty().addListener((observable, oldValue, newValue) -> {
-        // Filtrer les stations pour n'afficher que celles qui correspondent à la ville sélectionnée
-        ObservableList<Station> filteredListS = getStation().filtered(s -> s.getVille().equals(newValue));
-
-        // Créer une liste des noms de station pour les suggestions
-        ObservableList<String> stations = filteredListS.stream().map(s -> s.getNom_station()).collect(Collectors.toCollection(FXCollections::observableArrayList));
-
-        // Ajouter les suggestions de station au champ de texte d'autocomplétion
-        AutoCompletionBinding<String> stationBinding = TextFields.bindAutoCompletion(txtnom_station, stations);
-        
-        
-    });
-}
+       AutoComplete();
+       
+    }
+    
 
     public Connection getConnection() {
         Connection cnn;
@@ -394,5 +463,116 @@ case "Zaghouan":
             System.out.println(ex.getMessage());
         }
     }
+    public void AutoComplete() {
+    // Bind auto-completion for txtNomadmin
+    villeAutoCompletionBinding = TextFields.bindAutoCompletion(txtville,"Ariana", "Beja", "Ben Arous", "Bizerte", "Gabes", "Gafsa", "Jendouba","Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine", "Monastir", "Nabeul", "Sfax", "Sidi Bou Zid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan");
+            
+
+
+    // Bind auto-completion for txtPrenomadmin
+    txtville.textProperty().addListener((observable, oldValue, newValue) -> {
+        // Clear previous suggestions
+        if (stationAutoCompletionBinding != null) {
+            stationAutoCompletionBinding.dispose();
+        }
+
+        // Determine which set of suggestions to use based on the selected nom
+        Set<String> suggestions;
+        if (newValue.equals("Ariana")) {
+            suggestions = ArienaSuggestions;
+        } 
+        else if (newValue.equals("Beja")) {
+            suggestions = BejaSuggestions;
+        }
+        else if (newValue.equals("Ben Arous")) {
+            suggestions = Ben_ArousSuggestions;
+        }
+        else if (newValue.equals("Bizerte")) {
+            suggestions = BizerteSuggestions;
+        }
+        else if (newValue.equals("Gabes")) {
+            suggestions = GabesSuggestions;
+        }
+        else if (newValue.equals("Gafsa")) {
+            suggestions = GafsaSuggestions;
+        }
+        else if (newValue.equals("Jendouba")) {
+            suggestions = JendoubaSuggestions;
+        }
+        else if (newValue.equals("Kairouan")) {
+            suggestions = KairouanSuggestions;
+        }
+        else if (newValue.equals("Kasserine")) {
+            suggestions = KasserineSuggestions;
+        }
+        else if (newValue.equals("Kebili")) {
+            suggestions = KebiliSuggestions;
+        }
+        else if (newValue.equals("Kef")) {
+            suggestions = KefSuggestions;
+        }
+        else if (newValue.equals("Mahdia")) {
+            suggestions = MahdiaSuggestions;
+        }
+        else if (newValue.equals("Manouba")) {
+            suggestions = ManoubaSuggestions;
+        }
+        else if (newValue.equals("Medenine")) {
+            suggestions = MedenineSuggestions;
+        }
+        else if (newValue.equals("Monastir")) {
+            suggestions = MonastirSuggestions;
+        }
+        else if (newValue.equals("Nabeul")) {
+            suggestions = NabeulSuggestions;
+        }
+        else if (newValue.equals("Sfax")) {
+            suggestions = SfaxSuggestions;
+        }
+        else if (newValue.equals("Sidi Bou Zid")) {
+            suggestions = Sidi_Bou_ZidSuggestions;
+        }
+        else if (newValue.equals("Siliana")) {
+            suggestions = SilianaSuggestions;
+        }
+        else if (newValue.equals("Sousse")) {
+            suggestions = SousseSuggestions;
+        }
+        else if (newValue.equals("Tataouine")) {
+            suggestions = TataouineSuggestions;
+        }
+        else if (newValue.equals("Tozeur")) {
+            suggestions = TozeurSuggestions;
+        }
+        else if (newValue.equals("Tunis")) {
+            suggestions = TunisSuggestions;
+        }
+        else if (newValue.equals("Zaghouan")) {
+            suggestions = ZaghouanSuggestions;
+        }
+        
+        
+        else {
+            // No suggestions for the selected nom
+            suggestions = new HashSet<>();
+        }
+
+        // Bind auto-completion for txtPrenomadmin using the appropriate set of suggestions
+        if (txtnom_station != null) {
+            stationAutoCompletionBinding = TextFields.bindAutoCompletion(txtnom_station, suggestions.toArray(new String[0]));
+
+            // Show an alert if the user doesn't select a suggestion
+            stationAutoCompletionBinding.setOnAutoCompleted(event -> {
+                if (!suggestions.contains(event.getCompletion())) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a suggestion from the list.");
+                    alert.showAndWait();
+                }
+            });
+        }
+    });
+}
 
 }
+
+
+
