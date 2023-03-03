@@ -101,7 +101,9 @@ public class SignupController implements Initializable {
     private TextField passtextfield;
     @FXML
     private JFXCheckBox cbshowpass1;
-
+    @FXML
+    private ComboBox<String> cbrole;
+     List<String> roles = Arrays.asList("CLIENT","ENTREPRISE");
     
     
     /**
@@ -109,8 +111,10 @@ public class SignupController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        cbrole.setVisible(false);
+        listeRole();
         listeVille();
+        cbrole.getSelectionModel().selectFirst();
         cbville.getSelectionModel().selectFirst();
         tfage.setEditable(false);
         // TODO
@@ -144,6 +148,11 @@ public class SignupController implements Initializable {
 
         ObservableList listville = FXCollections.observableArrayList(items);
         cbville.setItems(listville);
+    }
+        public void listeRole() {
+
+        ObservableList listerole = FXCollections.observableArrayList(roles);
+        cbrole.setItems(listerole);
     }
     
 @FXML
@@ -212,9 +221,9 @@ public class SignupController implements Initializable {
 
         } else if (!(validateEmail(tfemail))) {
             showAlert(Alert.AlertType.ERROR, owner, "Echec!", "La format d'email est incorrect!");
-        } else if (uc.emaildejaUtilise(tfemail.getText())) {
+        } else if (uc.emaildejaUtilise(tfemail.getText())||(uc.emailEntreprisedejautilisé(tfemail.getText()))) {
             showAlert(Alert.AlertType.ERROR, owner, "Echec!", "Email deja utilisé");
-        } else if (uc.cindejaUtilise(tfcin.getText())) {
+        }else if (uc.cindejaUtilise(tfcin.getText())) {
             showAlert(Alert.AlertType.ERROR, owner, "Echec!", "Cin déja utilisé");
         } else if (uc.num_permidejaUtilise(tfnum_permi.getText())) {
             showAlert(Alert.AlertType.ERROR, owner, "Echec!", "numéro de permis déja utilisé");

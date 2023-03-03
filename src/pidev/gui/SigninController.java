@@ -37,6 +37,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import pidev.entities.EntreprisePartenaire;
 import pidev.entities.User;
 import static pidev.gui.SignupController.calculerAge;
 import static pidev.gui.SignupController.showAlert;
@@ -76,7 +77,7 @@ public class SigninController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
+        /*try {
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             String myWeb = "http://java-buddy.blogspot.com/";
             int width = 300;
@@ -110,20 +111,20 @@ public class SigninController implements Initializable {
             // TODO
         } catch (WriterException ex) {
             Logger.getLogger(SigninController.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        } */
     }
-@FXML
+
+    @FXML
     private void forgetPasswordPage(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ForgetPassword.fxml"));
-           Parent root = loader.load();
+            Parent root = loader.load();
             ForgetPasswordController f = loader.getController();
-           
-             f.forgetPasswordWindow();
-              f.disablebutton();
+
+            f.forgetPasswordWindow();
+            f.disablebutton();
             Stage stage = (Stage) linkforgetpassword.getScene().getWindow();
             stage.close();
-           
 
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -136,10 +137,12 @@ public class SigninController implements Initializable {
             Window owner = btnsignin.getScene().getWindow();
 
             String encryptedpassword = EncryptPassword.toHexString(EncryptPassword.getSHA(pfpasswordtoconnect.getText()));
-
             User user = new User();
             user.setEmail(tfemailtoconnect.getText());
             user.setPassword(encryptedpassword);
+            EntreprisePartenaire e = new EntreprisePartenaire();
+            e.setLogin(tfemailtoconnect.getText());
+            e.setMdp(encryptedpassword);
             UserCRUD uc = new UserCRUD();
             if (tfemailtoconnect.getText().isEmpty() || pfpasswordtoconnect.getText().isEmpty()) {
                 showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "il reste des champs vides");
@@ -149,20 +152,38 @@ public class SigninController implements Initializable {
                 return;
             } else if (uc.authentifier(user)) {
                 try {
-                    user.setAge(calculerAge(uc.getUserByEmail(user.getEmail()).getDate_naiss()));
-                    uc.updateAge(uc.getUserByEmail(user.getEmail()).getId(),user.getAge());
-                    System.out.println(pfpasswordtoconnect.getText());
-                    UserSession.getInstace(user.getEmail(), pfpasswordtoconnect.getText());
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
-                    Parent root = loader.load();
-                    ProfileController pc = loader.getController();
-                    pc.profileWindow();
+                    if (uc.getUserByEmail(tfemailtoconnect.getText()).getIdrole() == 2) {
+                        System.out.println("Client connecté");
+                        user.setAge(calculerAge(uc.getUserByEmail(user.getEmail()).getDate_naiss()));
+                        uc.updateAge(uc.getUserByEmail(user.getEmail()).getId(), user.getAge());
+                        UserSession.getInstace(user.getEmail(), pfpasswordtoconnect.getText());
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
+                        Parent root = loader.load();
+                        ProfileController pc = loader.getController();
+                        pc.profileWindow();
 
-                    Stage stage = (Stage) btnsignin.getScene().getWindow();
-                    stage.close();
+                        Stage stage = (Stage) btnsignin.getScene().getWindow();
+                        stage.close();
+                    } else {
+                        System.out.println("Admin connecté");
+                        user.setAge(calculerAge(uc.getUserByEmail(user.getEmail()).getDate_naiss()));
+                        uc.updateAge(uc.getUserByEmail(user.getEmail()).getId(), user.getAge());
+                        UserSession.getInstace(user.getEmail(), pfpasswordtoconnect.getText());
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
+                        Parent root = loader.load();
+                        ProfileController pc = loader.getController();
+                        pc.profileWindow();
+
+                        Stage stage = (Stage) btnsignin.getScene().getWindow();
+                        stage.close();
+                    }
                 } catch (IOException ex) {
                     System.out.println(ex.getMessage());
                 }
+            } else if (uc.authentifierEntreprise(e)) {
+                UserSession.getInstace(e.getLogin(), pfpasswordtoconnect.getText());
+                System.out.println("Entreprise connecté");
+
             } else {
                 showAlert(Alert.AlertType.ERROR, owner, "Form Error!", "Compte introuvable");
             }
@@ -207,17 +228,18 @@ public class SigninController implements Initializable {
             System.out.println(ex.getMessage());
         }
     }
-    @FXML   
-    private void showPassword(){
-        if (cbshowpass.isSelected()){
+
+    @FXML
+    private void showPassword() {
+        if (cbshowpass.isSelected()) {
             tfshowedpass.setText(pfpasswordtoconnect.getText());
             tfshowedpass.setVisible(true);
             pfpasswordtoconnect.setVisible(false);
             return;
         }
-          pfpasswordtoconnect.setText(tfshowedpass.getText());
-            pfpasswordtoconnect.setVisible(true);
-            tfshowedpass.setVisible(false);
+        pfpasswordtoconnect.setText(tfshowedpass.getText());
+        pfpasswordtoconnect.setVisible(true);
+        tfshowedpass.setVisible(false);
     }
 
 }

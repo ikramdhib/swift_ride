@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -15,16 +16,16 @@
    <children>
       <VBox layoutX="256.0" layoutY="128.0" prefHeight="245.0" prefWidth="307.0" spacing="10.0">
          <children>
-            <TextField fx:id="tfnom" />
-            <TextField fx:id="tfprenom" />
-            <TextField fx:id="tfemail" />
-            <PasswordField fx:id="pfpassword" />
-            <PasswordField fx:id="pfnew_password" />
-            <TextField fx:id="tfville" />
-            <TextField fx:id="tfnum_tel" />
+            <TextField fx:id="tfnom" promptText="Nom" />
+            <TextField fx:id="tfprenom" promptText="Prenom" />
+            <TextField fx:id="tfemail" promptText="Email" />
+            <PasswordField fx:id="pfpassword" promptText="Nouveau mot de passe" />
+            <PasswordField fx:id="pfnew_password" promptText="Confirmer mot de passe" />
+            <ComboBox fx:id="cbville" prefWidth="150.0" promptText="Ville" />
+            <TextField fx:id="tfnum_tel" promptText="Numéro de téléphone" />
          </children>
       </VBox>
-      <VBox layoutX="86.0" layoutY="128.0" prefHeight="245.0" prefWidth="136.0" spacing="20.0">
+      <VBox layoutX="86.0" layoutY="128.0" prefHeight="267.0" prefWidth="161.0" spacing="20.0">
          <children>
             <Label text="Nom" textFill="WHITE" />
             <Label text="Prenom" textFill="WHITE" />
@@ -54,7 +55,7 @@
             <Image url="@../image/aaa.png" />
          </image>
       </ImageView>
-      <JFXButton fx:id="btvalider" layoutX="317.0" layoutY="428.0" onAction="#modifier" text="Valider les modificaitons" textFill="WHITE">
+      <JFXButton fx:id="btvalider" layoutX="299.0" layoutY="429.0" onAction="#modifier" text="Valider les modificaitons" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="33.0" fitWidth="35.0">
                <image>
@@ -62,7 +63,7 @@
                </image>
             </ImageView>
          </graphic></JFXButton>
-      <JFXButton fx:id="btndelete" layoutX="631.0" layoutY="430.0" onAction="#delete" text="Supprimer compte" textFill="WHITE">
+      <JFXButton fx:id="btndelete" layoutX="609.0" layoutY="430.0" onAction="#delete" text="Supprimer compte" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="29.0" fitWidth="26.0">
                <image>

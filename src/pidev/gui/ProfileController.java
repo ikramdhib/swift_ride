@@ -219,12 +219,13 @@ public class ProfileController implements Initializable {
     private void generateQRcode(){
         User user = uc.getUserByEmail(UserSession.getEmail());
       //  QRcodeView.setVisible(true);
+      int nbr= uc.histReserv(user.getId());
                try {
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             String Information = "nom : "+user.getNom()+"\n"+"prenom : "+user.getPrenom()+"\n"+"cin : "+user.getCin()+"\n"+"email : "+user.getEmail()+"\n"
-                    +"num_tel : "+user.getNum_tel()+"\n"+"num_permis : "+user.getNum_permis()+"\n"+"Ville : "+user.getVille()+"\n";
-            int width = 300;
-            int height = 300;
+                    +"num_tel : "+user.getNum_tel()+"\n"+"num_permis : "+user.getNum_permis()+"\n"+"Ville : "+user.getVille()+"\n"+"nombre totale de réservations : "+nbr;
+            int width = 100;
+            int height = 100;
             
             BufferedImage bufferedImage = null; 
             BitMatrix byteMatrix = qrCodeWriter.encode(Information, BarcodeFormat.QR_CODE, width, height);
@@ -262,6 +263,7 @@ public class ProfileController implements Initializable {
             notifqrcode.setVisible(true);
         } catch (MessagingException ex) {
             System.out.println(ex.getMessage());
+            
         }
  
 

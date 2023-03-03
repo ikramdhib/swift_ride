@@ -6,6 +6,7 @@
 package pidev.utils;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -43,7 +44,7 @@ public class SendQrCodeViaEmail {
             
             String to = email;
             String subject = "Votre Qrcode";
-            String message = "Votre Qr code est dans le pdf";
+            String message = "Merci pour votre fidélité avec notre application !";
             
             Properties properties = new Properties();
             properties.put("mail.smtp.auth", "true");
@@ -52,7 +53,7 @@ public class SendQrCodeViaEmail {
             properties.put("mail.smtp.port", "587");
             
             String from = "swiftride2023@gmail.com";
-            String password = "xvoijqcvlwqguzpt";
+            String password = "mkokjmqjrihgumfy";
             
             Session session = Session.getInstance(properties, new Authenticator() {
                 @Override
@@ -66,17 +67,34 @@ public class SendQrCodeViaEmail {
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
             msg.setSubject(subject);
             msg.setSentDate(new Date());
-            // msg.setContent(mltprt);
-            msg.setText(message);
+                    msg.setContent("<html> <body style=\"background-color: #e1d2b8;\">\n" +
+"  <div style=\"text-align: center\">"+
+"        <table>\n" +
+"        <tr><td></td>\n" +
+"        <td><h4 style=\"color:#2e006c\">Bonjour, </h4></td></tr>\n" +
+"        </table>\n" +
+"        <p style=\"color:#2e006c\"> Cher Client,</p>\n" +
+"        <p style=\"color:#2e006c\">\"Votre qr code est dans le fichier pdf ci-dessous "
+                  +"</p>"+
+
+          "</div>"+
+"    </body>\n" +
+"</html>","text/html");
+             
                DataSource source = new FileDataSource(createPDF(filename,bufferedImage));
                 msg.setDataHandler(new DataHandler(source));
-                    msg.setFileName(createPDF(filename,bufferedImage).getName());
+               msg.setFileName(createPDF(filename,bufferedImage).getName());
             Transport.send(msg);
+                       // createPDF(filename,bufferedImage).deleteOnExit();
+    deletefile(createPDF(filename,bufferedImage));
         } catch (Exception ex) {
                    System.out.println(ex.getMessage());         
         }
 
     }
+     private static void deletefile(File file){
+         file.delete();
+     }
 
 
 }

@@ -7,13 +7,14 @@ package pidev.interfaces;
 
 import java.io.IOException;
 import java.util.List;
+import pidev.entities.EntreprisePartenaire;
 import pidev.entities.User;
 
 /**
  *
  * @author skann
  */
-public interface InterfaceCRUD<T> {
+public interface InterfaceCRUD<T,E> {
      public void ajouterUtilisateur(T t);
      public void supprimerUtilisateur(T t);
      public boolean modifierUtilisateur(T t);
@@ -27,5 +28,10 @@ public interface InterfaceCRUD<T> {
     public User getUserByEmail(String s);
     public void updateAge(int a,String b);
     public void updatePassword(String a);
+    public int getIdrole(String a);
+    public EntreprisePartenaire getEntrepriseByEmail(String t);
+    public boolean authentifierEntreprise(E e);
+    public boolean emailEntreprisedejautilisé(String a);
+    public int histReserv(int id);
    
 }

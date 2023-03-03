@@ -67,9 +67,9 @@ private void enablebutton(){
         Window owner = bnsendcode.getScene().getWindow();
         if (tfemail.getText().isEmpty()) {
             showAlert(Alert.AlertType.ERROR, owner, "Form Echec!", "Champs email est vide !");
-        } else if (!(uc.emaildejaUtilise(tfemail.getText()))) {
+        } else if (!(uc.emaildejaUtilise(tfemail.getText()))&&!(uc.emailEntreprisedejautilisé(tfemail.getText()))) {
             showAlert(Alert.AlertType.ERROR, owner, "Form Echec!", "Email introuvable !");
-        } else {
+        }else {
             try {
                 enablebutton();
                 ForgetPassword.setEmail(tfemail.getText());

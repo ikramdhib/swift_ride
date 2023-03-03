@@ -10,10 +10,14 @@ import javafx.scene.control.Alert;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -48,8 +53,6 @@ public class UpdateUserController implements Initializable {
     @FXML
     private TextField tfemail;
     @FXML
-    private TextField tfville;
-    @FXML
     private TextField tfnum_tel;
     @FXML
     private PasswordField pfpassword;
@@ -68,12 +71,18 @@ public class UpdateUserController implements Initializable {
     User user = new User();
     @FXML
     private Label num_tellabel;
+     List<String> items = Arrays.asList("Ariana", "Beja ", "Ben Arous ", "Bizerte", "Gabes", "Gafsa ", "Jendouba", "Kairouan", "Kasserine", "Kebili", "Kef", "Mahdia", "Manouba", "Medenine", "Monastir", "Nabeul", "Sfax", "Sidi Bou Zid", "Siliana", "Sousse", "Tataouine ", "Tozeur", "Tunis", "Zaghouan");
+     @FXML
+     private ComboBox<String> cbville;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        listeVille();
+        cbville.getSelectionModel().selectFirst();
+
  if ((uc.getUserByEmail(UserSession.getEmail()).getIdrole() == 1)) {
      tfnum_tel.setVisible(false);
      num_tellabel.setVisible(false);
@@ -82,7 +91,6 @@ public class UpdateUserController implements Initializable {
         tfnom.setText(user.getNom());
         tfprenom.setText(user.getPrenom());
         tfemail.setText(user.getEmail());
-        tfville.setText(user.getVille());
         tfnum_tel.setText(user.getNum_tel());
         pfpassword.setText(UserSession.getPassword());
         pfnew_password.setText(UserSession.getPassword());
@@ -115,7 +123,7 @@ public class UpdateUserController implements Initializable {
             pfnew_password.setText(user.getPassword());*/
         if (tfnom.getText().isEmpty()
                 || tfprenom.getText().isEmpty() || tfemail.getText().isEmpty()
-                || tfville.getText().isEmpty() || tfnum_tel.getText().isEmpty()
+                 || tfnum_tel.getText().isEmpty()
                 || tfemail.getText().isEmpty() || (pfpassword.getText().isEmpty() && pfnew_password.getText().isEmpty())) {
             showAlert(alertType.ERROR, owner, "Erreur", "Il reste des champs vides!");
         }
@@ -131,11 +139,11 @@ public class UpdateUserController implements Initializable {
 if ((showVerification("Modifier","Modifier votre compte ?"))) {
             try {
                 
-                    user.setNom(tfnom.getText().toString());
-                    user.setPrenom(tfprenom.getText().toString());
-                    user.setEmail(tfemail.getText().toString());
-                    user.setVille(tfville.getText().toString());
-                    user.setNum_tel(tfnum_tel.getText().toString());
+                    user.setNom(tfnom.getText());
+                    user.setPrenom(tfprenom.getText());
+                    user.setEmail(tfemail.getText());
+                    user.setVille(cbville.getSelectionModel().getSelectedItem());
+                    user.setNum_tel(tfnum_tel.getText());
                 try {
                     user.setPassword(EncryptPassword.toHexString(EncryptPassword.getSHA(pfnew_password.getText())));
                 } catch (NoSuchAlgorithmException ex) {
@@ -228,5 +236,11 @@ if ((showVerification("Modifier","Modifier votre compte ?"))) {
       public void updateWindow(Stage stage) {
         updateWindowStage(stage);
     }*/
+ public void listeVille() {
 
+       
+
+        ObservableList listville = FXCollections.observableArrayList(items);
+        cbville.setItems(listville);
+    }
 }

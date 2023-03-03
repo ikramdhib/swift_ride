@@ -28,7 +28,7 @@ public class MainClass extends Application {
     public void start(Stage primaryStage) { try {
  
  
-            Parent root = FXMLLoader.load(getClass().getResource("Signup.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("Signin.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setTitle("Crée un compte");
             primaryStage.setScene(scene);
