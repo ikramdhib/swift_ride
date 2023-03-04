@@ -22,7 +22,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="741.0" prefWidth="1227.0" style="-fx-background-color: #24223e;" stylesheets="@interfacesCss.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swiftride.GUI.MaintenanceController">
    <children>
-      <VBox layoutY="134.0" prefHeight="645.0" prefWidth="297.0" style="-fx-background-color: #383562;">
+      <VBox layoutY="134.0" prefHeight="645.0" prefWidth="280.0" style="-fx-background-color: #383562;">
          <children>
             <JFXButton focusTraversable="false" text="Acceuil" textFill="WHITE">
                <graphic>
@@ -149,12 +149,13 @@
          <font>
             <Font name="FontAwesome Regular" size="17.0" />
          </font></Label>
-      <TableView fx:id="tb_maintenaces" layoutX="706.0" layoutY="223.0" prefHeight="458.0" prefWidth="508.0" stylesheets="@interfacesCss.css">
+      <TableView fx:id="tb_maintenaces" layoutX="681.0" layoutY="228.0" prefHeight="458.0" prefWidth="508.0" stylesheets="@interfacesCss.css">
         <columns>
           <TableColumn fx:id="tb_id" prefWidth="77.0" text="ID" />
-          <TableColumn fx:id="tb_date" prefWidth="164.0" text="Date_Debut" />
-            <TableColumn fx:id="tb_datef" prefWidth="147.0" text="Date_Fin" />
-            <TableColumn fx:id="tb_type" prefWidth="115.0" text="Type" />
+          <TableColumn fx:id="tb_date" prefWidth="116.0" text="Date_Debut" />
+            <TableColumn fx:id="tb_datef" prefWidth="103.0" text="Date_Fin" />
+            <TableColumn fx:id="tb_type" prefWidth="98.0" text="Type" />
+            <TableColumn fx:id="tb_voiture" prefWidth="109.0" text="Voiture" />
         </columns>
       </TableView>
       <JFXButton fx:id="bt_save" layoutX="555.0" layoutY="619.0" onAction="#saveMaintenance" text="Ajouter" textFill="WHITE">
@@ -168,7 +169,7 @@
          <font>
             <Font name="FontAwesome Regular" size="17.0" />
          </font></JFXButton>
-      <JFXButton fx:id="bt_modify" layoutX="900.0" layoutY="683.0" onAction="#modifyMaintenance" text="Modifier" textFill="WHITE">
+      <JFXButton fx:id="bt_modify" layoutX="729.0" layoutY="692.0" onAction="#modifyMaintenance" text="Modifier" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -179,7 +180,7 @@
          <font>
             <Font name="FontAwesome Regular" size="17.0" />
          </font></JFXButton>
-      <JFXButton fx:id="bt_delete" layoutX="1045.0" layoutY="683.0" onAction="#deleteMaintenance" text="Supprimer" textFill="WHITE">
+      <JFXButton fx:id="bt_delete" layoutX="989.0" layoutY="692.0" onAction="#deleteMaintenance" text="Supprimer" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -190,9 +191,9 @@
          <font>
             <Font name="FontAwesome Regular" size="17.0" />
          </font></JFXButton>
-      <Pane fx:id="pane" prefHeight="134.0" prefWidth="1227.0" style="-fx-background-color: #2d2a4e;">
+      <Pane fx:id="pane" layoutX="-5.0" prefHeight="134.0" prefWidth="1227.0" style="-fx-background-color: #2d2a4e;">
          <children>
-            <Label layoutX="458.0" layoutY="41.0" prefHeight="52.0" prefWidth="522.0" text="Gestion des Maintenance" textFill="WHITE">
+            <Label layoutX="458.0" layoutY="41.0" prefHeight="52.0" prefWidth="522.0" text="Gestion des Maintenances" textFill="WHITE">
                <font>
                   <Font name="FontAwesome Regular" size="46.0" />
                </font>
@@ -252,18 +253,6 @@
             <Image url="@../../../images/icons8-search-64.png" />
          </image>
       </ImageView>
-      <JFXButton fx:id="bt_impr" layoutX="732.0" layoutY="683.0" text="Imprimer" textFill="WHITE">
-         <graphic>
-            <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../images/icons8-print-96.png" />
-               </image>
-            </ImageView>
-         </graphic>
-         <font>
-            <Font name="FontAwesome Regular" size="17.0" />
-         </font>
-      </JFXButton>
       <JFXTimePicker fx:id="pk_timed" layoutX="629.0" layoutY="281.0" prefHeight="29.0" prefWidth="30.0" />
       <JFXTimePicker fx:id="pk_timef" layoutX="629.0" layoutY="383.0" prefHeight="29.0" prefWidth="24.0" />
       <DatePicker fx:id="pk_fin" layoutX="416.0" layoutY="377.0" prefHeight="41.0" prefWidth="198.0" />
@@ -273,7 +262,7 @@
          </font>
       </Label>
       <Label fx:id="lb_pk2" layoutX="367.0" layoutY="431.0" prefHeight="31.0" prefWidth="239.0" />
-      <JFXToggleButton fx:id="active" layoutX="334.0" layoutY="168.0" onAction="#actionButton" text="Activer" textFill="WHITE" toggleColor="#f68d4c" toggleLineColor="#eea981" unToggleColor="#c90e0e" unToggleLineColor="#973939">
+      <JFXToggleButton fx:id="active" layoutX="285.0" layoutY="156.0" onAction="#actionButton" text="Activer" textFill="WHITE" toggleColor="#f68d4c" toggleLineColor="#eea981" unToggleColor="#c90e0e" unToggleLineColor="#973939">
          <font>
             <Font name="FontAwesome Regular" size="17.0" />
          </font>

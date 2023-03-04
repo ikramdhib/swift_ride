@@ -8,16 +8,17 @@ package edu.swiftride.GUI;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTimePicker;
 import com.jfoenix.controls.JFXToggleButton;
+import edu.swiftride.Services.EntrepriseCRUD;
 import edu.swiftride.Services.GarageCRUD;
+import edu.swiftride.Services.MailMaintenance;
 import edu.swiftride.Services.MaintenanceCRUD;
 import edu.swiftride.Services.VoitureCRUD;
+import edu.swiftride.entities.DetailMaintenanceVoitures;
+import edu.swiftride.entities.Entreprise;
 import edu.swiftride.entities.Garage;
 import edu.swiftride.entities.Maintenance;
 import edu.swiftride.entities.Voiture;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -56,6 +57,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javax.mail.MessagingException;
 /**
  * FXML Controller class
  *
@@ -81,6 +83,8 @@ public class MaintenanceController implements Initializable {
     private TableColumn tb_datef;
     @FXML
     private TableColumn tb_type;
+     @FXML
+    private TableColumn tb_voiture;
     @FXML
     private JFXButton bt_save;
     @FXML
@@ -120,7 +124,11 @@ public class MaintenanceController implements Initializable {
     
     MaintenanceCRUD mc = new MaintenanceCRUD();
     
-    public static ObservableList<Maintenance> listM = null;
+    VoitureCRUD vc = new VoitureCRUD();
+    
+    EntrepriseCRUD ec = new EntrepriseCRUD();
+    
+    public static ObservableList<DetailMaintenanceVoitures> listM ;
     
 
     /**
@@ -162,7 +170,7 @@ public class MaintenanceController implements Initializable {
         getVoitureItems();
         setCellValueFromTableToText();
         
-         FilteredList<Maintenance> filtreData = new FilteredList<>(listM , p->true);
+         FilteredList<DetailMaintenanceVoitures> filtreData = new FilteredList<>(listM , p->true);
        
         
          tf_recherche.textProperty().addListener((observable, oldValue, newValue) ->{
@@ -186,25 +194,13 @@ public class MaintenanceController implements Initializable {
             });
        });
        
-       SortedList<Maintenance> sortedData = new SortedList<>(filtreData);
+       SortedList<DetailMaintenanceVoitures> sortedData = new SortedList<>(filtreData);
        sortedData.comparatorProperty().bind(tb_maintenaces.comparatorProperty());
        tb_maintenaces.setItems(sortedData);
        
        
     }  
     
-    
-     public void getGarageItems(){
-        GarageCRUD gc = new GarageCRUD();
-        List<String> str = new ArrayList();
-         List<Garage> lg = gc.listDesEntites();
-         
-         cb_garage.getItems().addAll(lg);
-         
-          cb_garage.setOnAction(ae ->{
-            id_g = cb_garage.getSelectionModel().getSelectedItem().getId();
-        });
-    }
      
       public void getVoitureItems(){
         VoitureCRUD vc= new VoitureCRUD();
@@ -317,13 +313,47 @@ public class MaintenanceController implements Initializable {
     
     public void displayMaintenance(){
         
+        
+        List<Voiture> voitures = vc.diplayDetailVoitures();
+        
+        System.out.println(voitures);
+        
+
+        List<DetailMaintenanceVoitures> details = new ArrayList<>();
+        
+        
+        for(Voiture v : voitures){
+      
+            List<Maintenance> maintenaces = mc.getwithCarId(v.getId());
+            
+            for(Maintenance m : maintenaces){
+                System.out.println(m.getId());
+                  DetailMaintenanceVoitures d = new DetailMaintenanceVoitures();
+                  
+                  
+                  
+                  
+                    d.setId(m.getId());
+                    d.setDate_maintenance(m.getDate_maintenance());
+                    d.setFin_maintenance(m.getFin_maintenance());
+                    d.setType(m.getType());
+                    d.setVoiture(v.getMatricule().concat(" - ").concat(v.getMarque()));
+                    
+                     details.add(d);
+                }
+                
+            }
+            
+           
+            System.out.println(details);
+        
         tb_id.setCellValueFactory(new PropertyValueFactory("id"));
         tb_date.setCellValueFactory(new PropertyValueFactory("date_maintenance"));
         tb_type.setCellValueFactory(new PropertyValueFactory("type"));
         tb_datef.setCellValueFactory(new PropertyValueFactory("fin_maintenance"));
-        List l = mc.listDesEntites();
+       tb_voiture.setCellValueFactory(new PropertyValueFactory("voiture"));
         
-        listM =FXCollections.observableArrayList(l);
+        listM =FXCollections.observableArrayList(details);
         
         tb_maintenaces.setItems(listM);
         
@@ -331,9 +361,21 @@ public class MaintenanceController implements Initializable {
 
     @FXML
     private void deleteMaintenance(ActionEvent event) {
-         Maintenance m =(Maintenance) tb_maintenaces.getSelectionModel().getSelectedItem();
+        
+        if(tb_maintenaces.getSelectionModel().getSelectedItems().isEmpty()){
+              Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setContentText("Vous devez sélectionner le Maintenance !");
+                a.setTitle("ERREUER");
+                 Optional<ButtonType> res=a.showAndWait();
+                if(res.get() ==ButtonType.OK){
+                a.close();
+        }
+        }else{
+            
+        
+         DetailMaintenanceVoitures m =(DetailMaintenanceVoitures) tb_maintenaces.getSelectionModel().getSelectedItem();
          
-         if(m.getId()!=0 && m.getId_voiture()!=0){
+         if(m.getId()!=0){
          
           Alert a = new Alert(Alert.AlertType.CONFIRMATION);
                 a.setContentText("Voulez-vous vraiment supprimer le Maintenance N°"+m.getId());
@@ -358,13 +400,15 @@ public class MaintenanceController implements Initializable {
                                 }
 
          }
+         
+        }
         
     }
      int id =0;
      private void setCellValueFromTableToText(){
        
         tb_maintenaces.setOnMouseClicked((MouseEvent event) -> {
-            Maintenance m= (Maintenance) tb_maintenaces.getItems().get(tb_maintenaces.getSelectionModel()
+            DetailMaintenanceVoitures m= (DetailMaintenanceVoitures) tb_maintenaces.getItems().get(tb_maintenaces.getSelectionModel()
                     .getSelectedIndex());
             LocalDateTime loc = m.getDate_maintenance().toLocalDateTime();
             LocalDateTime locc = m.getFin_maintenance().toLocalDateTime();
@@ -374,6 +418,13 @@ public class MaintenanceController implements Initializable {
             pk_timed.setValue(loc.toLocalTime());
             pk_timef.setValue(locc.toLocalTime());
             id = m.getId();
+            String[] str = m.getVoiture().split("-");
+            
+            System.out.println(str[0]);
+             System.out.println(str[1]);
+             Voiture v = vc.getVoitureWithMatriculAndMarque(str[1].trim(),str[0].trim());
+             System.out.println("hhh"+vc.getVoitureWithMatriculAndMarque("polo","21565uu5"));
+            cb_voiture.setValue(v);
             if(m.getType().equals(rb_entretien.getText())){
             rb_entretien.setSelected(true);
             }
@@ -400,11 +451,10 @@ public class MaintenanceController implements Initializable {
         
         m.setDate_maintenance(Timestamp.valueOf(datetimed));
         m.setFin_maintenance(Timestamp.valueOf(datetimef));
-        m.setId_garage(id_g);
         m.setId_voiture(id_v);
         m.setType(maintenance_type);
         m.setId(id);
-        if(m.getDate_maintenance()!=null && m.getId()!=0 && m.getId_voiture()!=0){
+        if(m.getDate_maintenance()!=null && m.getId()!=0 ){
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
                 a.setContentText("Voulez-vous vraiment modifier le maintenance N°"+m.getId());
                 a.setTitle("CONFIRMER");
@@ -503,7 +553,7 @@ public class MaintenanceController implements Initializable {
     }
     
       
-    public void EntretintAuto(){
+    public void EntretintAuto() {
         
         System.out.println("fom activate");
         
@@ -543,8 +593,15 @@ public class MaintenanceController implements Initializable {
                    mc.ajouterEntitie(newM);
                    System.out.println("fomauto9"+newM);
                    
-                   //partie sms
                    
+                   Entreprise e = ec.getwithCarId(v.getId_entreprise());
+                   System.out.println("55fff"+e+"kkkkkkkk"+v.getId_entreprise());
+                   //partie mail
+                    MailMaintenance.setEmail(e.getEmail());
+                    MailMaintenance.setNomEn(e.getNom());
+                     MailMaintenance.setDate(newM.getDate_maintenance());
+                     MailMaintenance.setDatef(newM.getFin_maintenance());
+                    MailMaintenance.sendVerificationCode();
                    
                    
                }
@@ -572,7 +629,16 @@ public class MaintenanceController implements Initializable {
                         newM.setId_garage(m.getId());
                         newM.setId_voiture(v.getId());
                         mc.ajouterEntitie(newM);
-                        //partie sms 
+                   System.out.println("fomauto9"+newM);
+                   
+                   
+                   Entreprise e = ec.getwithCarId(v.getId_entreprise());
+                   System.out.println("55fffffffffffffffffffffffffff"+e+"kkkkkkkk"+v.getId_entreprise());
+                   //partie mail
+                    MailMaintenance.setEmail(e.getEmail());
+                     MailMaintenance.setDate(newM.getDate_maintenance());
+                     MailMaintenance.setDatef(newM.getFin_maintenance());
+                    MailMaintenance.sendVerificationCode();
                        }
                        else{
                            
@@ -582,7 +648,87 @@ public class MaintenanceController implements Initializable {
                    }
                    
                }
+               ///bech naamel mta3 l'entretient 
+           }
+           
+           if(divisible(v.getKilometrage())){
                
+               List<Maintenance> listm = mc.getwithCarId(v.getId());
+               
+               if(listm.isEmpty()){
+                   System.out.println("ff"+listm);
+                   Maintenance m ;
+                   Maintenance newM = new Maintenance();
+                   
+                  m = getDispTime(listg);
+                   System.out.println("fomauto8"+m);
+                   newM.setDate_maintenance(m.getDate_maintenance());
+                   newM.setFin_maintenance(Timestamp.valueOf(m.getDate_maintenance().toLocalDateTime().plusHours(1)));
+                   newM.setType("Entretien");
+                   newM.setId_garage(m.getId_garage());
+                   newM.setId_voiture(v.getId());
+                   
+                   mc.ajouterEntitie(newM);
+                   System.out.println("fomauto9"+newM);
+                   
+                   
+                   Entreprise e = ec.getwithCarId(v.getId_entreprise());
+                   System.out.println("55fff"+e+"kkkkkkkk"+v.getId_entreprise());
+                   //partie mail
+                    MailMaintenance.setEmail(e.getEmail());
+                    MailMaintenance.setNomEn(e.getNom());
+                     MailMaintenance.setDate(newM.getDate_maintenance());
+                     MailMaintenance.setDatef(newM.getFin_maintenance());
+                    MailMaintenance.sendVerificationCode();
+                   
+                   
+               }
+               
+               else if (listm.size()>0){
+                   
+                   for(int i=0 ; i<listm.size() ; i++){
+                       
+                       System.out.println("tes1"+ (listm.get(listm.size()-1)));
+                       LocalDate d1 = listm.get(listm.size()-1).getDate_maintenance().toLocalDateTime().toLocalDate();
+                       LocalDate d2 = LocalDate.now();
+                       
+                       long an =ChronoUnit.DAYS.between(d1, d2);
+                       
+                       if(an>=4){
+                           
+                        Maintenance m ;
+                        Maintenance newM = new Maintenance();
+
+                         m = getDispTime(listg);
+
+                        newM.setDate_maintenance(m.getDate_maintenance());
+                        newM.setFin_maintenance(Timestamp.valueOf(m.getDate_maintenance().toLocalDateTime().plusHours(1)));
+                        newM.setType("Entretien");
+                        newM.setId_garage(m.getId());
+                        newM.setId_voiture(v.getId());
+                        mc.ajouterEntitie(newM);
+                   System.out.println("fomauto9"+newM);
+                   
+                   
+                   Entreprise e = ec.getwithCarId(v.getId_entreprise());
+                   System.out.println("55fffffffffffffffffffffffffff"+e+"kkkkkkkk"+v.getId_entreprise());
+                   //partie mail
+                    MailMaintenance.setEmail(e.getEmail());
+                     MailMaintenance.setDate(newM.getDate_maintenance());
+                     MailMaintenance.setDatef(newM.getFin_maintenance());
+                    MailMaintenance.sendVerificationCode();
+                       }
+                       else{
+                           
+                           System.out.println("tout est bien");
+                       }
+                       
+                   }
+                   
+               }
+               ///bech naamel mta3 l'entretient 
+           
+                
            }
            
        }
@@ -590,48 +736,15 @@ public class MaintenanceController implements Initializable {
         
     }
     
-    public void actionButton(){
-        
-        EntretintAuto();
-        displayMaintenance();
-        
+    
+    public boolean divisible(int kilometrage){
+       return kilometrage%5000 == 0;
     }
     
-//    public void sendSMS(int number){
-//        
-//        
-//         try {
-//            // Construct data
-//            String apiKey = "apikey=" + "NDI0YTY3NDI3MzZlNjkzMjQ1Mzc0OTMzNDg3OTMzNzQ=";
-//            String message = "&message=" + "Greetings from Simplifying Tech! Have a nice day!";
-//            String sender = "&sender=" + "SWIFTRIDE";
-//            String numbers = "&numbers=" + "+21650711246";
-// 
-//            // Send data
-//            HttpURLConnection conn = (HttpURLConnection) new URL("https://api.textlocal.in/send/?").openConnection();
-//            String data = apiKey + numbers + message + sender;
-//            conn.setDoOutput(true);
-//            conn.setRequestMethod("POST");
-//            conn.setRequestProperty("Content-Length", Integer.toString(data.length()));
-//            conn.getOutputStream().write(data.getBytes("UTF-8"));
-//             
-//             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//            StringBuffer stringBuffer = new StringBuffer();
-//            String line;
-//            while ((line = rd.readLine()) != null) {
-//                stringBuffer.append(line).append("\n");
-//            }
-//            System.out.println(stringBuffer.toString());
-//            rd.close();
-// 
-// 
-//        } catch (Exception e) {
-//           e.printStackTrace();
-//        }
-//        
-//        
-//        
-//    }
-//    
+    public void actionButton() throws MessagingException{
+        EntretintAuto();
+        displayMaintenance();
+    }
     
+ 
 }

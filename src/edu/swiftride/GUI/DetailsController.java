@@ -14,6 +14,7 @@ import edu.swiftride.entities.Details;
 import edu.swiftride.entities.Garage;
 import edu.swiftride.entities.Maintenance;
 import edu.swiftride.entities.Voiture;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -242,15 +243,9 @@ public class DetailsController implements Initializable {
             
             FileOutputStream fileOut = new FileOutputStream(outputFile);
             workbook.write(fileOut);
+           Desktop.getDesktop().open(outputFile); 
             fileOut.close();
             
-             Alert a = new Alert(Alert.AlertType.INFORMATION);
-                a.setContentText("Le chemin du fichier EXCEL:"+outputFile.getAbsolutePath());
-                a.setTitle("INFORMATION");
-                 Optional<ButtonType> res=a.showAndWait();
-                if(res.get() ==ButtonType.OK){
-                    a.close();
-                }
             System.out.println("Table data exported to " + outputFile.getAbsolutePath());
         } catch (IOException ex) {
             System.out.println(ex.getMessage());

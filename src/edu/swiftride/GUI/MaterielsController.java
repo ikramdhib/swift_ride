@@ -8,18 +8,23 @@ package edu.swiftride.GUI;
 import com.jfoenix.controls.JFXButton;
 import edu.swiftride.Services.GarageCRUD;
 import edu.swiftride.Services.MaterielCRUD;
+import edu.swiftride.entities.DetailsMaterielsGarage;
 import edu.swiftride.entities.Garage;
 import edu.swiftride.entities.Materiel;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -30,10 +35,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
 
 /**
  * FXML Controller class
@@ -55,13 +63,15 @@ public class MaterielsController implements Initializable {
     MaterielCRUD mc = new MaterielCRUD();
     
     @FXML
-    private TableView tb_materiels;
+    private TableView<DetailsMaterielsGarage> tb_materiels;
     @FXML
     private TableColumn tb_id;
     @FXML
     private TableColumn tb_nom;
+    @FXML
+    private TableColumn tb_garage;
     
-    public static ObservableList<Materiel> listM = null;
+    public static ObservableList<DetailsMaterielsGarage> listM = null;
     
     @FXML
     private AnchorPane logo;
@@ -83,13 +93,36 @@ public class MaterielsController implements Initializable {
     @FXML
     private Label lb_base;
     
+    GarageCRUD gc = new GarageCRUD();
+    
+    private AutoCompletionBinding<String> auto;
+    private String [] materiletab={"Cric hydraulique","Clé à cliquet","Jeu de douilles","Clé dynamométrique","Tournevis","Marteau","Pince multiprise","Cisaille","Scie à métaux","Lampe d'atelier","Gants de mécanique","Pont élévateur","Compresseur d'air","Nettoyeur haute pression","Machine de diagnostic","Banc de géométrie","Equilibreuse de roues","Démonte-pneus","Chariot de visite","Etabli","Poste à souder","Aspirateur d'atelier","Ensemble de lavage des freins"};
+    
+    private Set<String> possibleSugg = new HashSet<>(Arrays.asList(materiletab));
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
       displayMateriel();
       getGarageItems();
-      setCellValueFromTableToText();
+     setCellValueFromTableToText();
+     
+     auto =TextFields.bindAutoCompletion(tf_materiel, possibleSugg);
+     tf_materiel.setOnKeyPressed(new EventHandler<KeyEvent>(){
+          @Override
+          public void handle(KeyEvent event) {
+              switch(event.getCode()){
+                  
+                  case ENTER :
+                      autoCompletLearn(tf_materiel.getText().trim());
+                      break;
+                  default :
+                    break;  
+              }
+          }
+         
+     });
       
-       FilteredList<Materiel> filtreData = new FilteredList<>(listM, p->true);
+       FilteredList<DetailsMaterielsGarage> filtreData = new FilteredList<>(listM, p->true);
          tf_recherche.textProperty().addListener((observable, oldValue, newValue) ->{
             filtreData.setPredicate( maintenance ->{
                 
@@ -104,12 +137,17 @@ public class MaterielsController implements Initializable {
                  return true;
                
              }
+             else if(maintenance.getGarage().toLowerCase().contains(lowerCaseFilter)){
+                 
+                 return true;
+               
+             }
              else
                  return false;
             });
        });
        
-       SortedList<Materiel> sortedData = new SortedList<>(filtreData);
+       SortedList<DetailsMaterielsGarage> sortedData = new SortedList<>(filtreData);
        sortedData.comparatorProperty().bind(tb_materiels.comparatorProperty());
        tb_materiels.setItems(sortedData);
       
@@ -125,6 +163,27 @@ public class MaterielsController implements Initializable {
           cb_garage.setOnAction(ae ->{
             id_g = cb_garage.getSelectionModel().getSelectedItem().getId();
         });
+    }
+    
+    private void autoCompletLearn(String s){
+        possibleSugg.add(s);
+        if(auto!=null){
+            auto.dispose();
+        }
+        auto=TextFields.bindAutoCompletion(tf_materiel,possibleSugg );
+    }
+    
+    public boolean isEnought(String s){
+        
+        return s.length()>15;
+        
+    }
+    
+    public void testLength(KeyEvent ev){
+       String s = ev.getCharacter();
+       if(isEnought(s)){
+           ev.consume();
+       }
     }
     
     @FXML
@@ -172,20 +231,56 @@ public class MaterielsController implements Initializable {
     }
     
     public void displayMateriel(){
+         
+        
+        
+        List<Garage> listg = gc.displayGarages();
+        
+        
+        List<DetailsMaterielsGarage> lmg = new ArrayList<>();
+        
+        for(Garage g : listg){
+            
+            List<Materiel> lm= mc.getMaterielsWithGarageId(g.getId());
+            
+            for(Materiel m :lm){
+                
+                DetailsMaterielsGarage dm = new DetailsMaterielsGarage();
+                
+                dm.setId(m.getId());
+                dm.setNom(m.getNom());
+                dm.setGarage(g.getMatricule_garage().concat("-").concat(""+g.getId()));
+                
+                lmg.add(dm);
+            }
+            
+        }
+        System.out.println(lmg);
         
         tb_id.setCellValueFactory(new PropertyValueFactory("id"));
         tb_nom.setCellValueFactory(new PropertyValueFactory("nom"));
+        tb_garage.setCellValueFactory(new PropertyValueFactory("garage"));
         
-        List l = mc.listDesEntites();
         
-        listM=FXCollections.observableArrayList(l);
+        listM=FXCollections.observableArrayList(lmg);
         
         tb_materiels.setItems(listM);
     }
 
     @FXML
     private void deletMateriel(ActionEvent event) {
-         Materiel m =(Materiel) tb_materiels.getSelectionModel().getSelectedItem();
+        
+        if(tb_materiels.getSelectionModel().getSelectedItems().isEmpty()){
+               Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setContentText("Vous devez sélectionner le Materiel !");
+                a.setTitle("ERREUER");
+                 Optional<ButtonType> res=a.showAndWait();
+                if(res.get() ==ButtonType.OK){
+                a.close();
+        }
+        }
+        else{
+         DetailsMaterielsGarage m =(DetailsMaterielsGarage) tb_materiels.getSelectionModel().getSelectedItem();
          
           Alert a = new Alert(Alert.AlertType.CONFIRMATION);
                 a.setContentText("Voulez-vous vraiment supprimer le Materiel N°"+m.getId());
@@ -199,15 +294,19 @@ public class MaterielsController implements Initializable {
                 else if (res.get()==ButtonType.CANCEL){
                     System.out.println("alert closed");
                 }
-        
+        }
     }
     
     private void setCellValueFromTableToText(){
         
         tb_materiels.setOnMouseClicked((MouseEvent event) -> {
-            Materiel m= (Materiel) tb_materiels.getItems().get(tb_materiels.getSelectionModel()
+            DetailsMaterielsGarage m= (DetailsMaterielsGarage) tb_materiels.getItems().get(tb_materiels.getSelectionModel()
                     .getSelectedIndex());
             tf_materiel.setText(m.getNom());
+            String[] str =m.getGarage().split("-");
+            int idd=Integer.parseInt(str[1]);
+            Garage g = gc.getGaragewithID(idd);
+            cb_garage.setValue(g);
             
             id = m.getId();
         });
@@ -223,6 +322,9 @@ public class MaterielsController implements Initializable {
         
         m.setNom(materiel);
         m.setId(id);
+        
+        m.setId_garage(id_g);
+        System.out.println("ig"+id_g);
         if(m!=null){
       Alert a = new Alert(Alert.AlertType.CONFIRMATION);
                 a.setContentText("Voulez-vous vraiment modifier le Materiel N°"+m.getId());
@@ -247,7 +349,7 @@ public class MaterielsController implements Initializable {
                                 b.setTitle("ERREUR");
                                 Optional<ButtonType> res=b.showAndWait();
                                 if(res.get() ==ButtonType.OK){
-                                    System.out.println("alert closed");
+                                   b.close();
                                 }
                 }
     }

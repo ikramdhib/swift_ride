@@ -7,8 +7,11 @@ package edu.swiftride.GUI;
 
 import com.jfoenix.controls.JFXButton;
 import edu.swiftride.Services.GarageCRUD;
+import edu.swiftride.entities.DetailsMaterielsGarage;
 import edu.swiftride.entities.Garage;
+import edu.swiftride.entities.Materiel;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -117,6 +120,8 @@ public class GarageController implements Initializable {
     
     public void displayGarage(){
         
+        
+        
         tb_id.setCellValueFactory(new PropertyValueFactory("id"));
         tb_matricule.setCellValueFactory(new PropertyValueFactory("matricule_garage"));
          List<Garage> l = gc.listDesEntites();
@@ -164,6 +169,16 @@ public class GarageController implements Initializable {
     
     @FXML
     public void deleteGarage(ActionEvent ae){
+        
+        if(table_garage.getSelectionModel().getSelectedItems().isEmpty()){
+              Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setContentText("Vous devez sélectionner le garage !");
+                a.setTitle("ERREUER");
+                 Optional<ButtonType> res=a.showAndWait();
+                if(res.get() ==ButtonType.OK){
+                a.close();
+        }
+        }
         Garage g =(Garage) table_garage.getSelectionModel().getSelectedItem();
              Alert a = new Alert(Alert.AlertType.CONFIRMATION);
                 a.setContentText("Voulez-vous vraiment supprimer le Garage N°"+g.getId());
