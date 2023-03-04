@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="916.0" prefWidth="1210.0" style="-fx-background-color: #24223e;" stylesheets="@interfacesCss.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swiftride.GUI.DetailsController">
+   <children>
+      <TableView fx:id="table_detail" layoutX="58.0" layoutY="95.0" prefHeight="741.0" prefWidth="1125.0">
+        <columns>
+          <TableColumn fx:id="tb_date_mat" prefWidth="169.0" text="Debut_maintenance" />
+            <TableColumn fx:id="tb_datf" prefWidth="135.0" text="Fin_maintenace" />
+          <TableColumn fx:id="tb_type_mat" prefWidth="161.0" text="Type_maintenance" />
+            <TableColumn fx:id="tb_v_matri" prefWidth="150.0" text="Matricule_voiture" />
+            <TableColumn fx:id="tb_v_model" prefWidth="126.0" text="Model_voiture" />
+            <TableColumn fx:id="tb_v_mrq" prefWidth="125.0" text="Marque_voiture" />
+            <TableColumn fx:id="tb_g" prefWidth="132.0" text="Intitule_garage" />
+            <TableColumn fx:id="tb_materiels" prefWidth="123.0" text="List_materiels" />
+        </columns>
+      </TableView>
+      <JFXButton layoutX="863.0" layoutY="843.0" onAction="#exporterExcel" text="Expoter en Excel" textFill="WHITE">
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons8-microsoft-excel-2019-96.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="FontAwesome Regular" size="17.0" />
+         </font>
+      </JFXButton>
+      <TextField fx:id="tf_recherche" layoutX="471.0" layoutY="36.0" prefHeight="41.0" prefWidth="401.0" styleClass="ListView" />
+      <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="833.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/icons8-search-64.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="355.0" layoutY="47.0" prefHeight="19.0" prefWidth="69.0" text="Filtrer : " textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="17.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="594.0" layoutY="843.0" onAction="#goMaintenance" text="Modifier  maintenance" textFill="WHITE">
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="44.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons8-support-96.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="FontAwesome Regular" size="17.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="380.0" layoutY="843.0" onAction="#goGarage" text="Modifier garage" textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="17.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="44.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons8-garage-door-100.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton layoutX="135.0" layoutY="843.0" onAction="#goMateriels" text="Modifier Materiel" textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="17.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="44.0" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons8-materials-64.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+   </children>
+</AnchorPane>

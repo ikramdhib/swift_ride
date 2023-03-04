@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="logo" prefHeight="741.0" prefWidth="1227.0" style="-fx-background-color: #24223e;" stylesheets="@interfacesCss.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swiftride.GUI.GarageController">
+   <children>
+      <VBox layoutY="134.0" prefHeight="645.0" prefWidth="296.0" style="-fx-background-color: #383562;">
+         <children>
+            <JFXButton focusTraversable="false" text="Acceuil" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-home-page-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="15.0" right="12.0" top="50.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="FontAwesome Regular" size="17.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </JFXButton>
+            <JFXButton focusTraversable="false" text="Profile" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-user-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="FontAwesome Regular" size="17.0" />
+               </font>
+            </JFXButton>
+            <JFXButton focusTraversable="false" text="Gestion des voitures" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-sedan-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="FontAwesome Regular" size="17.0" />
+               </font></JFXButton>
+            <JFXButton focusTraversable="false" text="Gestion des moyen_trans" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-bus-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="FontAwesome Regular" size="17.0" />
+               </font></JFXButton>
+            <JFXButton focusTraversable="false" text="Gestion des entreprises" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-organization-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="FontAwesome Regular" size="17.0" />
+               </font></JFXButton>
+            <JFXButton focusTraversable="false" text="Gestion des reservation" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-bookmark-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="FontAwesome Regular" size="17.0" />
+               </font></JFXButton>
+            <JFXButton id="buttonM" fx:id="buttonM" mouseTransparent="true" style="-fx-background-color: #F68D4C;" stylesheets="@interfacesCss.css" text="Gestion des maintenance" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-support-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="FontAwesome Regular" size="17.0" />
+               </font>
+            </JFXButton>
+            <JFXButton focusTraversable="false" text="Les Clients" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-user-groups-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="FontAwesome Regular" size="17.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </VBox>
+      <Label layoutX="368.0" layoutY="322.0" prefHeight="31.0" prefWidth="106.0" text="Intitulé :" textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="17.0" />
+         </font></Label>
+      <TableView fx:id="table_garage" layoutX="749.0" layoutY="284.0" prefHeight="397.0" prefWidth="432.0" stylesheets="@interfacesCss.css">
+        <columns>
+          <TableColumn fx:id="tb_id" prefWidth="160.0" text="ID" />
+          <TableColumn fx:id="tb_matricule" prefWidth="332.0" text="Matricule de garage " />
+        </columns>
+      </TableView>
+      <JFXButton fx:id="bt_save" layoutX="571.0" layoutY="417.0" onAction="#addGarage" text="Ajouter" textFill="WHITE">
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons8-add-100.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="FontAwesome Regular" size="17.0" />
+         </font></JFXButton>
+      <JFXButton fx:id="bt_modify" layoutX="807.0" layoutY="692.0" onAction="#modifyG" text="Modifier" textFill="WHITE">
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons8-available-updates-100.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="FontAwesome Regular" size="17.0" />
+         </font></JFXButton>
+      <JFXButton fx:id="bt_delete" layoutX="998.0" layoutY="692.0" onAction="#deleteGarage" text="Supprimer" textFill="WHITE">
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons8-close-94.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="FontAwesome Regular" size="17.0" />
+         </font></JFXButton>
+      <Pane fx:id="pane" prefHeight="134.0" prefWidth="1227.0" style="-fx-background-color: #2d2a4e;">
+         <children>
+            <Label layoutX="440.0" layoutY="41.0" prefHeight="52.0" prefWidth="489.0" text="Gestion des Garages " textFill="WHITE">
+               <font>
+                  <Font name="FontAwesome Regular" size="46.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="154.0" fitWidth="177.0" layoutX="42.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Capture%20d’écran%202023-01-28%20123412%20(1).png" />
+               </image>
+               <effect>
+                  <Blend />
+               </effect>
+            </ImageView>
+            <ImageView fitHeight="426.0" fitWidth="393.0" layoutX="962.0" layoutY="-197.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Icons8_flat_settings.svg.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="397.0" fitWidth="725.0" layoutX="117.0" layoutY="-222.0" pickOnBounds="true" preserveRatio="true" rotate="-73.3">
+               <image>
+                  <Image url="@../images/Wrench.svg.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <TextField fx:id="tf_matricule" layoutX="515.0" layoutY="313.0" prefHeight="48.0" prefWidth="198.0" />
+      <TextField fx:id="tf_recherche" layoutX="888.0" layoutY="228.0" prefHeight="41.0" prefWidth="236.0" styleClass="ListView" />
+      <Label fx:id="lb_mat" layoutX="521.0" layoutY="368.0" prefHeight="31.0" prefWidth="185.0" />
+      <Label fx:id="lb_base" layoutX="352.0" layoutY="422.0" prefHeight="41.0" prefWidth="226.0" />
+      <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="1085.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/icons8-search-64.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="798.0" layoutY="234.0" text="Filtrer :" textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="17.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="173.0" fitWidth="343.0" layoutX="217.0" layoutY="606.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/dessin-animé-de-mécanicien-travaillant-à-un-véhicule-20841413-removebg-preview.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

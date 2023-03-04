@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="406.0" prefWidth="584.0" style="-fx-background-color: #383562;" stylesheets="@interfacesCss.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ComboBox fx:id="cb_garage" layoutX="314.0" layoutY="215.0" prefHeight="45.0" prefWidth="206.0" />
+      <Pane layoutX="-6.0" layoutY="-3.0" prefHeight="117.0" prefWidth="591.0" style="-fx-background-color: #2d2a4e;">
+         <children>
+            <Label layoutX="231.0" layoutY="36.0" prefHeight="46.0" prefWidth="277.0" text="Ajouter Garage" textFill="WHITE">
+               <font>
+                  <Font name="FontAwesome Regular" size="41.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="136.0" fitWidth="138.0" layoutX="29.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Capture%20d’écran%202023-01-28%20123412%20(1).png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <JFXButton fx:id="bt_save" layoutX="353.0" layoutY="291.0" onAction="#ajouterGarage" text="Ajouter" textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="20.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons8-add-100.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton fx:id="closeButton" layoutX="120.0" layoutY="291.0" onAction="#annuler" text="Annuler" textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="20.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons8-close-94.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <Label layoutX="109.0" layoutY="217.0" text="Les Garage :" textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lb_garage" layoutX="322.0" layoutY="228.0" prefHeight="34.0" prefWidth="197.0" />
+      <JFXButton layoutX="307.0" layoutY="132.0" onAction="#goTogarage" text="Creer un nouveau garage" textFill="WHITE">
+         <font>
+            <Font name="FontAwesome Regular" size="15.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="38.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icons8-add-100.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+   </children>
+</AnchorPane>
