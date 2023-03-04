@@ -32,7 +32,7 @@ import javafx.scene.Parent;
 
 /**
  *
- * @author sami
+ * @author Ines
  */
  public class weatherAPI {
      static String stat;
