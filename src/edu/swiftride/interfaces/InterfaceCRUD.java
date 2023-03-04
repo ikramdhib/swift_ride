@@ -17,7 +17,7 @@ public interface InterfaceCRUD<E> {
     List<EntreprisePartenaire> afficherEntreprise();   
    
     void ajouterAvis(E m);
-    boolean  modifierAvis(E m);
+    boolean modifierAvis(E m);
     void supprimerAvis(E m);
     List<Avis> afficherAvis();   
 }
