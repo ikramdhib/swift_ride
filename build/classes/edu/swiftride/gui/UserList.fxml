@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="721.0" prefWidth="1148.0" style="-fx-background-color: #24223e;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swiftride.gui.UserListController">
+   <children>
+      <TableView fx:id="tvliste" layoutX="329.0" layoutY="131.0" prefHeight="536.0" prefWidth="907.0">
+        <columns>
+          <TableColumn fx:id="ID" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="Nom" prefWidth="75.0" text="Nom" />
+            <TableColumn fx:id="Prenom" prefWidth="110.0" text="Prenom" />
+            <TableColumn fx:id="Email" prefWidth="111.0" text="Email" />
+            <TableColumn fx:id="Cin" prefWidth="74.0" text="Cin" />
+            <TableColumn fx:id="date_naiss" prefWidth="139.0" text="date_naissance" />
+            <TableColumn fx:id="age" prefWidth="75.0" text="Age" />
+            <TableColumn fx:id="num_permis" prefWidth="149.0" text="num_permis" />
+            <TableColumn fx:id="num_tel" prefWidth="112.0" text="num_tel" />
+            <TableColumn fx:id="ville" prefWidth="61.0" text="ville" />
+        </columns>
+      </TableView>
+      <Pane layoutX="5.0" prefHeight="131.0" prefWidth="1238.0" style="-fx-background-color: #2d2a4e;">
+         <children>
+            <Label layoutX="495.0" layoutY="39.0" text="Liste des clients" textFill="WHITE">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="135.0" fitWidth="138.0" layoutX="1052.0" layoutY="-2.0">
+               <image>
+                  <Image url="@../images/pngtree-black-tire-cartoon-illustration-png-image_4070769-removebg-preview.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="121.0" fitWidth="147.0" layoutX="-7.0">
+               <image>
+                  <Image url="@../images/aaa.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <VBox layoutY="131.0" prefHeight="594.0" prefWidth="329.0" style="-fx-background-color: #383562;">
+         <children>
+            <JFXButton prefHeight="68.0" prefWidth="122.0" text="Button" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-home-page-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnprofile" onAction="#profileWindow" prefHeight="68.0" prefWidth="127.0" text="Profile" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-user-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton prefHeight="65.0" prefWidth="120.0" text="Button" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-sedan-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton prefHeight="68.0" prefWidth="121.0" text="Button" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-organization-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton prefHeight="68.0" prefWidth="126.0" text="Button" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-bookmark-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton prefHeight="68.0" prefWidth="114.0" text="Button" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-support-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton prefHeight="68.0" prefWidth="122.0" text="Button" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-bus-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton prefHeight="70.0" prefWidth="166.0" text="Liste des Clients" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-user-groups-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnlogout" onAction="#Déconnecter" prefHeight="35.0" prefWidth="147.0" text="Déconnecter" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="34.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@../images/téléchargé__3_-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+      </VBox>
+      <JFXButton fx:id="bndelete" layoutX="695.0" layoutY="674.0" onAction="#deleteRow" text="supprimer" textFill="WHITE">
+         <graphic>
+            <ImageView fitHeight="41.0" fitWidth="44.0">
+               <image>
+                  <Image url="@../images/icons8-close-94.png" />
+               </image>
+            </ImageView>
+         </graphic></JFXButton>
+   </children>
+</AnchorPane>

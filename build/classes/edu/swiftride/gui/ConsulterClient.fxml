@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.0" prefWidth="1027.0" style="-fx-background-color: #24223e;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swiftride.gui.ConsulterClientController">
+   <children>
+      <ImageView fx:id="ivphoto_permis" fitHeight="219.0" fitWidth="267.0" layoutX="722.0" layoutY="448.0" pickOnBounds="true" preserveRatio="true" />
+      <Pane layoutY="-2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="1027.0" style="-fx-background-color: #2d2a4e;">
+         <children>
+            <Label layoutX="370.0" layoutY="34.0" text="Gestion utilisateur" textFill="WHITE">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="128.0" fitWidth="120.0" layoutX="893.0" layoutY="-4.0">
+               <image>
+                  <Image url="@../image/pngtree-black-tire-cartoon-illustration-png-image_4070769-removebg-preview.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <ImageView fitHeight="120.0" fitWidth="144.0">
+         <image>
+            <Image url="@../image/aaa.png" />
+         </image>
+      </ImageView>
+      <VBox layoutX="485.0" layoutY="137.0" prefHeight="280.0" prefWidth="260.0" spacing="34.5">
+         <children>
+            <Label fx:id="tfnom" prefHeight="17.0" prefWidth="34.0" scaleX="1.5" scaleY="1.5" text="label" textFill="WHITE" />
+            <Label fx:id="tfprenom" prefHeight="17.0" prefWidth="29.0" scaleX="1.5" scaleY="1.5" text="label" textFill="WHITE" />
+            <Label fx:id="tfemail" scaleX="1.5" scaleY="1.5" text="label" textFill="WHITE" />
+            <Label fx:id="tfnum_tel" scaleX="1.5" scaleY="1.5" text="label" textFill="WHITE" />
+            <Label fx:id="tfnum_permis" scaleX="1.5" scaleY="1.5" text="label" textFill="WHITE" />
+            <Label fx:id="tfville" scaleX="1.5" scaleY="1.5" text="label" textFill="WHITE" />
+            <Label fx:id="tfcin" scaleX="1.5" scaleY="1.5" text="label" textFill="WHITE" />
+         </children>
+      </VBox>
+      <VBox layoutX="307.0" layoutY="137.0" prefHeight="361.0" prefWidth="178.0" spacing="25.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="52.0" scaleX="1.5" scaleY="1.5" text="Prenom :" textFill="WHITE">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <Label prefHeight="21.0" prefWidth="51.0" scaleX="1.5" scaleY="1.5" text="Nom :" textFill="WHITE" />
+            <Label prefHeight="21.0" prefWidth="54.0" scaleX="1.5" scaleY="1.5" text="Email :" textFill="WHITE" />
+            <Label scaleX="1.5" scaleY="1.5" text="Num_tel :" textFill="WHITE" />
+            <Label prefHeight="21.0" prefWidth="97.0" scaleX="1.5" scaleY="1.5" text="Num_permis :" textFill="WHITE" />
+            <Label scaleX="1.5" scaleY="1.5" text="Ville :" textFill="WHITE" />
+            <Label prefHeight="21.0" prefWidth="41.0" scaleX="1.5" scaleY="1.5" text="Cin :" textFill="WHITE" />
+            <Label prefHeight="21.0" prefWidth="43.0" scaleX="1.5" scaleY="1.5" text="Age :" textFill="WHITE" />
+         </children>
+      </VBox>
+      <Circle fx:id="ivphoto_personnel" fill="WHITE" layoutX="855.0" layoutY="279.0" radius="100.0" stroke="WHITE" strokeType="INSIDE" />
+      <Label layoutX="808.0" layoutY="402.0" prefHeight="17.0" prefWidth="95.0" text="Photo permis" textFill="WHITE" />
+      <Label layoutX="808.0" layoutY="152.0" prefHeight="17.0" prefWidth="110.0" text="Photo personnel" textFill="WHITE" />
+      <VBox layoutY="118.0" prefHeight="586.0" prefWidth="246.0" style="-fx-background-color: #383562;">
+         <children>
+            <JFXButton prefHeight="68.0" prefWidth="117.0" text="Button" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/icons8-home-page-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton prefHeight="68.0" prefWidth="118.0" text="Profile" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/icons8-user-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton prefHeight="68.0" prefWidth="116.0" text="Button" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/icons8-sedan-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton prefHeight="68.0" prefWidth="118.0" text="Button" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/icons8-organization-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton prefHeight="68.0" prefWidth="119.0" text="Button" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/icons8-bookmark-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton prefHeight="68.0" prefWidth="117.0" text="Button" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/icons8-support-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton prefHeight="68.0" prefWidth="118.0" text="Button" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/icons8-bus-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnconsulterliste" onAction="#consulterliste" prefHeight="70.0" prefWidth="166.0" text="Liste des Clients" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="60.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/icons8-user-groups-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnlogout" onAction="#Déconnecter" prefHeight="35.0" prefWidth="147.0" text="Déconnecter" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="34.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@../image/téléchargé__3_-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
