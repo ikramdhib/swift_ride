@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.jdesktop.swingx.JXMapViewer?>
+<?import javafx.scene.image.ImageView?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3A17.gui.TestController">
+    <top>
+        <VBox>
+            <MenuBar>
+                <menus>
+                    <Menu mnemonicParsing="false" text="File">
+                        <items>
+                            <MenuItem mnemonicParsing="false" text="Start" />
+                            <MenuItem mnemonicParsing="false" text="End" />
+                            <SeparatorMenuItem />
+                            <MenuItem mnemonicParsing="false" text="Exit" />
+                        </items>
+                    </Menu>
+                    <Menu mnemonicParsing="false" text="Edit">
+                        <items>
+                            <MenuItem mnemonicParsing="false" text="Cut" />
+                            <MenuItem mnemonicParsing="false" text="Copy" />
+                            <MenuItem mnemonicParsing="false" text="Paste" />
+                        </items>
+                    </Menu>
+                </menus>
+            </MenuBar>
+            <ToolBar prefWidth="200.0">
+                <items>
+                    <Button mnemonicParsing="false" text="Add" />
+                    <Button mnemonicParsing="false" text="Clear" />
+                    <ComboBox fx:id="comboMapType" prefWidth="100.0">
+                        <items>
+                            <String fx:value="Map Type 1" />
+                            <String fx:value="Map Type 2" />
+                            <String fx:value="Map Type 3" />
+                        </items>
+                    </ComboBox>
+                    <Button mnemonicParsing="false" text="Button 1" />
+                    <Tooltip text="Some tooltip text">
+                      
+                    </Tooltip>
+                </items>
+            </ToolBar>
+        </VBox>
+    </top>
+    <center>
+        <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <items>
+                <VBox prefHeight="100.0" prefWidth="100.0">
+                    <children>
+                        <JXMapViewer fx:id="jXMapViewer" />
+                    </children>
+                </VBox>
+                <VBox prefHeight="100.0" prefWidth="100.0" />
+            </items>
+        </SplitPane>
+    </center>
+</BorderPane>

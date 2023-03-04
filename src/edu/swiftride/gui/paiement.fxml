@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="646.0" prefWidth="1076.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3A17.gui.PaiementController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9edff" height="541.0" layoutX="265.0" layoutY="84.0" stroke="BLACK" strokeType="INSIDE" width="786.0" />
+      <TextField alignment="CENTER" prefHeight="73.0" prefWidth="1076.0" style="-fx-background-color: #000080;">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </TextField>
+      <ImageView fitHeight="118.0" fitWidth="176.0" layoutX="362.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/img1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="113.0" fitWidth="169.0" layoutX="592.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/img3.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="127.0" fitWidth="135.0" layoutX="826.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/img2.png" />
+         </image>
+      </ImageView>
+      <Text fill="#041557" layoutX="401.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Montant de la transaction :">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Text>
+      <Text fx:id="prix" fill="RED" layoutX="796.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="169.00000435113907">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Text>
+      <Line endX="528.0" layoutX="476.0" layoutY="323.0" startX="-128.0" />
+      <Text fill="#000000bc" layoutX="432.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero de carte bancaire :" wrappingWidth="265.9404296875">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="108.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="                        Espace de paiement sécurisé par carte bancaire">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Text>
+      <TextField fx:id="num" layoutX="734.0" layoutY="331.0" />
+      <Line endX="528.0" layoutX="476.0" layoutY="370.0" startX="-128.0" />
+      <Text fill="#000000bc" layoutX="432.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date d'expiration :" wrappingWidth="265.9404296875">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Text>
+      <DatePicker fx:id="date" layoutX="735.0" layoutY="378.0" prefHeight="31.0" prefWidth="187.0" />
+      <Line endX="528.0" layoutX="476.0" layoutY="416.0" startX="-128.0" />
+      <Text fill="#000000bc" layoutX="432.0" layoutY="446.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Code de vérification :" wrappingWidth="265.9404296875">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Text>
+      <TextField fx:id="code" layoutX="734.0" layoutY="424.0" />
+      <Button fx:id="payer" layoutX="861.0" layoutY="491.0" mnemonicParsing="false" onAction="#payer" prefHeight="42.0" prefWidth="156.0" text="Valider">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button fx:id="retour" layoutX="698.0" layoutY="491.0" mnemonicParsing="false" onAction="#retour" prefHeight="42.0" prefWidth="156.0" text="Abandonner">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Line endX="528.0" layoutX="476.0" layoutY="551.0" startX="-128.0" stroke="#0a7917" />
+      <Line endX="528.0" layoutX="476.0" layoutY="592.0" startX="-128.0" stroke="#0a7917" />
+      <Text fill="#0a7917" layoutX="375.0" layoutY="576.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pour annuler votre paiement et retourner à la page de réservation cliquer sur Abondonner" />
+      <Text layoutX="27.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reference :">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text layoutX="27.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Montant :">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text layoutX="27.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Commercant :">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text layoutX="143.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SwiftRide">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text fx:id="id" layoutX="120.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="XXXXX">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text fx:id="prix_2" layoutX="143.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Line endX="68.0" layoutX="179.0" layoutY="323.0" startX="-148.0" />
+      <ImageView fitHeight="144.0" fitWidth="246.0" layoutX="66.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/img4.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="r_id" layoutX="171.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="82.77538275718689">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text fx:id="prix1" fill="RED" layoutX="966.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DT" wrappingWidth="50.13670873641968">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Text>
+      <Text layoutX="210.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DT">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

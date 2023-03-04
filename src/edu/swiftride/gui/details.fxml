@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="815.0" prefWidth="1720.0" style="-fx-background-color: #2F2B43;" stylesheets="@../Stylee1.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.connexion3A17.gui.DetailsController">
+   <children>
+      <AnchorPane prefHeight="649.0" prefWidth="544.0" AnchorPane.leftAnchor="0.0">
+         <children>
+            <BorderPane prefHeight="715.0" prefWidth="1362.0">
+               <top>
+                  <Pane BorderPane.alignment="CENTER">
+                     <children>
+                        <Label alignment="CENTER" layoutX="338.0" layoutY="27.0" prefHeight="46.0" prefWidth="905.0" text="Modifier les informations de la réservation séléctionnée" textFill="#2bc58a">
+                           <font>
+                              <Font name="System Bold" size="31.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin>
+                  </Pane>
+               </top>
+               <left>
+                  <Pane prefHeight="642.0" prefWidth="1796.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button fx:id="gerer" focusTraversable="false" layoutX="558.0" layoutY="317.0" mnemonicParsing="false" onAction="#gerer" prefHeight="61.0" prefWidth="311.0" style="-fx-background-color: #2bc58a; -fx-background-radius: 8;" text="Générer --&gt;" textFill="#fcf8f8">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <TextArea fx:id="m_bill" editable="false" layoutX="898.0" layoutY="51.0" prefHeight="574.0" prefWidth="773.0" />
+                        <TextField fx:id="m_depart" focusTraversable="false" layoutX="67.0" layoutY="25.0" opacity="0.8" prefHeight="68.0" prefWidth="452.0" promptText="point de depart">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </TextField>
+                        <TextField fx:id="m_dest" focusTraversable="false" layoutX="68.0" layoutY="101.0" opacity="0.8" prefHeight="68.0" prefWidth="451.0" promptText="Destination">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </TextField>
+                        <TextField fx:id="m_v_id" focusTraversable="false" layoutX="72.0" layoutY="493.0" opacity="0.8" prefHeight="68.0" prefWidth="449.0" promptText="vehicule id">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </TextField>
+                        <TextField fx:id="m_t_depart" focusTraversable="false" layoutX="71.0" layoutY="333.0" opacity="0.8" prefHeight="68.0" prefWidth="450.0" promptText="temps de depart : HH:MM:SS">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </TextField>
+                        <TextField fx:id="m_c_id" focusTraversable="false" layoutX="72.0" layoutY="574.0" opacity="0.8" prefHeight="68.0" prefWidth="448.0" promptText="client id">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </TextField>
+                        <TextField fx:id="m_distance" focusTraversable="false" layoutX="68.0" layoutY="177.0" opacity="0.8" prefHeight="68.0" prefWidth="453.0" promptText="Distance">
+                           <font>
+                              <Font size="23.0" />
+                           </font>
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </TextField>
+                        <DatePicker fx:id="m_date" layoutX="70.0" layoutY="256.0" prefHeight="68.0" prefWidth="451.0" promptText="Date de départ" />
+                        <ComboBox fx:id="combo" layoutX="71.0" layoutY="412.0" prefHeight="71.0" prefWidth="451.0" promptText="Type de transport" />
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Pane>
+               </left>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+      <Button fx:id="appliquer" focusTraversable="false" layoutX="1451.0" layoutY="726.0" mnemonicParsing="false" onAction="#appliquer" prefHeight="61.0" prefWidth="212.0" style="-fx-background-color: #2bc58a; -fx-background-radius: 8;" text="Appliquer" textFill="#fcf8f8">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="retour" focusTraversable="false" layoutX="1229.0" layoutY="726.0" mnemonicParsing="false" onAction="#retour" prefHeight="61.0" prefWidth="213.0" style="-fx-background-color: #2bc58a; -fx-background-radius: 8;" text="Retour" textFill="#fcf8f8">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="map" focusTraversable="false" layoutX="139.0" layoutY="733.0" mnemonicParsing="false" onAction="#map" prefHeight="61.0" prefWidth="301.0" style="-fx-background-color: #2bc58a; -fx-background-radius: 8;" text="modifier sur le map" textFill="#fcf8f8">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+   </children>
+</AnchorPane>
