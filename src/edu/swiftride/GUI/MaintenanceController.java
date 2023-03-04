@@ -235,18 +235,19 @@ public class MaintenanceController implements Initializable {
     private void saveMaintenance(ActionEvent event) {
         boolean isExiste=false;
         List<Maintenance> l = mc.listDesEntites();
-        LocalDate dd =  pk_date.getValue();
+      LocalDateTime datetimed =null;
+       LocalDateTime datetimef=null;
+        
+        if(!pk_date.isEditable() && pk_fin.isEditable() && pk_timed.isEditable() && pk_timef.isEditable()
+                && !rb_entretien.isPressed()|| !rb_reparation.isPressed() && id_v!=0){
+          LocalDate dd =  pk_date.getValue();
         LocalDate df = pk_fin.getValue();
         
         LocalTime timed=pk_timed.getValue();
         LocalTime timef=pk_timef.getValue();
         
-        LocalDateTime datetimed =LocalDateTime.of(dd,timed);
-        LocalDateTime datetimef =LocalDateTime.of(df,timef);
-        
-        if(!pk_date.isEditable() && pk_fin.isEditable() && pk_timed.isEditable() && pk_timef.isEditable()
-                && !rb_entretien.isPressed()|| !rb_reparation.isPressed() && id_v!=0){
-        
+       datetimed =LocalDateTime.of(dd,timed);
+        datetimef =LocalDateTime.of(df,timef);
         Maintenance m = new Maintenance();
         m.setDate_maintenance(Timestamp.valueOf(datetimed));
         m.setFin_maintenance(Timestamp.valueOf(datetimef));
@@ -255,10 +256,18 @@ public class MaintenanceController implements Initializable {
         m.setType(maintenance_type);
         
          for( Maintenance m1 : l){
-            if(m.equals(m1)){
+             LocalDateTime d = m.getDate_maintenance().toLocalDateTime();
+             LocalDateTime d1 = m1.getDate_maintenance().toLocalDateTime();
+             LocalDate dy=d.toLocalDate();
+             LocalDate dyy= d1.toLocalDate();
+            if (m.getId_voiture()==m1.getId_voiture() && dy.compareTo(dyy)==0) {
+           
+        
                 lb_base.setText("Ce Maintenace déja existe");
                 lb_base.setTextFill(Color.RED);
+                System.out.println("kiko"+isExiste);
                 isExiste=true;
+                break;
             }
         }
         if(!isExiste){
@@ -726,7 +735,6 @@ public class MaintenanceController implements Initializable {
                    }
                    
                }
-               ///bech naamel mta3 l'entretient 
            
                 
            }

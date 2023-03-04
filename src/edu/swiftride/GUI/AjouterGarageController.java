@@ -88,7 +88,7 @@ public class AjouterGarageController implements Initializable {
         
         System.out.println(m);
         
-        if(mc.modifierEntite(m)){
+        if(mc.modifierEntiteGARAGE(m)){
             
             
             try {
