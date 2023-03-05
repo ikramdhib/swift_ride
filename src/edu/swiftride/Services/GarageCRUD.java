@@ -171,6 +171,34 @@ public class GarageCRUD implements InterfaceCRUD<Garage>{
         
     }
     
+    public Garage getGaragewithID(int id){
+        
+         Garage garage = new  Garage();
+        
+        try {
+            String request = "SELECT * FROM garage WHERE id='"+id+"'";
+            
+            PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
+            
+            ResultSet rs=  pst.executeQuery(request);
+            
+            while(rs.next()){
+                
+                garage.setId(rs.getInt(1));
+                garage.setMatricule_garage(rs.getString(2));
+                
+               
+                
+            }
+            
+        } catch (SQLException ex) {
+            
+            System.out.println(ex.getMessage());
+            
+        }
+       return garage;
+    }
+    
    
 
    

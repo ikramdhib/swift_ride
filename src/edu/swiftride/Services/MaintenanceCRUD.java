@@ -66,12 +66,12 @@ public class MaintenanceCRUD implements InterfaceCRUD<Maintenance>{
             while(rs.next()){
                 
                Maintenance m = new Maintenance();
-                
+               
                 m.setId(rs.getInt(1));
                 m.setDate_maintenance(rs.getTimestamp(2));
                 m.setType(rs.getString(3));
                 m.setFin_maintenance(rs.getTimestamp(4));
-                m.setId_voiture(5);
+                m.setId_voiture(rs.getInt(5));
                 m.setId_garage(rs.getInt(6));
                 
                 maintenances.add(m);
@@ -88,7 +88,7 @@ public class MaintenanceCRUD implements InterfaceCRUD<Maintenance>{
         
         List<Maintenance> maintenances = new ArrayList();
         try {
-            String request="SELECT date_maintenance, type,fin_maintenance ,id_garage FROM maintenance WHERE id_voiture='"+id+"'" ;
+            String request="SELECT date_maintenance, type,fin_maintenance ,id_garage ,id FROM maintenance WHERE id_voiture='"+id+"'" ;
             
             PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
             
@@ -102,7 +102,7 @@ public class MaintenanceCRUD implements InterfaceCRUD<Maintenance>{
                 m.setType(rs.getString(2)); 
                 m.setFin_maintenance(rs.getTimestamp(3));
                 m.setId_garage(rs.getInt(4));
-                
+                m.setId(rs.getInt(5));
                 maintenances.add(m);
                 
             }
@@ -121,7 +121,7 @@ public class MaintenanceCRUD implements InterfaceCRUD<Maintenance>{
             
             String request= "UPDATE maintenance  SET type='"+t.getType()+"' ,"
                     + " date_maintenance='"+t.getDate_maintenance()+"',fin_maintenance='"+t.getFin_maintenance()+"' ,"
-            + " id_garage='"+t.getId_garage()+"'"
+            + " id_voiture='"+t.getId_voiture()+"'"
                     + " WHERE id='"+t.getId()+"'" ;
             
             PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
@@ -214,6 +214,25 @@ public class MaintenanceCRUD implements InterfaceCRUD<Maintenance>{
         }
        return maintenances;
         
+    }
+       
+         
+    public boolean modifierEntiteGARAGE(Maintenance t) {
+  
+        int rslt = 0;
+        try {
+            
+            String request= "UPDATE maintenance  SET id_garage='"+t.getId_garage()+"'"
+                    + " WHERE id='"+t.getId()+"'" ;
+            
+            PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
+            
+            rslt=pst.executeUpdate();
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return rslt==1;
     }
     
 }

@@ -103,6 +103,33 @@ public class MaterielCRUD implements InterfaceCRUD<Materiel> {
         }
        return materiel;
     }
+      
+       public List<Materiel> getMaterielsWithGarageId(int id) {
+        
+        List<Materiel> materiels = new ArrayList();
+        try {
+            
+            String request="SELECT * FROM materiel WHERE id_garage='"+id+"'" ;
+            
+            PreparedStatement pst = Connect.getInstance().getCnx().prepareStatement(request);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            while(rs.next()){
+                
+                Materiel m = new Materiel();
+                m.setId(rs.getInt(1));
+                m.setNom(rs.getString(2));
+                
+                materiels.add(m);
+                
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+       return materiels;
+    }
 
     @Override
     public boolean modifierEntite(Materiel t) {
