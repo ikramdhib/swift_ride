@@ -12,6 +12,7 @@ import edu.swiftride.entities.PDF;
 import edu.swiftride.entities.Station;
 import edu.swiftride.services.MoyenTransportCRUD;
 import edu.swiftride.services.StationCRUD;
+import edu.swiftride.services.TransportDistanceCalculator;
 import edu.swiftride.utils.MyConnection;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,12 +35,13 @@ public class Main{
         scd.ajouterStation(s);
         System.out.println(scd.afficherStation());
         
-           PDF pd=new PDF();
-              try{
+           PDF pd=new PDF(); 
+                  try{
             pd.GeneratePdf(" Moyen de Transport",m,m.getId());
         } catch (Exception ex) {
             System.out.println(ex);
        }
-        
-    }
+    double distance = TransportDistanceCalculator.distance( 36.8593792,10.2543637,36.7362094,10.2331465);
+        System.out.println("Distance entre tunis et monastir : " + distance + " km");
+}
 }
