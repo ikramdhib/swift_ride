@@ -24,8 +24,7 @@ public class StationCRUD implements InterfaceCRUDS{
        
     try {
         System.out.println("message");
-      PreparedStatement preparedStatement = MyConnection.getInstance().getConnexion().prepareStatement("insert into station ( ville,nom_station) values (?,?)");
-           
+      PreparedStatement preparedStatement = MyConnection.getInstance().getConnexion().prepareStatement("insert into station ( ville,nom_station) values (?,?)");    
     preparedStatement.setString(1, s.getVille());
     preparedStatement.setString(2, s.getNom_station());
     preparedStatement.executeUpdate();

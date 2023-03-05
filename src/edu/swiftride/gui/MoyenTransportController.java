@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package edu.swiftride.gui;
+
 import com.jfoenix.controls.JFXButton;
 import edu.swiftride.entities.MoyenTransport;
 import edu.swiftride.entities.PDF;
@@ -48,6 +49,7 @@ import static org.omg.CORBA.AnySeqHelper.type;
  * @author Ines
  */
 public class MoyenTransportController implements Initializable {
+
     @FXML
     private TextField txtid;
     @FXML
@@ -75,21 +77,21 @@ public class MoyenTransportController implements Initializable {
     @FXML
     private TextField filterField;
 
-  
- private ObservableList<MoyenTransport> moyensTransportList;
+    private ObservableList<MoyenTransport> moyensTransportList;
 
     @FXML
     private void ToPdf(ActionEvent event) {
-     MoyenTransport m = tableMoyenTransport.getSelectionModel().getSelectedItem();
+        MoyenTransport m = tableMoyenTransport.getSelectionModel().getSelectedItem();
 
-        PDF pd=new PDF();
-        try{
-            pd.GeneratePdf("Moyen de transport",m,m.getId());
+        PDF pd = new PDF();
+        try {
+            pd.GeneratePdf("Moyen de transport", m, m.getId());
         } catch (Exception ex) {
             System.out.println(ex);
-       }}
+        }
+    }
     MoyenTransportCRUD pcm = new MoyenTransportCRUD();
-    
+
     @FXML
     private void handleButtonAction(ActionEvent event) {
         if (event.getSource() == btnAjouter) {
@@ -100,25 +102,20 @@ public class MoyenTransportController implements Initializable {
             deleteButton();
         }
     }
-    
-    
-   
-    
-    
-    
+
     /**
      * Initializes the controller class.
      */
- @Override
-public void initialize(URL url, ResourceBundle rb) {
-    txttype.setItems(FXCollections.observableArrayList("Bus", "train", "car"));
-    pass.setOnAction(event -> pass());
-    moyensTransportList = getMoyenTransport();
-    showMoyenTransport();
-    filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-        searchMoyenTransportList(newValue);
-    });
-}
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        txttype.setItems(FXCollections.observableArrayList("Bus", "train", "metro"));
+        pass.setOnAction(event -> pass());
+        moyensTransportList = getMoyenTransport();
+        showMoyenTransport();
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            searchMoyenTransportList(newValue);
+        });
+    }
 
     public Connection getConnection() {
         Connection cnn;
@@ -157,8 +154,6 @@ public void initialize(URL url, ResourceBundle rb) {
         tableMoyenTransport.setItems(filteredList);
     }
 
-    
-    
     private ObservableList<MoyenTransport> getMoyenTransport() {
         ObservableList<MoyenTransport> listM = FXCollections.observableArrayList();
         Connection cnn = getConnection();
@@ -178,6 +173,7 @@ public void initialize(URL url, ResourceBundle rb) {
         }
         return listM;
     }
+
     public void insertRecord() {
         MoyenTransport m = new MoyenTransport();
 
@@ -193,6 +189,25 @@ public void initialize(URL url, ResourceBundle rb) {
             alert.showAndWait();
             return;
         }
+
+// Check that numero_trans contains ONLY numeric characters
+        if (!numero_trans.matches("\\d+")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid fields");
+            alert.setHeaderText("NUMERO_TRANS must contain ONLY numeric characters");
+            alert.showAndWait();
+            return;
+        }
+
+// Check that numero_trans is greater than zero
+        if (Integer.parseInt(numero_trans) <= 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid fields");
+            alert.setHeaderText("NUMERO_TRANS must be greater than 0");
+            alert.showAndWait();
+            return;
+        }
+
         m.setType(txttype.getValue());
         m.setNumero_trans(Integer.parseInt(txtnumero_trans.getText()));
 
@@ -207,8 +222,8 @@ public void initialize(URL url, ResourceBundle rb) {
 
     private void updateRecord() {
         MoyenTransport m = new MoyenTransport();
-        
-              MoyenTransport moyen = tableMoyenTransport.getSelectionModel().getSelectedItem();
+
+        MoyenTransport moyen = tableMoyenTransport.getSelectionModel().getSelectedItem();
         if (moyen == null) {
             // Créer une alerte de type WARNING pour demander à l'utilisateur de choisir une entreprise à modifier
             Alert warning = new Alert(Alert.AlertType.WARNING);
@@ -252,7 +267,7 @@ public void initialize(URL url, ResourceBundle rb) {
             warning.showAndWait();
             return;
         }
-          // Créer une alerte de type CONFIRMATION pour demander à l'utilisateur s'il veut vraiment supprimer l'entreprise
+        // Créer une alerte de type CONFIRMATION pour demander à l'utilisateur s'il veut vraiment supprimer l'entreprise
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setTitle("Confirmation de suppression");
         confirmation.setHeaderText("Êtes-vous sûr de vouloir supprimer le moyen de transport " + moyen.getId() + " ?");
@@ -260,7 +275,7 @@ public void initialize(URL url, ResourceBundle rb) {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             pcm.supprimerMoyenTransport(moyen);
             tableMoyenTransport.getItems().removeAll(moyen);
-          // Créer une alerte de type INFORMATION pour informer l'utilisateur que la suppression a réussi
+            // Créer une alerte de type INFORMATION pour informer l'utilisateur que la suppression a réussi
             Alert success = new Alert(Alert.AlertType.INFORMATION);
             success.setTitle("Suppression réussie");
             success.setHeaderText("Le moyen de transport a été supprimée avec succès.");
@@ -279,5 +294,5 @@ public void initialize(URL url, ResourceBundle rb) {
             System.out.println(ex.getMessage());
         }
     }
-    
+
 }

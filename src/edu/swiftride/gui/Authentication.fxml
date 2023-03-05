@@ -175,7 +175,6 @@
             </Label>
          </children>
       </VBox>
-      <JFXButton layoutX="494.0" layoutY="667.0" text="Statistique" />
       <TextField fx:id="filterField" layoutX="758.0" layoutY="163.0" promptText="Search" />
     </children>
 </AnchorPane>
