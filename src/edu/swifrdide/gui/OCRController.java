@@ -1,39 +1,41 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.swifrdide.gui;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import java.io.File;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 
-/**
- * FXML Controller class
- *
- * @author sami
- */
 public class OCRController implements Initializable {
-@FXML
+
+    @FXML
     private Label txtLabel;
-    /**
-     * Initializes the controller class.
-     */
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-// Appeler la méthode pour récupérer le texte à partir de l'image
-        String text = getTextFromImage(new File("C:\\Users\\samib\\OneDrive\\Documents\\NetBeansProjects\\swift_ride\\src\\edu\\swiftride\\image/English2.png"));
-        // Mettre à jour le texte du label
-        txtLabel.setText(text);
+        // initialize the text of the label to an empty string
+        txtLabel.setText("");
     }
-    
-    // Méthode pour récupérer le texte à partir de l'image en utilisant la bibliothèque Tess4J
+
+    @FXML
+    private void selectImage() {
+        FileChooser fileChooser = new FileChooser();
+      //Select Image
+        fileChooser.setTitle("Select Image File");
+        fileChooser.getExtensionFilters().addAll(
+            new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+        File selectedFile = fileChooser.showOpenDialog(txtLabel.getScene().getWindow());
+        if (selectedFile != null) {
+            String text = getTextFromImage(selectedFile);
+            txtLabel.setText(text);
+        }
+    }
+
     private String getTextFromImage(File imageFile) {
         Tesseract tesseract = new Tesseract();
         try {
@@ -41,7 +43,7 @@ public class OCRController implements Initializable {
             return text;
         } catch (TesseractException e) {
             e.printStackTrace();
-            return null;
+            return "Error reading image file: " + e.getMessage();
         }
     }
 }
