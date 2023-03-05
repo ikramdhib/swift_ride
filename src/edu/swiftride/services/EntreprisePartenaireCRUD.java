@@ -151,4 +151,27 @@ public class EntreprisePartenaireCRUD implements InterfaceCRUD {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
+    public EntreprisePartenaire getwithCarId(int id){
+          
+          EntreprisePartenaire entre = new EntreprisePartenaire();
+        try {
+            String request="SELECT * FROM entreprise_partenaire WHERE id='"+id+"'" ;
+            
+            PreparedStatement pst = MyConnection.getInstance().getConnexion().prepareStatement(request);
+            
+            ResultSet rs = pst.executeQuery();
+            
+             while(rs.next()){
+                 
+              entre.setLogin(rs.getString(8));
+              entre.setNom_entreprise(rs.getString(2));
+                
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        return entre;
+    }
 }
