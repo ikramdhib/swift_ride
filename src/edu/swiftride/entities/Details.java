@@ -52,11 +52,6 @@ public class Details {
         this.materiels = materiels;
     }
 
-  
-
-  
-
-
     public String getMarque() {
         return marque;
     }

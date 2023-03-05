@@ -111,7 +111,10 @@ public class Maintenance {
             return false;
         }
         final Maintenance other = (Maintenance) obj;
-        if (this.id_voiture != other.id_voiture && this.date_maintenance!=other.date_maintenance ) {
+        System.err.println("tyty"+this.fin_maintenance.compareTo(other.fin_maintenance));
+        System.err.println("toto"+this.getType().compareTo(other.getType()));
+        if (this.id_voiture!= other.id_voiture && this.date_maintenance.compareTo(other.date_maintenance)!=1
+             && this.getType().compareTo(other.getType())!=1) {
             return false;
         }
         return true;
