@@ -35,7 +35,7 @@ public class OCRController implements Initializable {
             txtLabel.setText(text);
         }
     }
-
+//test
     private String getTextFromImage(File imageFile) {
         Tesseract tesseract = new Tesseract();
         try {
