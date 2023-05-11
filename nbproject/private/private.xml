@@ -2,20 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/skann/OneDrive/Documents/NetBeansProjectsm/swift_ride/src/edu/swiftride/gui/MapController.java</file>
-            <file>file:/C:/Users/skann/OneDrive/Documents/NetBeansProjectsm/swift_ride/src/edu/swiftride/gui/UpdateUserController.java</file>
-            <file>file:/C:/Users/skann/OneDrive/Documents/NetBeansProjectsm/swift_ride/src/edu/swiftride/gui/ForgetPasswordController.java</file>
-            <file>file:/C:/Users/skann/OneDrive/Documents/NetBeansProjectsm/swift_ride/src/edu/swiftride/gui/ConsulterClientController.java</file>
-            <file>file:/C:/Users/skann/OneDrive/Documents/NetBeansProjectsm/swift_ride/src/pidev/gui/SigninController.java</file>
-            <file>file:/C:/Users/skann/OneDrive/Documents/NetBeansProjectsm/swift_ride/src/edu/swiftride/gui/ProfileController.java</file>
-            <file>file:/C:/Users/skann/OneDrive/Documents/NetBeansProjectsm/swift_ride/src/pidev/gui/ConsulterClientController.java</file>
-            <file>file:/C:/Users/skann/OneDrive/Documents/NetBeansProjectsm/swift_ride/src/edu/swiftride/gui/UserListController.java</file>
-            <file>file:/C:/Users/skann/OneDrive/Documents/NetBeansProjectsm/swift_ride/src/edu/swiftride/gui/Signin.fxml</file>
-            <file>file:/C:/Users/skann/OneDrive/Documents/NetBeansProjectsm/swift_ride/src/edu/swiftride/gui/Signup.fxml</file>
-            <file>file:/C:/Users/skann/OneDrive/Documents/NetBeansProjectsm/swift_ride/src/edu/swiftride/gui/SignupController.java</file>
-            <file>file:/C:/Users/skann/OneDrive/Documents/NetBeansProjectsm/swift_ride/src/edu/swiftride/gui/SigninController.java</file>
-            <file>file:/C:/Users/skann/OneDrive/Documents/NetBeansProjectsm/swift_ride/src/edu/swiftride/gui/ConsulterClient.fxml</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

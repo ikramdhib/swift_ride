@@ -7,7 +7,8 @@ package edu.swiftride.entity;
 
 
 import java.text.*;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.util.Date;
 /**
  *
  * @author skann
@@ -19,7 +20,7 @@ public class User {
     private String nom;
     private String prenom;
     private String cin;
-    private String date_naiss;
+    private Date date_naiss;
     private String age;
 
    
@@ -30,7 +31,7 @@ public class User {
     private String num_tel;
     private String email;
     private String password;
-    public User(String nom, String prenom, String cin, String date_naiss,String age, String photo_personel, String photo_permis, String num_permis, String ville, String num_tel, int idrole, String email, String password) {
+    public User(String nom, String prenom, String cin, Date date_naiss,String age, String photo_personel, String photo_permis, String num_permis, String ville, String num_tel, int idrole, String email, String password) {
         
         this.nom = nom;
         this.prenom = prenom;
@@ -55,7 +56,7 @@ public class User {
     public User(String email, String password) {
     }
 
-    public User(int id, String nom, String prenom, String cin, String date_naiss, String num_permis, String ville, String num_tel, String email) {
+    public User(int id, String nom, String prenom, String cin, Date date_naiss, String num_permis, String ville, String num_tel, String email) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -182,10 +183,10 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-public String getDate_naiss(){
+public Date getDate_naiss(){
     return this.date_naiss;
 }
-public void setDate_naiss(String date_naiss){
+public void setDate_naiss(Date date_naiss){
     this.date_naiss=date_naiss;
 }
 

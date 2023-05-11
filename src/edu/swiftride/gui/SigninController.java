@@ -33,6 +33,7 @@ import static edu.swiftride.gui.SignupController.showAlert;
 import edu.swiftride.services.UserCRUD;
 import edu.swiftride.utils.EncryptPassword;
 import edu.swiftride.utils.UserSession;
+import java.time.ZoneId;
 
 /**
  * FXML Controller class
@@ -145,7 +146,7 @@ public class SigninController implements Initializable {
                 try {
                     if (uc.getUserByEmail(tfemailtoconnect.getText()).getIdrole() == 2) {
                         System.out.println("Client connecté");
-                        user.setAge(calculerAge(uc.getUserByEmail(user.getEmail()).getDate_naiss()));
+                        user.setAge(calculerAge(uc.getUserByEmail(user.getEmail()).getDate_naiss().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
                         uc.updateAge(uc.getUserByEmail(user.getEmail()).getId(), user.getAge());
                         UserSession.getInstace(user.getEmail(), pfpasswordtoconnect.getText());
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
@@ -157,7 +158,7 @@ public class SigninController implements Initializable {
                         stage.close();
                     } else {
                         System.out.println("Admin connecté");
-                        user.setAge(calculerAge(uc.getUserByEmail(user.getEmail()).getDate_naiss()));
+                        user.setAge(calculerAge(uc.getUserByEmail(user.getEmail()).getDate_naiss().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
                         uc.updateAge(uc.getUserByEmail(user.getEmail()).getId(), user.getAge());
                         UserSession.getInstace(user.getEmail(), pfpasswordtoconnect.getText());
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));

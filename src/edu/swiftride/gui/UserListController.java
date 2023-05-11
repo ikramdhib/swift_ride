@@ -34,6 +34,7 @@ import static edu.swiftride.gui.SignupController.showAlert;
 import static edu.swiftride.gui.UpdateUserController.showVerification;
 import edu.swiftride.services.UserCRUD;
 import edu.swiftride.utils.UserSession;
+import java.time.format.DateTimeFormatter;
 
 /**
  * FXML Controller class
@@ -87,6 +88,8 @@ public class UserListController implements Initializable {
     }
 
     private void userList() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         UserCRUD uc = new UserCRUD();
         ObservableList<User> users = FXCollections.observableArrayList(uc.consulterListe());
         tvliste.setItems(users);
@@ -95,7 +98,7 @@ public class UserListController implements Initializable {
         Prenom.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPrenom()));
         Email.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmail()));
         Cin.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCin()));
-        date_naiss.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDate_naiss()));
+        date_naiss.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDate_naiss().toString()));
         age.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAge()));
         num_permis.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNum_permis()));
         num_tel.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNum_tel()));

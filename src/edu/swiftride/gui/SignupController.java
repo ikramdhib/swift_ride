@@ -9,6 +9,7 @@ import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import java.net.URL;
 
@@ -44,6 +45,8 @@ import javafx.stage.Window;
 import edu.swiftride.entity.User;
 import edu.swiftride.services.UserCRUD;
 import edu.swiftride.utils.EncryptPassword;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  * FXML Controller class
@@ -134,11 +137,11 @@ public class SignupController implements Initializable {
                 }
             };
         });
-        tfage.setText(calculerAge(date_naissance.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))));
+        tfage.setText(calculerAge(date_naissance.getValue()));
 
         date_naissance.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (oldValue != newValue) {
-                tfage.setText(calculerAge(newValue.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))));
+                tfage.setText(calculerAge(newValue));
             }
 
         });
@@ -241,8 +244,8 @@ public class SignupController implements Initializable {
                 user.setPrenom(tfprenom.getText());
                 user.setEmail(tfemail.getText());
                 user.setCin(tfcin.getText());
-                user.setDate_naiss(date_naissance.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-                user.setAge(calculerAge(date_naissance.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))));
+                user.setDate_naiss(Date.from(date_naissance.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                user.setAge(calculerAge(date_naissance.getValue()));
                 user.setNum_permis(tfnum_permi.getText());
                 user.setVille(cbville.getSelectionModel().getSelectedItem());
                 user.setNum_tel(tfnum_tel.getText());
@@ -307,11 +310,11 @@ public class SignupController implements Initializable {
         alert.show();
     }
 
-    public static String calculerAge(String date) {
+    public static String calculerAge(LocalDate date) {
         DateTimeFormatter format
                 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        LocalDate newdate = LocalDate.parse(date, format);
+String stringdate=date.format(format);
+        LocalDate newdate = LocalDate.parse(stringdate, format);
         int age = LocalDate.now().getYear() - newdate.getYear();
         if (LocalDate.now().getDayOfYear() >= newdate.getDayOfYear()) {
             return Integer.toString(age);
@@ -338,7 +341,9 @@ public class SignupController implements Initializable {
             int min = (int) Math.pow(10, length - 1);
             int max = (int) Math.pow(10, length) - 1;
             int randomNumber = random.nextInt(max - min + 1) + min;
-            tfgenpass.setText(substractedemail + randomNumber);
+           String ran= substractedemail + randomNumber;
+            tfgenpass.setText(ran);
+tfshowedpass.setText(ran);      
         }
     }
 

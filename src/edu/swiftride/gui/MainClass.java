@@ -6,17 +6,12 @@
 package edu.swiftride.gui;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javax.mail.MessagingException;
-import edu.swiftride.utils.CreatePdf;
-import static edu.swiftride.utils.CreatePdf.createPDF;
-import static edu.swiftride.utils.SendQrCodeViaEmail.sendQrCode;
+
 
 /**
  *

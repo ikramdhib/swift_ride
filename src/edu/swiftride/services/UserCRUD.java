@@ -34,7 +34,9 @@ import edu.swiftride.entity.User;
 import edu.swiftride.interfaces.InterfaceCRUD;
 import edu.swiftride.utils.Connexion;
 import edu.swiftride.utils.EncryptPassword;
-
+import java.time.ZoneId;
+import java.time.LocalDate;
+import java.util.Date;
 /**
  *
  * @author skann
@@ -50,10 +52,12 @@ public class UserCRUD implements InterfaceCRUD<User,EntreprisePartenaire> {
                     + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
             PreparedStatement pst = Connexion.getInstance().getCnx().prepareStatement(requete);
+              long millis = u.getDate_naiss().getTime();
+                java.sql.Date sqlDate = new java.sql.Date(millis);
             pst.setString(1, u.getNom());
             pst.setString(2, u.getPrenom());
             pst.setString(3, u.getCin());
-            pst.setString(4, u.getDate_naiss());
+            pst.setDate(4, sqlDate);
             pst.setString(5, u.getAge());
             pst.setString(6, u.getNum_permis());
             pst.setString(7, u.getVille());
@@ -123,7 +127,7 @@ public class UserCRUD implements InterfaceCRUD<User,EntreprisePartenaire> {
                 u.setNom(rs.getNString(2));
                 u.setPrenom(rs.getNString(3));
                 u.setCin(rs.getNString(4));
-                u.setDate_naiss(rs.getNString(5));
+                u.setDate_naiss(rs.getDate(5));
                 u.setNum_permis(rs.getNString(6));
                 u.setVille(rs.getNString(7));
                 u.setNum_tel(rs.getNString(8));
@@ -270,7 +274,7 @@ public class UserCRUD implements InterfaceCRUD<User,EntreprisePartenaire> {
                 u.setIdrole(rs.getInt(10));
                 u.setPhoto_personel(rs.getNString(11));
                 u.setPhoto_permis(rs.getNString(12));
-                u.setDate_naiss(rs.getString(13));
+                u.setDate_naiss(rs.getDate(13));
                 u.setAge(rs.getString(14));
                 System.out.println("Get user by email Done!");
             }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.PasswordField?>
@@ -11,9 +10,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="665.0" prefWidth="850.0" style="-fx-background-color: #383562;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swiftride.gui.SigninController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="850.0" style="-fx-background-color: #383562;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.swiftride.gui.SigninController">
    <children>
-      <Pane layoutX="-2.0" prefHeight="668.0" prefWidth="341.0" style="-fx-background-color: #ffffff;">
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="612.0" prefWidth="341.0" style="-fx-background-color: #ffffff;">
          <children>
             <ImageView fitHeight="202.0" fitWidth="208.0" layoutX="67.0" layoutY="161.0">
                <image>
@@ -22,7 +21,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane layoutX="380.0" layoutY="123.0" prefHeight="423.0" prefWidth="429.0" AnchorPane.bottomAnchor="122.0" AnchorPane.topAnchor="123.0">
+      <Pane layoutX="371.0" layoutY="27.0" prefHeight="423.0" prefWidth="429.0" AnchorPane.bottomAnchor="218.0" AnchorPane.topAnchor="27.0">
          <children>
             <TextField fx:id="tfemailtoconnect" layoutX="77.0" layoutY="53.0" prefHeight="42.0" prefWidth="275.0" promptText="Email" />
             <JFXButton fx:id="btnsignin" layoutX="156.0" layoutY="202.0" onAction="#Signin" text="Connecter" textFill="WHITE" />
@@ -50,6 +49,5 @@
             </Button>
          </children>
       </Pane>
-      <JFXCheckBox fx:id="cbshowpass" layoutX="661.0" layoutY="73.0" onAction="#showPassword" text="afficher mot de passe" textFill="WHITE" />
    </children>
 </AnchorPane>
